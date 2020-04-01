@@ -13,6 +13,10 @@ export class AppComponent implements OnInit {
 
   ngOnInit(){
     this.patientService.getPatient();
+    this.patientService.getPatientByDNI('37458993').subscribe(
+      res => console.log(res, 'res'),
+      err => console.log(err, 'err')
+    );
   }
 
 }
