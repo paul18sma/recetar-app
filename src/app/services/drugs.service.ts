@@ -13,7 +13,7 @@ export class DrugsService {
   constructor(private http: HttpClient) { }
 
   getDrugByName(name: string): Observable<Drugs> {
-    return this.http.get<Drugs>(`${environment.SNOMED_API}search=${name}&semanticTags=product&limit=100`).pipe(
+    return this.http.get<Drugs>(`${environment.SNOMED_API}term=${name}${environment.SNOMED_PARAMS}`).pipe(
       tap(_ => console.log(`fetched drug name=${name}`)),
       catchError(this.handleError<Drugs>(`getDrugByName name=${name}`))
     );

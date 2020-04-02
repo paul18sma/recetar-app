@@ -5,7 +5,8 @@
 export const environment = {
   production: false,
   API_END_POINT: 'http://localhost:4000/api',
-  SNOMED_API: 'https://test.andes.gob.ar/api/core/term/snomed?'
+  SNOMED_API: 'https://browser.ihtsdotools.org/snowstorm/snomed-ct/MAIN/SNOMEDCT-ES/SNOMEDCT-AR/2019-11-30/descriptions?&limit=100&',
+  SNOMED_PARAMS: '&lang=spanish&conceptActive=false&semanticTags=product'
 };
 /*
  * For easier debugging in development mode, you can import the following file
