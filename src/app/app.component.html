@@ -38,13 +38,28 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Medicamento</mat-label>
-          <input matInput formControlName="supply" autocomplete="off">
+          <!-- <mat-label>Medicamento</mat-label>
+          <input matInput formControlName="supply" autocomplete="off"> -->
 
-          <mat-error *ngIf="supply.errors?.required && supply.touched">
+
+          <!-- <mat-form-field> -->
+            <input type="text"
+                   placeholder="Medicamento"
+                   aria-label="Number"
+                   matInput
+                   formControlName="supply"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                {{option}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <!-- <mat-error *ngIf="supply.errors?.required && supply.touched">
             Debe ingresar un medicamento
-          </mat-error>
-        </mat-form-field>
+          </mat-error> -->
+        <!-- </mat-form-field> -->
 
         <button mat-raised-button color="primary" type="submit">
           Validar
