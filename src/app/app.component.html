@@ -3,7 +3,7 @@
   <mat-card>
     <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmitPrescriptionForm">
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
-        <h1>Validador de Recetas Electrónicas</h1>
+        <h1>Validar prescripciones</h1>
 
         <mat-form-field appearance="fill">
           <mat-label>DNI</mat-label>
@@ -38,16 +38,16 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Medicamente recetado</mat-label>
+          <mat-label>Medicamento</mat-label>
           <input matInput formControlName="supply" autocomplete="off">
 
           <mat-error *ngIf="supply.errors?.required && supply.touched">
-            Este campo es requerido
+            Debe ingresar un medicamento
           </mat-error>
         </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit">
-          Varificar
+          Validar
         </button>
       </div>
     </form>
