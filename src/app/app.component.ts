@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { PatientsService } from './services/patients.service';
-import { FormBuilder, FormGroup, AbstractControl } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 
 @Component({
   selector: 'app-root',
@@ -27,10 +27,19 @@ export class AppComponent implements OnInit {
 
   initPrescriptionForm(){
     this.prescriptionForm = this.fBuilder.group({
-      dni: [''],
-      date: [''],
-      professional: [''],
-      supply: [''],
+      dni: ['', [
+        Validators.required,
+        Validators.minLength(8)
+      ]],
+      date: ['', [
+        Validators.required
+      ]],
+      professional: ['', [
+        Validators.required
+      ]],
+      supply: ['', [
+        Validators.required
+      ]],
     });
   }
 
