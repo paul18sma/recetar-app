@@ -1,0 +1,71 @@
+ng g c /components/prescriptions/validatorForm<div class="container">
+
+  <mat-card>
+    <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmitPrescriptionForm">
+      <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
+        <h1>Validar prescripciones</h1>
+
+        <mat-form-field appearance="fill">
+          <mat-label>DNI</mat-label>
+          <input matInput formControlName="dni" autocomplete="off">
+
+          <mat-error *ngIf="dni.errors?.required && dni.touched">
+            Debe ingresar un  dni
+          </mat-error>
+
+          <mat-error *ngIf="dni.errors?.minlength && dni.touched">
+            Debe ingresar 8 digitos
+          </mat-error>
+        </mat-form-field>
+
+
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de la receta</mat-label>
+          <input matInput formControlName="date" autocomplete="off" type="date" [min]="today">
+
+          <mat-error *ngIf="date.errors?.required && date.touched">
+            Debe ingresar un fecha
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Matricula del profesional</mat-label>
+          <input matInput formControlName="professional" autocomplete="off">
+
+          <mat-error *ngIf="professional.errors?.required && professional.touched">
+            Debe ingresar una matricula
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <!-- <mat-label>Medicamento</mat-label>
+          <input matInput formControlName="supply" autocomplete="off"> -->
+
+
+          <!-- <mat-form-field> -->
+            <input type="text"
+                   placeholder="Medicamento"
+                   aria-label="Number"
+                   matInput
+                   formControlName="supply"
+                   [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option *ngFor="let option of drugs" [value]="option">
+                {{option.term}}
+              </mat-option>
+            </mat-autocomplete>
+          </mat-form-field>
+
+          <!-- <mat-error *ngIf="supply.errors?.required && supply.touched">
+            Debe ingresar un medicamento
+          </mat-error> -->
+        <!-- </mat-form-field> -->
+
+        <button mat-raised-button color="primary" type="submit">
+          Validar
+        </button>
+      </div>
+    </form>
+  </mat-card>
+
+</div>
