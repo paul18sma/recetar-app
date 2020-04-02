@@ -24,7 +24,7 @@ export class ProfessionalsService {
   }
 
   getProfessionalByEnrollment(enrollment: string): Observable<Professionals> {
-    return this.http.get<Professionals>(`${environment.ANDES_API}https://app.andes.gob.ar/api/core/tm/profesionales/guia?formacionGrado=%5Bobject%20Object%5D&numeroMatricula=${enrollment}&codigoProfesion=1`).pipe(
+    return this.http.get<Professionals>(`${environment.ANDES_API}/core/tm/profesionales/guia?formacionGrado=%5Bobject%20Object%5D&numeroMatricula=${enrollment}&codigoProfesion=1`).pipe(
       tap(_ => console.log(`fetched professional enrollment=${enrollment}`)),
       catchError(this.handleError<Professionals>(`getProfessionalByDni enrollment=${enrollment}`))
     );
