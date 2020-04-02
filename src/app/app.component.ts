@@ -2,7 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { DrugsService } from './services/drugs.service';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { startWith, map } from 'rxjs/operators';
+import { startWith, map, tap } from 'rxjs/operators';
+import Drugs from './interfaces/drugs';
 
 @Component({
   selector: 'app-root',
@@ -15,7 +16,8 @@ export class AppComponent implements OnInit {
   prescriptionForm: FormGroup;
   today;
 
-  options: string[] = ['One', 'Two', 'Three'];
+  options: string[] = [];
+  drugs: Drugs[] = [];
   filteredOptions: Observable<string[]>;
 
   constructor(private drugsService: DrugsService, private fBuilder: FormBuilder){}
@@ -24,16 +26,12 @@ export class AppComponent implements OnInit {
     this.initPrescriptionForm();
     this.today = new Date();
 
-    this.drugsService.getDrugByName('ibuprofeno').subscribe(
-      res => console.log('res', res),
-      err => console.log('err', err)
+    this.prescriptionForm.get('supply').valueChanges.subscribe(
+      term => {
+        this.getDrugs(term);
+      }
     )
 
-    this.filteredOptions = this.prescriptionForm.get('supply').valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
   }
 
   initPrescriptionForm(){
@@ -54,15 +52,21 @@ export class AppComponent implements OnInit {
     });
   }
 
+  getDrugs(term: string):void{
+    if(term.length > 2){
+
+      this.drugsService.getDrugByTerm(term).subscribe(
+        res => {
+          this.drugs = res.items;
+        },
+      );
+    }
+  }
+
   onSubmitPrescriptionForm(){
-
+    console.log('page under construction');
   }
 
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-
-    return this.options.filter(option => option.toLowerCase().includes(filterValue));
-  }
 
   get dni(): AbstractControl{
     return this.prescriptionForm.get('dni');

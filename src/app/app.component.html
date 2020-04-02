@@ -50,8 +50,8 @@
                    formControlName="supply"
                    [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                {{option}}
+              <mat-option *ngFor="let option of drugs" [value]="option">
+                {{option.term}}
               </mat-option>
             </mat-autocomplete>
           </mat-form-field>

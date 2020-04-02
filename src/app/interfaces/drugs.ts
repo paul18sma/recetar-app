@@ -1,6 +1,11 @@
-export class Drugs {
-  conceptId: string;
-  fsn: string;
-  semanticTag: string;
+export default interface Drugs {
   term: string;
+  concept: {
+
+    conceptId: string;
+    fsn: {
+      term: string
+    };
+    semanticTag: string;
+  }
 }
