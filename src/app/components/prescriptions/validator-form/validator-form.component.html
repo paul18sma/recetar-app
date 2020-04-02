@@ -26,15 +26,27 @@
             Debe ingresar un fecha
           </mat-error>
         </mat-form-field>
+        
+        <h3 mat-subheader>Profesional</h3>
 
         <mat-form-field appearance="fill">
-          <mat-label>Matricula del profesional</mat-label>
+          <mat-label>Matricula</mat-label>
+          <input matInput formControlName="professional" autocomplete="off">
+
+          <mat-error *ngIf="professional.errors?.required && professional.touched">
+            Debe ingresar la matricula del profesional
+          </mat-error>
+        </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Apellido profesional</mat-label>
           <input matInput formControlName="professional" autocomplete="off">
 
           <mat-error *ngIf="professional.errors?.required && professional.touched">
             Debe ingresar una matricula
           </mat-error>
         </mat-form-field>
+
 
         <mat-form-field appearance="fill">
           <!-- <mat-label>Medicamento</mat-label>
