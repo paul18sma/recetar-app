@@ -1,13 +1,15 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 
-import { AppRoutingModule } from './app-routing.module';
+import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule } from '@angular/common/http';
 
 import { PatientsService } from './services/patients.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+// moduules
+import { AuthModule } from '@auth/auth.module';
 // flex-layout
 import { FlexLayoutModule } from '@angular/flex-layout';
 // material
@@ -17,9 +19,11 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 
+
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    routingComponents
   ],
   imports: [
     BrowserModule,
@@ -27,6 +31,7 @@ import { MatAutocompleteModule } from '@angular/material/autocomplete';
     HttpClientModule,
     BrowserAnimationsModule,
     ReactiveFormsModule,
+    AuthModule,
     FlexLayoutModule,
     MatCardModule,
     MatFormFieldModule,
