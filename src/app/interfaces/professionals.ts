@@ -1,4 +1,4 @@
-export class Medics {
+export class Professionals {
   _id: string;
   dni: string;
   cuil: string;

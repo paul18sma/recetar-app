@@ -16,10 +16,10 @@ export class PatientsService {
     return this.http.get(`${environment.API_END_POINT}/patients`);
   }
 
-  getPatientByDni(id: string): Observable<Patients> {
-    return this.http.get<Patients>(`${environment.API_END_POINT}/patients/dni=${id}`).pipe(
-      tap(_ => console.log(`fetched patient id=${id}`)),
-      catchError(this.handleError<Patients>(`getPatientByDni id=${id}`))
+  getPatientByDni(dni: string): Observable<Patients> {
+    return this.http.get<Patients>(`${environment.API_END_POINT}/patients/dni=${dni}`).pipe(
+      tap(_ => console.log(`fetched patient dni=${dni}`)),
+      catchError(this.handleError<Patients>(`getPatientByDni dni=${dni}`))
     );
   }
 
