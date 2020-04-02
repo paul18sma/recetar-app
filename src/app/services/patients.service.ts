@@ -37,10 +37,10 @@ export class PatientsService {
     );
   }
 
-  getPatientByDNI(dni: string){
+  getPatientInsurance(dni: string){
     return this.http.get(`https://app.andes.gob.ar/api/modules/obraSocial/puco/${dni}`);
   }
-  
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
   
