@@ -4,7 +4,8 @@
 
 export const environment = {
   production: false,
-  API_END_POINT: 'http://localhost:4000/api'
+  API_END_POINT: 'http://localhost:4000/api',
+  SNOMED_API: 'https://test.andes.gob.ar/api/core/term/snomed?'
 };
 /*
  * For easier debugging in development mode, you can import the following file
