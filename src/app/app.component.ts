@@ -12,7 +12,6 @@ export class AppComponent implements OnInit {
   constructor(private patientService: PatientsService){}
 
   ngOnInit(){
-    this.patientService.getPatient();
   }
 
 }
