@@ -5,6 +5,8 @@
     "paths": {
       "@dashboard/*": ["app/dashboard/*"],
       "@auth/*": ["app/auth/*"],
+      "@services/*": ["app/services/*"],
+      "@interfaces/*": ["app/interfaces/*"],
       "@root/*": ["./*"],
     },
     "outDir": "./dist/out-tsc",
