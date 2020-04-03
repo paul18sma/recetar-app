@@ -3,29 +3,33 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, map, first } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import { Professionals } from "../interfaces/professionals";
+import { Professionals, ProfessionalsAdapter } from "../interfaces/professionals";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ProfessionalsService {
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private adapter: ProfessionalsAdapter) { }
 
   getProfessionals(): Observable<any>{
     return this.http.get(`${environment.API_END_POINT}/professionals`);
   }
 
   getProfessionalByDni(dni: string): Observable<Professionals> {
-    return this.http.get<Professionals>(`${environment.ANDES_API}/core/tm/profesionales/guia?documento=${dni}&codigoProfesion=1`).pipe(
+    const url =  `${environment.ANDES_API}/core/tm/profesionales/guia?documento=${dni}&codigoProfesion=1`
+    return this.http.get(url).pipe(
       tap(_ => console.log(`fetched professional dni=${dni}`)),
+      map((data: any) => data.map(item => this.adapter.adapt(item))),
       catchError(this.handleError<Professionals>(`getProfessionalByDni dni=${dni}`))
     );
   }
 
   getProfessionalByEnrollment(enrollment: string): Observable<Professionals> {
-    return this.http.get<Professionals>(`${environment.ANDES_API}/core/tm/profesionales/guia?formacionGrado=%5Bobject%20Object%5D&numeroMatricula=${enrollment}&codigoProfesion=1`).pipe(
+    const url = `${environment.ANDES_API}/core/tm/profesionales/guia?formacionGrado=%5Bobject%20Object%5D&numeroMatricula=${enrollment}&codigoProfesion=1`
+    return this.http.get<Professionals>(url).pipe(
       tap(_ => console.log(`fetched professional enrollment=${enrollment}`)),
+      map((data: any) => data.map(item => this.adapter.adapt(item))),
       catchError(this.handleError<Professionals>(`getProfessionalByDni enrollment=${enrollment}`))
     );
   }
