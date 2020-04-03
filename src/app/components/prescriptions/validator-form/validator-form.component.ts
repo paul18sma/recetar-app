@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { DrugsService } from '@services/drugs.service';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import Drugs from '@interfaces/drugs';
+import { DrugsService } from '@root/app/services/drugs.service'
+import Drugs from '@root/app/interfaces/drugs';
+import { ProfessionalsService } from '@root/app/services/professionals.service';
+import { Professionals } from '@root/app/interfaces/professionals';
 
 @Component({
   selector: 'app-validator-form',
@@ -17,9 +19,11 @@ export class ValidatorFormComponent implements OnInit {
 
   options: string[] = [];
   drugs: Drugs[] = [];
+  professional: Professionals;
+  professionals: Professionals[] = [];
   filteredOptions: Observable<string[]>;
 
-  constructor(private drugsService: DrugsService, private fBuilder: FormBuilder){}
+  constructor(private drugsService: DrugsService, private fBuilder: FormBuilder, private professionalsService: ProfessionalsService){}
 
   ngOnInit(): void{
     this.initPrescriptionForm();
@@ -28,6 +32,12 @@ export class ValidatorFormComponent implements OnInit {
     this.prescriptionForm.get('supply').valueChanges.subscribe(
       term => {
         this.getDrugs(term);
+      }
+    )
+
+    this.prescriptionForm.get('professional_enrollment').valueChanges.subscribe(
+      term => {
+        this.getProfessionalByEnrollment(term);
       }
     )
 
@@ -43,6 +53,15 @@ export class ValidatorFormComponent implements OnInit {
         Validators.required
       ]],
       professional: ['', [
+        Validators.required
+      ]],
+      professional_enrollment: ['', [
+        Validators.required
+      ]],
+      professional_first_name: ['', [
+        Validators.required
+      ]],
+      professional_last_name: ['', [
         Validators.required
       ]],
       supply: ['', [
@@ -62,6 +81,22 @@ export class ValidatorFormComponent implements OnInit {
     }
   }
 
+  getProfessionalByEnrollment(term: string):void{
+    if(term.length > 2){
+
+      this.professionalsService.getProfessionalByEnrollment(term).subscribe(
+        res => {
+          this.professional = res;
+        },
+      );
+    }
+  }
+
+  completeProfessionalInputs(professional: Professionals):void{
+    this.prescriptionForm.get('professional_last_name').setValue(professional.last_name); 
+    this.prescriptionForm.get('professional_first_name').setValue(professional.first_name);
+  }
+
   onSubmitPrescriptionForm(){
     console.log('page under construction');
   }
@@ -75,8 +110,16 @@ export class ValidatorFormComponent implements OnInit {
     return this.prescriptionForm.get('date');
   }
 
-  get professional(): AbstractControl{
-    return this.prescriptionForm.get('professional');
+  get professional_enrollment(): AbstractControl{
+    return this.prescriptionForm.get('professional_enrollment');
+  }
+
+  get professional_first_name(): AbstractControl{
+    return this.prescriptionForm.get('professional_first_name');
+  }
+
+  get professional_last_name(): AbstractControl{
+    return this.prescriptionForm.get('professional_last_name');
   }
 
   get supply(): AbstractControl{

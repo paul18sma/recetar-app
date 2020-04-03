@@ -26,15 +26,47 @@
             Debe ingresar un fecha
           </mat-error>
         </mat-form-field>
+        
+        <h3 mat-subheader>Profesional</h3>
 
         <mat-form-field appearance="fill">
-          <mat-label>Matricula del profesional</mat-label>
-          <input matInput formControlName="professional" autocomplete="off">
+          <mat-label>Matricula</mat-label>
+          <!-- <input matInput formControlName="professional_enrollment" autocomplete="off"> -->
+          <input type="text"
+            placeholder="Matrícula"
+            aria-label="Number"
+            matInput
+            formControlName="professional_enrollment"
+            [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.enrollment">
+                {{option.getEnrollmentAndFullname()}}
+              </mat-option>
+            </mat-autocomplete>
+            
+            <mat-error *ngIf="professional_enrollment.errors?.required && professional_enrollment.touched">
+              Debe ingresar la matricula del profesional
+            </mat-error>
+          </mat-form-field>
 
-          <mat-error *ngIf="professional.errors?.required && professional.touched">
-            Debe ingresar una matricula
+        <mat-form-field appearance="fill">
+          <mat-label>Apellido</mat-label>
+          <input matInput formControlName="professional_last_name" autocomplete="off">
+
+          <mat-error *ngIf="professional_last_name.errors?.required && professional_last_name.touched">
+            Debe ingresar un apellido
           </mat-error>
         </mat-form-field>
+
+        <mat-form-field appearance="fill">
+          <mat-label>Nombre</mat-label>
+          <input matInput formControlName="professional_first_name" autocomplete="off">
+
+          <mat-error *ngIf="professional_first_name.errors?.required && professional_first_name.touched">
+            Debe ingresar un nombre
+          </mat-error>
+        </mat-form-field>
+
 
         <mat-form-field appearance="fill">
           <!-- <mat-label>Medicamento</mat-label>

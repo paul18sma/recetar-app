@@ -27,6 +27,7 @@ export class DrugsService {
     }
     return this.http.get<any>(`https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/SNOMEDCT-ES/2019-10-31/descriptions?&limit=10&term=${term}&active=true&conceptActive=true&lang=english`, opts);
   }
+  
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
