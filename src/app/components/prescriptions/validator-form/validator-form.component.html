@@ -27,11 +27,8 @@
           </mat-error>
         </mat-form-field>
         
-        <h3 mat-subheader>Profesional</h3>
-
         <mat-form-field appearance="fill">
-          <mat-label>Matricula</mat-label>
-          <!-- <input matInput formControlName="professional_enrollment" autocomplete="off"> -->
+          <mat-label>Matricula profesional</mat-label>
           <input type="text"
             placeholder="Matrícula"
             aria-label="Number"
@@ -50,8 +47,17 @@
           </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Apellido</mat-label>
-          <input matInput formControlName="professional_last_name" autocomplete="off">
+          <mat-label>Apellido profesional</mat-label>
+          <input type="text"
+            placeholder="Apellido"
+            matInput
+            formControlName="professional_last_name"
+            [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.last_name">
+                {{option.getEnrollmentAndFullname()}}
+              </mat-option>
+            </mat-autocomplete>
 
           <mat-error *ngIf="professional_last_name.errors?.required && professional_last_name.touched">
             Debe ingresar un apellido
@@ -59,8 +65,17 @@
         </mat-form-field>
 
         <mat-form-field appearance="fill">
-          <mat-label>Nombre</mat-label>
-          <input matInput formControlName="professional_first_name" autocomplete="off">
+          <mat-label>Nombre profesional</mat-label>
+          <input type="text"
+            placeholder="Nombre"
+            matInput
+            formControlName="professional_first_name"
+            [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.first_name">
+                {{option.getEnrollmentAndFullname()}}
+              </mat-option>
+            </mat-autocomplete>
 
           <mat-error *ngIf="professional_first_name.errors?.required && professional_first_name.touched">
             Debe ingresar un nombre

@@ -34,10 +34,21 @@ export class ProfessionalsService {
     );
   }
 
-  getProfessionalByFirstNameAndLastName(firstName: string, lastName: string, ): Observable<Professionals> {
-    return this.http.get<Professionals>(`${environment.ANDES_API}/core/tm/profesionales/guia?nombre=${firstName}&apellido=${lastName}&formacionGrado=%5Bobject%20Object%5D&codigoProfesion=1`).pipe(
-      tap(_ => console.log(`fetched professional firstName=${firstName} lastName=${lastName}`)),
-      catchError(this.handleError<Professionals>(`getProfessionalByFirstNameAndLastName firstName=${firstName} lastName=${lastName}`))
+  getProfessionalByLastName(lastName: string): Observable<Professionals> {
+    const url = `${environment.ANDES_API}/core/tm/profesionales/guia?apellido=${lastName}&formacionGrado=%5Bobject%20Object%5D&codigoProfesion=1`
+    return this.http.get<Professionals>(url).pipe(
+      tap(_ => console.log(`fetched professional lastName=${lastName}`)),
+      map((data: any) => data.map(item => this.adapter.adapt(item))),
+      catchError(this.handleError<Professionals>(`getProfessionalByFirstNameAndLastName lastName=${lastName}`))
+    );
+  }
+
+  getProfessionalByFirstName(firstName: string): Observable<Professionals> {
+    const url = `${environment.ANDES_API}/core/tm/profesionales/guia?nombre=${firstName}&formacionGrado=%5Bobject%20Object%5D&codigoProfesion=1`
+    return this.http.get<Professionals>(url).pipe(
+      tap(_ => console.log(`fetched professional firstName=${firstName}`)),
+      map((data: any) => data.map(item => this.adapter.adapt(item))),
+      catchError(this.handleError<Professionals>(`getProfessionalByFirstNameAndLastName firstName=${firstName}`))
     );
   }
 
