@@ -4,24 +4,24 @@
   </mat-error>
   <div fxLayout fxLayout="column" fxLayoutAlign="center" class="container" fxLayoutGap="20px">
     <mat-form-field>
-      <input matInput placeholder="Username" formControlName="identifier" autocomplete="off">
+      <input matInput placeholder="Usuario" formControlName="identifier" autocomplete="off">
       <mat-error *ngIf="identifier.errors?.required ">
-        Username is required
+        Usuario es requerido
       </mat-error>
     </mat-form-field>
 
     <mat-form-field>
-      <mat-label>Password</mat-label>
+      <mat-label>Contraseña</mat-label>
       <input matInput formControlName="password" [type]="hide ? 'password' : 'text'" autocomplete="off">
       <button mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
         <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
       </button>
 
       <mat-error *ngIf="password.errors?.required">
-        Password is required
+        Contraseña es requerida
       </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit">Login</button>
+    <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
   </div>
 </form>
