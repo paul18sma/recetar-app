@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
-import { AppRoutingModule, routingComponents  } from '@auth/auth-routing.module';
+import { AuthRoutingModule, routingComponents  } from '@auth/auth-routing.module';
 import { httpInterceptorProvider } from '@auth/httpInterceptorProvider';
 // services
 import { AuthService } from '@auth/services/auth.service';
@@ -24,7 +24,7 @@ import { MatCardModule } from '@angular/material/card';
   imports: [
     CommonModule,
     ReactiveFormsModule,
-    AppRoutingModule,
+    AuthRoutingModule,
     BrowserModule,
     HttpClientModule,
     FlexLayoutModule,
