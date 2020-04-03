@@ -41,6 +41,18 @@ export class ValidatorFormComponent implements OnInit {
       }
     )
 
+    this.prescriptionForm.get('professional_last_name').valueChanges.subscribe(
+      term => {
+        this.getProfessionalByLastName(term);
+      }
+    )
+
+    this.prescriptionForm.get('professional_first_name').valueChanges.subscribe(
+      term => {
+        this.getProfessionalByFirstName(term);
+      }
+    )
+
   }
 
   initPrescriptionForm(){
@@ -92,7 +104,30 @@ export class ValidatorFormComponent implements OnInit {
     }
   }
 
+  getProfessionalByLastName(term: string):void{
+    if(term.length > 3){
+
+      this.professionalsService.getProfessionalByLastName(term).subscribe(
+        res => {
+          this.professional = res;
+        },
+      );
+    }
+  }
+
+  getProfessionalByFirstName(term: string):void{
+    if(term.length > 3){
+
+      this.professionalsService.getProfessionalByFirstName(term).subscribe(
+        res => {
+          this.professional = res;
+        },
+      );
+    }
+  }
+
   completeProfessionalInputs(professional: Professionals):void{
+    this.prescriptionForm.get('professional_enrollment').setValue(professional.enrollment); 
     this.prescriptionForm.get('professional_last_name').setValue(professional.last_name); 
     this.prescriptionForm.get('professional_first_name').setValue(professional.first_name);
   }
