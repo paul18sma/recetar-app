@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormGroupDirective } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -13,7 +14,7 @@ export class LoginComponent implements OnInit {
   hide: boolean = true;
   error: string;
 
-  constructor(private fBuilder: FormBuilder, private authService: AuthService) { }
+  constructor(private fBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.initLoginForm();
@@ -32,7 +33,9 @@ export class LoginComponent implements OnInit {
 
   onSubmitEvent(loginForm: FormGroup, loginNgForm: FormGroupDirective): void{
     this.authService.login(this.loginForm.value).subscribe(
-      res => {console.log('RES ====>', res)},
+      res => {
+        this.router.navigate(['prescriptions/form']);
+      },
       err => {
         loginNgForm.resetForm();
         loginForm.reset();
