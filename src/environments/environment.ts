@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: process.env.IS_PRODUCTION || false,
+  production: false,
   API_END_POINT: 'http://localhost:4000/api',
   SNOMED_API: 'https://browser.ihtsdotools.org/snowstorm/snomed-ct/MAIN/SNOMEDCT-ES/SNOMEDCT-AR/2019-11-30/descriptions?limit=10&',
   SNOMED_PARAMS: '&lang=spanish&conceptActive=false&semanticTags=product',
