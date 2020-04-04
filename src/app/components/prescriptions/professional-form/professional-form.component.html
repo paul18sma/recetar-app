@@ -4,10 +4,28 @@
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
         <h1>Registrar nueva receta</h1>
 
+        <mat-form-field>
+          <mat-label>Angular forms</mat-label>
+          <input matInput [matDatepicker]="picker1" [formControl]="date">
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker #picker1></mat-datepicker>
+        </mat-form-field>
+
+        <!-- Fecha de receta
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha de la receta</mat-label>
+          <input matInput formControlName="date" autocomplete="off" type="date" [min]="today">
+
+          <mat-error *ngIf="date.errors?.required && date.touched">
+            Debe ingresar un fecha
+          </mat-error>
+        </mat-form-field> -->
+
         <!-- Dni del paciente -->
         <mat-form-field appearance="fill">
           <mat-label>DNI paciente</mat-label>
           <input type="text"
+            cdkFocusInitial  
             placeholder="DNI"
             aria-label="Number"
             matInput
@@ -69,14 +87,14 @@
           </mat-error>
         </mat-form-field>
 
-
+        <!-- Sexo del paciente -->
         <mat-form-field appearance="fill">
-          <mat-label>Fecha de la receta</mat-label>
-          <input matInput formControlName="date" autocomplete="off" type="date" [min]="today">
-
-          <mat-error *ngIf="date.errors?.required && date.touched">
-            Debe ingresar un fecha
-          </mat-error>
+          <mat-label>Sexo</mat-label>
+          <mat-select formControlName="patient_sex">
+            <mat-option value="Femenino">Femenino</mat-option>
+            <mat-option value="Masculino">Masculino</mat-option>
+            <mat-option value="Otro">Otro</mat-option>
+          </mat-select>
         </mat-form-field>
         
         <mat-form-field appearance="fill">

@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { DrugsService } from '@root/app/services/drugs.service'
 import Drugs from '@root/app/interfaces/drugs';
@@ -15,18 +15,18 @@ export class ProfessionalFormComponent implements OnInit {
 
   title = 'preinscriptions-control';
   professionalForm: FormGroup;
-  today;
 
   filteredOptions: Observable<string[]>;
   options: string[] = [];
   drugs: Drugs[] = [];
   patient: Patients;
+  sex_options: string[] = ["Femenino", "Masculino", "Otro"];
+  today = new FormControl((new Date()).toISOString());
 
   constructor(private drugsService: DrugsService, private fBuilder: FormBuilder, private patientsService: PatientsService){}
 
   ngOnInit(): void {
     this.initProfessionalForm();
-    this.today = new Date();
 
     this.professionalForm.get('supply').valueChanges.subscribe(
       term => {
@@ -53,7 +53,10 @@ export class ProfessionalFormComponent implements OnInit {
       patient_first_name: ['', [
         Validators.required
       ]],
-      date: ['', [
+      patient_sex: ['', [
+        Validators.required
+      ]],
+      date: [this.today, [
         Validators.required
       ]],
       professional: ['', [
@@ -100,6 +103,7 @@ export class ProfessionalFormComponent implements OnInit {
     this.professionalForm.get('patient_dni').setValue(patient.dni); 
     this.professionalForm.get('patient_last_name').setValue(patient.last_name); 
     this.professionalForm.get('patient_first_name').setValue(patient.first_name);
+    this.professionalForm.get('patient_sex').setValue(patient.sex);
   }
 
   onSubmitProfessionalForm(){
@@ -110,12 +114,18 @@ export class ProfessionalFormComponent implements OnInit {
     return this.professionalForm.get('patient_dni');
   }
 
-  get patient_last_name(): AbstractControl{
-    return this.professionalForm.get('patient_last_name');
-  }
   get patient_first_name(): AbstractControl{
     return this.professionalForm.get('patient_first_name');
   }
+
+  get patient_last_name(): AbstractControl{
+    return this.professionalForm.get('patient_last_name');
+  }
+
+  get patient_sex(): AbstractControl{
+    return this.professionalForm.get('patient_sex');
+  }
+
   get date(): AbstractControl{
     return this.professionalForm.get('date');
   }
