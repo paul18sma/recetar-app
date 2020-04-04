@@ -8,6 +8,8 @@
       "@services/*": ["app/services/*"],
       "@interfaces/*": ["app/interfaces/*"],
       "@components/*": ["app/components/*"],
+      "@professionals/*": ["app/professionals/*"],
+      "@pharmacists/*": ["app/pharmacists/*"],
       "@root/*": ["./*"],
     },
     "outDir": "./dist/out-tsc",

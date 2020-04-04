@@ -34,7 +34,7 @@ export class LoginComponent implements OnInit {
   onSubmitEvent(loginForm: FormGroup, loginNgForm: FormGroupDirective): void{
     this.authService.login(this.loginForm.value).subscribe(
       res => {
-        this.router.navigate(['prescriptions/form']);
+        this.router.navigate(['/farmacias/recetas/dispensar']);
       },
       err => {
         loginNgForm.resetForm();

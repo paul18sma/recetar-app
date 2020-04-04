@@ -36,7 +36,7 @@
             Debe ingresar un fecha
           </mat-error>
         </mat-form-field>
-        
+
         <mat-form-field appearance="fill">
           <mat-label>Matricula profesional</mat-label>
           <input type="text"
@@ -50,7 +50,7 @@
               {{option.getEnrollmentAndFullname()}}
             </mat-option>
           </mat-autocomplete>
-          
+
           <mat-error *ngIf="professional_enrollment.errors?.required && professional_enrollment.touched">
             Debe ingresar la matricula del profesional
           </mat-error>
