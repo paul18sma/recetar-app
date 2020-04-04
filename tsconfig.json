@@ -7,6 +7,7 @@
       "@auth/*": ["app/auth/*"],
       "@services/*": ["app/services/*"],
       "@interfaces/*": ["app/interfaces/*"],
+      "@components/*": ["app/components/*"],
       "@root/*": ["./*"],
     },
     "outDir": "./dist/out-tsc",
