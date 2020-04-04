@@ -17,11 +17,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-// components
-
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { MatNativeDateModule } from '@angular/material/core';
 import { ProfessionalFormComponent } from './components/prescriptions/professional-form/professional-form.component';
 import { HeaderComponent } from './components/layouts/header/header.component';
 
@@ -47,7 +48,11 @@ import { HeaderComponent } from './components/layouts/header/header.component';
     MatButtonModule,
     MatAutocompleteModule,
     MatMenuModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatSelectModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
   ],
   providers: [
     PatientsService
