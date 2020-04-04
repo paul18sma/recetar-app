@@ -30,17 +30,17 @@ export class AuthService {
     );
   }
 
-  // logout() {
-    // return this.http.post<any>(`${config.apiUrl}/auth/logout`, {
-    //   'refreshToken': this.getRefreshToken()
-    // }).pipe(
-    //   tap(() => this.doLogoutUser()),
-    //   mapTo(true),
-    //   catchError(error => {
-    //     alert(error.error);
-    //     return of(false);
-    //   }));
-  // }
+  logout() {
+    return this.http.post<any>(`${this.apiEndPoint}/auth/logout`, {
+      'refreshToken': this.getRefreshToken()
+    }).pipe(
+      tap(() => this.doLogoutUser()),
+      mapTo(true),
+      catchError(error => {
+        console.log(error.error);
+        return of(false);
+      }));
+  }
 
   isLoggedIn() {
     return !!this.getJwtToken();
