@@ -5,6 +5,7 @@ import { DrugsService } from '@root/app/services/drugs.service'
 import Drugs from '@root/app/interfaces/drugs';
 import { ProfessionalsService } from '@root/app/services/professionals.service';
 import { Professionals } from '@root/app/interfaces/professionals';
+import { Patients } from '@root/app/interfaces/patients';
 
 @Component({
   selector: 'app-validator-form',
@@ -20,6 +21,7 @@ export class ValidatorFormComponent implements OnInit {
   options: string[] = [];
   drugs: Drugs[] = [];
   professional: Professionals;
+  patient: Patients;
   professionals: Professionals[] = [];
   filteredOptions: Observable<string[]>;
 
@@ -52,7 +54,6 @@ export class ValidatorFormComponent implements OnInit {
         this.getProfessionalByFirstName(term);
       }
     )
-
   }
 
   initPrescriptionForm(){
@@ -130,6 +131,12 @@ export class ValidatorFormComponent implements OnInit {
     this.prescriptionForm.get('professional_enrollment').setValue(professional.enrollment); 
     this.prescriptionForm.get('professional_last_name').setValue(professional.last_name); 
     this.prescriptionForm.get('professional_first_name').setValue(professional.first_name);
+  }
+
+  completePatientInputs(patient: Patients):void{
+    this.prescriptionForm.get('patient_dni').setValue(patient.dni); 
+    this.prescriptionForm.get('patient_last_name').setValue(patient.last_name); 
+    this.prescriptionForm.get('patient_first_name').setValue(patient.first_name);
   }
 
   onSubmitPrescriptionForm(){

@@ -6,7 +6,17 @@
 
         <mat-form-field appearance="fill">
           <mat-label>DNI</mat-label>
-          <input matInput formControlName="dni" autocomplete="off">
+          <input type="text"
+            placeholder="DNI"
+            aria-label="Number"
+            matInput
+            formControlName="patient_dni"
+            [matAutocomplete]="auto">
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option.dni">
+              {{option.getDniAndFullname()}}
+            </mat-option>
+          </mat-autocomplete>
 
           <mat-error *ngIf="dni.errors?.required && dni.touched">
             Debe ingresar un  dni
@@ -35,16 +45,16 @@
             matInput
             formControlName="professional_enrollment"
             [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.enrollment">
-                {{option.getEnrollmentAndFullname()}}
-              </mat-option>
-            </mat-autocomplete>
-            
-            <mat-error *ngIf="professional_enrollment.errors?.required && professional_enrollment.touched">
-              Debe ingresar la matricula del profesional
-            </mat-error>
-          </mat-form-field>
+          <mat-autocomplete #auto="matAutocomplete">
+            <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.enrollment">
+              {{option.getEnrollmentAndFullname()}}
+            </mat-option>
+          </mat-autocomplete>
+          
+          <mat-error *ngIf="professional_enrollment.errors?.required && professional_enrollment.touched">
+            Debe ingresar la matricula del profesional
+          </mat-error>
+        </mat-form-field>
 
         <mat-form-field appearance="fill">
           <mat-label>Apellido profesional</mat-label>
@@ -96,7 +106,7 @@
                    formControlName="supply"
                    [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of drugs" [value]="option">
+              <mat-option *ngFor="let option of drugs" [value]="option.term">
                 {{option.term}}
               </mat-option>
             </mat-autocomplete>

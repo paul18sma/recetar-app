@@ -4,6 +4,7 @@ import { ValidatorFormComponent } from './components/prescriptions/validator-for
 import { AuthGuard } from '@auth/guards/auth.guard';
 import { AppComponent } from './app.component';
 import { NotFoundComponent } from './components/not-found/not-found.component';
+import { ProfessionalFormComponent } from './components/prescriptions/professional-form/professional-form.component';
 
 
 const routes: Routes = [
@@ -19,7 +20,12 @@ const routes: Routes = [
       {
         path: 'prescriptions/form',
         component: ValidatorFormComponent
+      },
+      {
+        path: 'recetas/registrar_nueva',
+        component: ProfessionalFormComponent
       }
+      
     ]
   },
   {path: '404', component: NotFoundComponent},
