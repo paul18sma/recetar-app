@@ -18,7 +18,12 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatMenuModule } from '@angular/material/menu';
+import { MatToolbarModule } from '@angular/material/toolbar';
+// components
+
 import { ProfessionalFormComponent } from './components/prescriptions/professional-form/professional-form.component';
+import { HeaderComponent } from './components/layouts/header/header.component';
 
 
 @NgModule({
@@ -26,6 +31,7 @@ import { ProfessionalFormComponent } from './components/prescriptions/profession
     AppComponent,
     routingComponents,
     ProfessionalFormComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
@@ -39,7 +45,9 @@ import { ProfessionalFormComponent } from './components/prescriptions/profession
     MatFormFieldModule,
     MatInputModule,
     MatButtonModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatMenuModule,
+    MatToolbarModule
   ],
   providers: [
     PatientsService
