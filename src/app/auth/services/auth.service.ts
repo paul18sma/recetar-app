@@ -3,6 +3,8 @@ import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '@root/environments/environment';
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { catchError, mapTo, tap } from 'rxjs/operators';
+import decode from 'jwt-decode';
+
 // inteface
 import { Tokens } from '@auth/models/tokens';
 
@@ -63,6 +65,20 @@ export class AuthService {
 
   getLoggedUsername(): string{
     return this.loggedUser;
+  }
+
+  getLoggedUserId(): string{
+    const payLoadJwt: any = this.getDecodeJwt();
+    return payLoadJwt.sub;
+  }
+
+  private getDecodeJwt(){
+    if(!!this.getJwtToken()){
+      const token = this.getJwtToken();
+      const tokenPayload = decode(token);
+      return tokenPayload;
+    }
+    return false;
   }
 
   private doLoginUser(username: string, tokens: Tokens) {
