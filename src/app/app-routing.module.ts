@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import { ValidatorFormComponent } from './components/prescriptions/validator-form/validator-form.component';
+import { PharmacistsFormComponent } from './pharmacists/components/pharmacists-form/pharmacists-form.component';
 import { AuthGuard } from '@auth/guards/auth.guard';
-import { AppComponent } from './app.component';
-import { NotFoundComponent } from './components/not-found/not-found.component';
-import { ProfessionalFormComponent } from './components/prescriptions/professional-form/professional-form.component';
+import { NotFoundComponent } from './shared/not-found/not-found.component';
+import { ProfessionalFormComponent } from './professionals/components/professional-form/professional-form.component';
 
 
 const routes: Routes = [
@@ -19,7 +18,7 @@ const routes: Routes = [
       },
       {
         path: 'recetas/dispensar',
-        component: ValidatorFormComponent
+        component: PharmacistsFormComponent
       },
       {
         path: 'recetas/nueva',
@@ -38,6 +37,6 @@ const routes: Routes = [
 export class AppRoutingModule { }
 
 export const routingComponents = [
-  ValidatorFormComponent,
+  PharmacistsFormComponent,
   NotFoundComponent
 ]

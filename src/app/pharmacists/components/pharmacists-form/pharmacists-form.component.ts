@@ -8,11 +8,11 @@ import { Professionals } from '@root/app/interfaces/professionals';
 import { Patients } from '@root/app/interfaces/patients';
 
 @Component({
-  selector: 'app-validator-form',
-  templateUrl: './validator-form.component.html',
-  styleUrls: ['./validator-form.component.sass']
+  selector: 'app-pharmacists-form',
+  templateUrl: './pharmacists-form.component.html',
+  styleUrls: ['./pharmacists-form.component.sass']
 })
-export class ValidatorFormComponent implements OnInit {
+export class PharmacistsFormComponent implements OnInit {
 
   title = 'preinscriptions-control';
   prescriptionForm: FormGroup;
@@ -128,14 +128,14 @@ export class ValidatorFormComponent implements OnInit {
   }
 
   completeProfessionalInputs(professional: Professionals):void{
-    this.prescriptionForm.get('professional_enrollment').setValue(professional.enrollment); 
-    this.prescriptionForm.get('professional_last_name').setValue(professional.last_name); 
+    this.prescriptionForm.get('professional_enrollment').setValue(professional.enrollment);
+    this.prescriptionForm.get('professional_last_name').setValue(professional.last_name);
     this.prescriptionForm.get('professional_first_name').setValue(professional.first_name);
   }
 
   completePatientInputs(patient: Patients):void{
-    this.prescriptionForm.get('patient_dni').setValue(patient.dni); 
-    this.prescriptionForm.get('patient_last_name').setValue(patient.last_name); 
+    this.prescriptionForm.get('patient_dni').setValue(patient.dni);
+    this.prescriptionForm.get('patient_last_name').setValue(patient.last_name);
     this.prescriptionForm.get('patient_first_name').setValue(patient.first_name);
   }
 
@@ -169,4 +169,3 @@ export class ValidatorFormComponent implements OnInit {
   }
 
 }
-
