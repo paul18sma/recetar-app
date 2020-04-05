@@ -23,10 +23,10 @@ export class PrescriptionsService {
     );
   }
 
-  getPrescriptionByPatientDni(dni: string): Observable<Prescriptions> {
-    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-dni/${dni}`).pipe(
-      tap(_ => console.log(`fetched prescription patient dni=${dni}`)),
-      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientDni dni=${dni}`))
+  getByPatientId(id: string): Observable<Prescriptions> {
+    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${id}`).pipe(
+      tap(_ => console.log(`fetched prescription patient id=${id}`)),
+      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientId id=${id}`))
     );
   }
 
