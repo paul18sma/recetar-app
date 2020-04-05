@@ -1,4 +1,4 @@
-<mat-toolbar color="primary">
+<mat-toolbar *ngIf="isLoggedIn$ | async">
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20" class="container-header">
 
     <button mat-stroked-button>Logo</button>
