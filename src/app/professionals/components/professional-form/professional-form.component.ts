@@ -6,6 +6,8 @@ import { DrugsService } from '@root/app/services/drugs.service'
 import Drugs from '@root/app/interfaces/drugs';
 import { PatientsService } from '@root/app/services/patients.service';
 import { Patients } from '@root/app/interfaces/patients';
+import { Prescriptions } from '@interfaces/prescriptions';
+import { PrescriptionsService } from '@services/prescriptions.service';
 
 @Component({
   selector: 'app-professional-form',
@@ -24,7 +26,13 @@ export class ProfessionalFormComponent implements OnInit {
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new FormControl((new Date()).toISOString());  
 
-  constructor(private drugsService: DrugsService, private fBuilder: FormBuilder, private apiPatients: PatientsService, private router: Router){}
+  constructor(
+    private drugsService: DrugsService, 
+    private fBuilder: FormBuilder, 
+    private apiPatients: PatientsService, 
+    private router: Router,
+    private apiPrescriptions: PrescriptionsService
+  ){}
 
   ngOnInit(): void {
     this.initProfessionalForm();
@@ -97,13 +105,28 @@ export class ProfessionalFormComponent implements OnInit {
 
   onSubmitProfessionalForm() {
     console.log("Hola");
-    console.log(this.patient._id);
-    if(this.patient._id){
+    if(this.patient){
+      // this.apiPrescriptions.newPrecription()
       this.router.navigate(['/recetas/nueva']);
     }else{
-      console.log(this.patient_dni.value)
-
-
+      console.log("Entró");
+      let newPatient: Patients = new Patients();
+      newPatient.dni = this.professionalForm.get('patient_dni').value;
+      newPatient.firstName = this.professionalForm.get('patient_first_name').value;
+      newPatient.lastName = this.professionalForm.get('patient_last_name').value;
+      newPatient.sex = this.professionalForm.get('patient_sex').value;
+      this.apiPatients.newPatient(newPatient)
+        .subscribe((res: any) => {
+          // const usertoken = sessionStorage.getItem('JWT_TOKEN');
+          // const decoded = jwt.verify(usertoken, 'secret-key');
+          // console.log(decoded);
+          let newPrescription: Prescriptions = new Prescriptions();
+          newPrescription.patient_id = res["newPatient"]._id;
+          newPrescription.date = this.professionalForm.get('date').value;
+          this.router.navigate(['/profesionales/recetas/nueva']);
+        }, (err: any) => {
+          console.log(err);
+        });;
     }
   }
 
