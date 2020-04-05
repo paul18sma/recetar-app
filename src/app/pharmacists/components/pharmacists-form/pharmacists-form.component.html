@@ -10,7 +10,7 @@
             placeholder="DNI"
             aria-label="Number"
             matInput
-            formControlName="patient_dni"
+            formControlName="dni"
             [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
             <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option.dni">
