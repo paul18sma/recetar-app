@@ -26,7 +26,8 @@ export class ProfessionalFormComponent implements OnInit {
   drugs: Drugs[] = [];
   patient: Patients;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
-  today = new FormControl((new Date()).toISOString());  
+  today = new FormControl((new Date()).toISOString());
+  professionalFullname: string;
 
   constructor(
     private drugsService: DrugsService, 
@@ -40,6 +41,12 @@ export class ProfessionalFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initProfessionalForm();
+
+    this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
+      res => {
+      this.professionalFullname = res[0].last_name+", "+res[0].first_name;
+      },
+    )
 
     // this.professionalForm.get('supply').valueChanges.subscribe(
     //   term => {
@@ -108,11 +115,11 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   onSubmitProfessionalForm() {
-    console.log("Hola");
+
     if(this.patient){
-      console.log("Patient id: ", this.patient._id);
       let newPrescription: Prescriptions = new Prescriptions();
       newPrescription.user_id = this.authService.getLoggedUserId();
+      newPrescription.professionalFullname = this.professionalFullname;
       newPrescription.patient_id = this.patient._id;
       newPrescription.date = this.professionalForm.get('date').value;
       this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
@@ -130,10 +137,7 @@ export class ProfessionalFormComponent implements OnInit {
         .subscribe((res: any) => {
           let newPrescription: Prescriptions = new Prescriptions();
           newPrescription.user_id = this.authService.getLoggedUserId();
-          console.log(this.authService.getLoggedUsername());
-          const professional = this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe();
-          console.log("Profesional => ", professional);
-          // newPrescription.professional_fullname = 
+          newPrescription.professionalFullname = this.professionalFullname;
           newPrescription.patient_id = res["newPatient"]._id;
           newPrescription.date = this.professionalForm.get('date').value;
           this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
