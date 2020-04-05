@@ -135,8 +135,8 @@ export class PharmacistsFormComponent implements OnInit {
 
   completePatientInputs(patient: Patients):void{
     this.prescriptionForm.get('patient_dni').setValue(patient.dni);
-    this.prescriptionForm.get('patient_last_name').setValue(patient.last_name);
-    this.prescriptionForm.get('patient_first_name').setValue(patient.first_name);
+    this.prescriptionForm.get('patient_last_name').setValue(patient.lastName);
+    this.prescriptionForm.get('patient_first_name').setValue(patient.firstName);
   }
 
   onSubmitPrescriptionForm(){

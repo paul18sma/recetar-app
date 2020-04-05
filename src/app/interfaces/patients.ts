@@ -1,10 +1,7 @@
 export class Patients {
   _id: string;
   dni: string;
-  cuil: string;
-  first_name: string;
-  last_name: string;
-  andes_id: string;
-  marital_status: string;
+  firstName: string;
+  lastName: string;
   sex: string;
 }

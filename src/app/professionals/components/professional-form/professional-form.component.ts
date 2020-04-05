@@ -90,8 +90,8 @@ export class ProfessionalFormComponent implements OnInit {
 
   completePatientInputs(patient: Patients):void{
     this.professionalForm.get('patient_dni').setValue(patient.dni); 
-    this.professionalForm.get('patient_last_name').setValue(patient.last_name); 
-    this.professionalForm.get('patient_first_name').setValue(patient.first_name);
+    this.professionalForm.get('patient_last_name').setValue(patient.lastName); 
+    this.professionalForm.get('patient_first_name').setValue(patient.firstName);
     this.professionalForm.get('patient_sex').setValue(patient.sex);
   }
 

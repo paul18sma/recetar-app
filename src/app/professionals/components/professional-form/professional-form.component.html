@@ -2,7 +2,6 @@
   <mat-card>
     <form [formGroup]="professionalForm" (ngSubmit)="onSubmitProfessionalForm()">
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
-        {{patient_dni.value}}
         <h1>
           Registrar nueva receta
         </h1>
@@ -26,8 +25,8 @@
             formControlName="patient_dni"
             [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option">
-              {{option.last_name()}}
+            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient">
+              {{patient.lastName}} {{patient.firstName}} DNI {{patient.dni}}
             </mat-option>
           </mat-autocomplete>
           <mat-hint align="end">{{patient_dni.value.length}} / 8</mat-hint>
@@ -46,12 +45,11 @@
           <input type="text"
             placeholder="Apellido"
             matInput
-            formControlName="patient_last_name"
-            [matAutocomplete]="auto">
+            formControlName="patient_last_name">
 
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option.last_name">
-              {{option.getDniAndFullname()}}
+            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient.lastName">
+              {{patient.lastName}}
             </mat-option>
           </mat-autocomplete>
 
@@ -66,12 +64,11 @@
           <input type="text"
             placeholder="Nombre"
             matInput
-            formControlName="patient_first_name"
-            [matAutocomplete]="auto">
+            formControlName="patient_first_name">
 
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option.first_name">
-              {{option.getDniAndFullname()}}
+            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient.firstName">
+              {{patient.firstName}}
             </mat-option>
           </mat-autocomplete>
 
