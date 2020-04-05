@@ -1,127 +1,136 @@
-<div class="container">
-  <mat-card>
-    <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmitPrescriptionForm">
-      <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
-        <h1>Validar prescripciones</h1>
 
-        <mat-form-field appearance="fill">
-          <mat-label>DNI</mat-label>
-          <input type="text"
-            placeholder="DNI"
-            aria-label="Number"
-            matInput
-            formControlName="dni"
-            [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option.dni">
-              {{option.getDniAndFullname()}}
-            </mat-option>
-          </mat-autocomplete>
+<div class="container" fxLayout="row" fxLayoutAlign="space-between center">
 
-          <mat-error *ngIf="dni.errors?.required && dni.touched">
-            Debe ingresar un  dni
-          </mat-error>
+    <mat-card>
+      <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmitPrescriptionForm">
+        <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
+          <h1>Validar prescripciones</h1>
 
-          <mat-error *ngIf="dni.errors?.minlength && dni.touched">
-            Debe ingresar 8 digitos
-          </mat-error>
-        </mat-form-field>
-
-
-        <mat-form-field appearance="fill">
-          <mat-label>Fecha de la receta</mat-label>
-          <input matInput formControlName="date" autocomplete="off" type="date" [min]="today">
-
-          <mat-error *ngIf="date.errors?.required && date.touched">
-            Debe ingresar un fecha
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Matricula profesional</mat-label>
-          <input type="text"
-            placeholder="Matrícula"
-            aria-label="Number"
-            matInput
-            formControlName="professional_enrollment"
-            [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.enrollment">
-              {{option.getEnrollmentAndFullname()}}
-            </mat-option>
-          </mat-autocomplete>
-
-          <mat-error *ngIf="professional_enrollment.errors?.required && professional_enrollment.touched">
-            Debe ingresar la matricula del profesional
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Apellido profesional</mat-label>
-          <input type="text"
-            placeholder="Apellido"
-            matInput
-            formControlName="professional_last_name"
-            [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.last_name">
-                {{option.getEnrollmentAndFullname()}}
-              </mat-option>
-            </mat-autocomplete>
-
-          <mat-error *ngIf="professional_last_name.errors?.required && professional_last_name.touched">
-            Debe ingresar un apellido
-          </mat-error>
-        </mat-form-field>
-
-        <mat-form-field appearance="fill">
-          <mat-label>Nombre profesional</mat-label>
-          <input type="text"
-            placeholder="Nombre"
-            matInput
-            formControlName="professional_first_name"
-            [matAutocomplete]="auto">
-            <mat-autocomplete #auto="matAutocomplete">
-              <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.first_name">
-                {{option.getEnrollmentAndFullname()}}
-              </mat-option>
-            </mat-autocomplete>
-
-          <mat-error *ngIf="professional_first_name.errors?.required && professional_first_name.touched">
-            Debe ingresar un nombre
-          </mat-error>
-        </mat-form-field>
-
-
-        <mat-form-field appearance="fill">
-          <!-- <mat-label>Medicamento</mat-label>
-          <input matInput formControlName="supply" autocomplete="off"> -->
-
-
-          <!-- <mat-form-field> -->
+          <mat-form-field appearance="fill">
+            <mat-label>DNI</mat-label>
             <input type="text"
-                   placeholder="Medicamento"
-                   aria-label="Number"
-                   matInput
-                   formControlName="supply"
-                   [matAutocomplete]="auto">
+              placeholder="DNI"
+              aria-label="Number"
+              matInput
+              formControlName="dni"
+              [matAutocomplete]="auto">
             <mat-autocomplete #auto="matAutocomplete">
-              <mat-option *ngFor="let option of drugs" [value]="option.term">
-                {{option.term}}
+              <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option.dni">
+                {{option.getDniAndFullname()}}
               </mat-option>
             </mat-autocomplete>
+
+            <mat-error *ngIf="dni.errors?.required && dni.touched">
+              Debe ingresar un  dni
+            </mat-error>
+
+            <mat-error *ngIf="dni.errors?.minlength && dni.touched">
+              Debe ingresar 8 digitos
+            </mat-error>
           </mat-form-field>
 
-          <!-- <mat-error *ngIf="supply.errors?.required && supply.touched">
-            Debe ingresar un medicamento
-          </mat-error> -->
-        <!-- </mat-form-field> -->
 
-        <button mat-raised-button color="primary" type="submit">
-          Validar
-        </button>
-      </div>
-    </form>
-  </mat-card>
+          <mat-form-field appearance="fill">
+            <mat-label>Fecha de la receta</mat-label>
+            <input matInput formControlName="date" autocomplete="off" type="date" [min]="today">
 
+            <mat-error *ngIf="date.errors?.required && date.touched">
+              Debe ingresar un fecha
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Matricula profesional</mat-label>
+            <input type="text"
+              placeholder="Matrícula"
+              aria-label="Number"
+              matInput
+              formControlName="professional_enrollment"
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.enrollment">
+                {{option.getEnrollmentAndFullname()}}
+              </mat-option>
+            </mat-autocomplete>
+
+            <mat-error *ngIf="professional_enrollment.errors?.required && professional_enrollment.touched">
+              Debe ingresar la matricula del profesional
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Apellido profesional</mat-label>
+            <input type="text"
+              placeholder="Apellido"
+              matInput
+              formControlName="professional_last_name"
+              [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.last_name">
+                  {{option.getEnrollmentAndFullname()}}
+                </mat-option>
+              </mat-autocomplete>
+
+            <mat-error *ngIf="professional_last_name.errors?.required && professional_last_name.touched">
+              Debe ingresar un apellido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre profesional</mat-label>
+            <input type="text"
+              placeholder="Nombre"
+              matInput
+              formControlName="professional_first_name"
+              [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option (onSelectionChange)="completeProfessionalInputs(option)" *ngFor="let option of professional" [value]="option.first_name">
+                  {{option.getEnrollmentAndFullname()}}
+                </mat-option>
+              </mat-autocomplete>
+
+            <mat-error *ngIf="professional_first_name.errors?.required && professional_first_name.touched">
+              Debe ingresar un nombre
+            </mat-error>
+          </mat-form-field>
+
+
+          <mat-form-field appearance="fill">
+            <!-- <mat-label>Medicamento</mat-label>
+            <input matInput formControlName="supply" autocomplete="off"> -->
+
+
+            <!-- <mat-form-field> -->
+              <input type="text"
+                    placeholder="Medicamento"
+                    aria-label="Number"
+                    matInput
+                    formControlName="supply"
+                    [matAutocomplete]="auto">
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let option of drugs" [value]="option.term">
+                  {{option.term}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+            <!-- <mat-error *ngIf="supply.errors?.required && supply.touched">
+              Debe ingresar un medicamento
+            </mat-error> -->
+          <!-- </mat-form-field> -->
+
+          <button mat-raised-button color="primary" type="submit">
+            Validar
+          </button>
+        </div>
+      </form>
+    </mat-card>
+
+    <mat-card>
+      Otra columna
+    </mat-card>
+
+    <mat-card>
+      Otra columna
+    </mat-card>
 </div>
