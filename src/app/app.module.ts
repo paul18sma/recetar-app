@@ -26,14 +26,15 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 // component
-import { HeaderComponent } from './components/layouts/header/header.component';
+import { HeaderComponent } from '@shared/layouts/header/header.component';
+
 
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,
