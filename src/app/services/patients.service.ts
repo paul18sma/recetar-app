@@ -17,7 +17,7 @@ export class PatientsService {
   }
 
   getPatientByDni(dni: string): Observable<Patients> {
-    return this.http.get<Patients>(`${environment.API_END_POINT}/patients/dni=${dni}`).pipe(
+    return this.http.get<Patients>(`${environment.API_END_POINT}/patients/get-by-dni/?dni=${dni}`).pipe(
       tap(_ => console.log(`fetched patient dni=${dni}`)),
       catchError(this.handleError<Patients>(`getPatientByDni dni=${dni}`))
     );

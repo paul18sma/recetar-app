@@ -21,6 +21,7 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { ProfessionalFormComponent } from './components/prescriptions/professional-form/professional-form.component';
 
 
@@ -46,6 +47,7 @@ import { ProfessionalFormComponent } from './components/prescriptions/profession
     MatAutocompleteModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     PatientsService

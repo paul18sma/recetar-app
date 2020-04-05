@@ -1,31 +1,24 @@
 <div class="container">
   <mat-card>
-    <form [formGroup]="professionalForm" (ngSubmit)="onSubmitProfessionalForm">
+    <form [formGroup]="professionalForm" (ngSubmit)="onSubmitProfessionalForm()">
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
-        <h1>Registrar nueva receta</h1>
+        {{patient_dni.value}}
+        <h1>
+          Registrar nueva receta
+        </h1>
 
-        <mat-form-field>
-          <mat-label>Angular forms</mat-label>
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha receta</mat-label>
           <input matInput [matDatepicker]="picker1" [formControl]="date">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
 
-        <!-- Fecha de receta
-        <mat-form-field appearance="fill">
-          <mat-label>Fecha de la receta</mat-label>
-          <input matInput formControlName="date" autocomplete="off" type="date" [min]="today">
-
-          <mat-error *ngIf="date.errors?.required && date.touched">
-            Debe ingresar un fecha
-          </mat-error>
-        </mat-form-field> -->
-
         <!-- Dni del paciente -->
         <mat-form-field appearance="fill">
           <mat-label>DNI paciente</mat-label>
           <input type="text"
-            cdkFocusInitial  
+            cdkFocusInitial
             placeholder="DNI"
             aria-label="Number"
             matInput
@@ -33,8 +26,8 @@
             formControlName="patient_dni"
             [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option.dni">
-              {{option.getDniAndFullname()}}
+            <mat-option (onSelectionChange)="completePatientInputs(option)" *ngFor="let option of patient" [value]="option">
+              {{option.last_name()}}
             </mat-option>
           </mat-autocomplete>
           <mat-hint align="end">{{patient_dni.value.length}} / 8</mat-hint>
@@ -97,7 +90,7 @@
           </mat-select>
         </mat-form-field>
         
-        <mat-form-field appearance="fill">
+        <!-- <mat-form-field appearance="fill">
           <mat-label>Medicamento</mat-label>
           <input type="text"
                   placeholder="Medicamento"
@@ -110,7 +103,7 @@
               {{option.term}}
             </mat-option>
           </mat-autocomplete>
-        </mat-form-field>
+        </mat-form-field> -->
 
         <button mat-raised-button color="primary" type="submit">
           Crear

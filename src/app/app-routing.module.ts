@@ -15,17 +15,16 @@ const routes: Routes = [
       {
         path: '',
         pathMatch: 'full',
-        redirectTo: 'prescriptions/form',
+        redirectTo: 'recetas/dispensar',
       },
       {
-        path: 'prescriptions/form',
+        path: 'recetas/dispensar',
         component: ValidatorFormComponent
       },
       {
-        path: 'recetas/registrar_nueva',
+        path: 'recetas/nueva',
         component: ProfessionalFormComponent
       }
-      
     ]
   },
   {path: '404', component: NotFoundComponent},

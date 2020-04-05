@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 import { DrugsService } from '@root/app/services/drugs.service'
 import Drugs from '@root/app/interfaces/drugs';
 import { PatientsService } from '@root/app/services/patients.service';
@@ -21,18 +22,18 @@ export class ProfessionalFormComponent implements OnInit {
   drugs: Drugs[] = [];
   patient: Patients;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
-  today = new FormControl((new Date()).toISOString());
+  today = new FormControl((new Date()).toISOString());  
 
-  constructor(private drugsService: DrugsService, private fBuilder: FormBuilder, private patientsService: PatientsService){}
+  constructor(private drugsService: DrugsService, private fBuilder: FormBuilder, private apiPatients: PatientsService, private router: Router){}
 
   ngOnInit(): void {
     this.initProfessionalForm();
 
-    this.professionalForm.get('supply').valueChanges.subscribe(
-      term => {
-        this.getDrugs(term);
-      }
-    )
+    // this.professionalForm.get('supply').valueChanges.subscribe(
+    //   term => {
+    //     this.getDrugs(term);
+    //   }
+    // )
 
     this.professionalForm.get('patient_dni').valueChanges.subscribe(
       term => {
@@ -58,22 +59,10 @@ export class ProfessionalFormComponent implements OnInit {
       ]],
       date: [this.today, [
         Validators.required
-      ]],
-      professional: ['', [
-        Validators.required
-      ]],
-      professional_enrollment: ['', [
-        Validators.required
-      ]],
-      professional_first_name: ['', [
-        Validators.required
-      ]],
-      professional_last_name: ['', [
-        Validators.required
-      ]],
-      supply: ['', [
-        Validators.required
-      ]],
+      ]]
+      // supply: ['', [
+      //   Validators.required
+      // ]],
     });
   }
 
@@ -90,9 +79,9 @@ export class ProfessionalFormComponent implements OnInit {
 
   getPatientByDni(term: string):void{
     if(term.length > 2){
-
-      this.patientsService.getPatientByDni(term).subscribe(
+      this.apiPatients.getPatientByDni(term).subscribe(
         res => {
+          console.log(res);
           this.patient = res;
         },
       );
@@ -106,8 +95,16 @@ export class ProfessionalFormComponent implements OnInit {
     this.professionalForm.get('patient_sex').setValue(patient.sex);
   }
 
-  onSubmitProfessionalForm(){
-    console.log('page under construction');
+  onSubmitProfessionalForm() {
+    console.log("Hola");
+    console.log(this.patient._id);
+    if(this.patient._id){
+      this.router.navigate(['/recetas/nueva']);
+    }else{
+      console.log(this.patient_dni.value)
+
+
+    }
   }
 
   get patient_dni(): AbstractControl{
