@@ -15,7 +15,6 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatSelectModule } from '@angular/material/select';
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 
@@ -37,7 +36,6 @@ import { MatNativeDateModule } from '@angular/material/core';
     MatSelectModule,
     MatAutocompleteModule,
     MatMenuModule,
-    MatToolbarModule,
     MatDatepickerModule,
     MatNativeDateModule,
   ]
