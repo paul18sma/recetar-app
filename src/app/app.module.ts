@@ -15,16 +15,7 @@ import { ProfessionalsModule } from '@professionals/professionals.module';
 // flex-layout
 import { FlexLayoutModule } from '@angular/flex-layout';
 // material
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatButtonModule } from '@angular/material/button';
-import { MatSelectModule } from '@angular/material/select';
-import { MatAutocompleteModule } from '@angular/material/autocomplete';
-import { MatMenuModule } from '@angular/material/menu';
 import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
 // component
 import { HeaderComponent } from '@shared/layouts/header/header.component';
 
@@ -46,17 +37,7 @@ import { HeaderComponent } from '@shared/layouts/header/header.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    MatCardModule,
-    MatFormFieldModule,
-    MatInputModule,
-    MatButtonModule,
-    MatAutocompleteModule,
-    MatMenuModule,
-    MatToolbarModule,
-    MatSelectModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
+    MatToolbarModule
   ],
   providers: [
     PatientsService
