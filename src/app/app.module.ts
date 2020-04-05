@@ -16,6 +16,7 @@ import { ProfessionalsModule } from '@professionals/professionals.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 // material
 import { MatToolbarModule } from '@angular/material/toolbar';
+import { MatButtonModule } from '@angular/material/button';
 // component
 import { HeaderComponent } from '@shared/layouts/header/header.component';
 
@@ -37,7 +38,8 @@ import { HeaderComponent } from '@shared/layouts/header/header.component';
     BrowserAnimationsModule,
     ReactiveFormsModule,
     FlexLayoutModule,
-    MatToolbarModule
+    MatToolbarModule,
+    MatButtonModule
   ],
   providers: [
     PatientsService
