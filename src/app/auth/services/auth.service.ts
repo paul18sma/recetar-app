@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '@root/environments/environment';
-import { of, Observable } from 'rxjs';
+import { of, Observable, BehaviorSubject } from 'rxjs';
 import { catchError, mapTo, tap } from 'rxjs/operators';
 // inteface
 import { Tokens } from '@auth/models/tokens';
@@ -15,35 +15,38 @@ export class AuthService {
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly apiEndPoint = environment.API_END_POINT;
   private loggedUser: string;
+  private loggedIn: BehaviorSubject<boolean>;
 
-  constructor(private http: HttpClient) {}
 
+  constructor(private http: HttpClient) {
+    this.loggedIn = new BehaviorSubject<boolean>(!!this.getJwtToken());
+  }
 
   // signUp(user): Observable<any>{
     // return this.http.post<any>(`${config.apiUrl}/auth/register`, user);
-  // }
+    // }
 
-  login(user: { username: string, password: string }): Observable<boolean | HttpErrorResponse> {
-    return this.http.post<any>(`${this.apiEndPoint}/auth/login`, user).pipe(
-      tap(tokens => this.doLoginUser(user.username, tokens)),
-      mapTo(true)
-    );
-  }
+    login(user: { username: string, password: string }): Observable<boolean | HttpErrorResponse> {
+      return this.http.post<any>(`${this.apiEndPoint}/auth/login`, user).pipe(
+        tap(tokens => this.doLoginUser(user.username, tokens)),
+        mapTo(true)
+        );
+      }
 
-  logout() {
-    return this.http.post<any>(`${this.apiEndPoint}/auth/logout`, {
-      'refreshToken': this.getRefreshToken()
-    }).pipe(
-      tap(() => this.doLogoutUser()),
-      mapTo(true),
+      logout() {
+        return this.http.post<any>(`${this.apiEndPoint}/auth/logout`, {
+          'refreshToken': this.getRefreshToken()
+        }).pipe(
+          tap(() => this.doLogoutUser()),
+          mapTo(true),
       catchError(error => {
         console.log(error.error);
         return of(false);
       }));
-  }
+    }
 
-  isLoggedIn() {
-    return !!this.getJwtToken();
+  get isLoggedIn() {
+    return this.loggedIn.asObservable();
   }
 
   refreshToken() {
@@ -65,11 +68,13 @@ export class AuthService {
   private doLoginUser(username: string, tokens: Tokens) {
     this.loggedUser = username;
     this.storeTokens(tokens);
+    this.loggedIn.next(!!this.getJwtToken());
   }
 
   private doLogoutUser() {
     this.loggedUser = null;
     this.removeTokens();
+    this.loggedIn.next(!!this.getJwtToken());
   }
 
   private getRefreshToken() {
