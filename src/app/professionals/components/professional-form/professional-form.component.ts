@@ -9,6 +9,7 @@ import { Patients } from '@root/app/interfaces/patients';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { AuthService } from '@auth/services/auth.service';
+import { ProfessionalsService } from '@services/professionals.service';
 
 @Component({
   selector: 'app-professional-form',
@@ -33,7 +34,8 @@ export class ProfessionalFormComponent implements OnInit {
     private apiPatients: PatientsService, 
     private router: Router,
     private apiPrescriptions: PrescriptionsService,
-    private authService: AuthService
+    private authService: AuthService,
+    private apiProfessionals: ProfessionalsService
   ){}
 
   ngOnInit(): void {
@@ -110,8 +112,8 @@ export class ProfessionalFormComponent implements OnInit {
     if(this.patient){
       console.log("Patient id: ", this.patient._id);
       let newPrescription: Prescriptions = new Prescriptions();
-      newPrescription.user = this.authService.getLoggedUserId();
-      newPrescription.patient = this.patient._id;
+      newPrescription.user_id = this.authService.getLoggedUserId();
+      newPrescription.patient_id = this.patient._id;
       newPrescription.date = this.professionalForm.get('date').value;
       this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
         this.router.navigate(['/profesionales/recetas/nueva']);
@@ -127,8 +129,12 @@ export class ProfessionalFormComponent implements OnInit {
       this.apiPatients.newPatient(newPatient)
         .subscribe((res: any) => {
           let newPrescription: Prescriptions = new Prescriptions();
-          newPrescription.user = this.authService.getLoggedUserId();
-          newPrescription.patient = res["newPatient"]._id;
+          newPrescription.user_id = this.authService.getLoggedUserId();
+          console.log(this.authService.getLoggedUsername());
+          const professional = this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe();
+          console.log("Profesional => ", professional);
+          // newPrescription.professional_fullname = 
+          newPrescription.patient_id = res["newPatient"]._id;
           newPrescription.date = this.professionalForm.get('date').value;
           this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
             this.router.navigate(['/profesionales/recetas/nueva']);

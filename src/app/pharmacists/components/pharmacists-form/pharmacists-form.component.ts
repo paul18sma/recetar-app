@@ -20,11 +20,12 @@ export class PharmacistsFormComponent implements OnInit {
   prescriptionForm: FormGroup;
   today;
 
+  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'buttons'];
   options: string[] = [];
   drugs: Drugs[] = [];
   professional: Professionals;
   patient: Patients;
-  prescription: Prescriptions;
+  prescriptions: Prescriptions;
   filteredOptions: Observable<string[]>;
 
   constructor(
@@ -71,7 +72,7 @@ export class PharmacistsFormComponent implements OnInit {
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
         console.log(res)
-        this.prescription = res;
+        this.prescriptions = res;
       },
     );
     

@@ -1,8 +1,8 @@
-<div class="container">
+<div class="container" fxLayout="row" fxLayoutAlign="space-between center">
   <mat-card>
     <form [formGroup]="prescriptionForm" (ngSubmit)="onSubmitPrescriptionForm">
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
-        <h1>Dispensar prescripción</h1>
+        <h1>Buscar prescripción</h1>
 
         <!-- Dni del paciente -->
         <mat-form-field appearance="fill">
@@ -30,18 +30,66 @@
           </mat-error>
         </mat-form-field>
 
+        <!-- Fecha de receta -->
         <mat-form-field appearance="fill">
           <mat-label>Fecha receta</mat-label>
           <input matInput [matDatepicker]="picker1" [formControl]="date">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
-
-        <button mat-raised-button color="primary" type="submit">
-          Validar
-        </button>
       </div>
     </form>
   </mat-card>
 
+
+  <mat-card class="prescriptions">
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
+      <h1>Prescripciones</h1>
+
+      <table mat-table *ngIf="prescriptions" [dataSource]="prescriptions" class="mat-elevation-z8">
+
+        <!--- Note that these columns can be defined in any order.
+              The actual rendered columns are set as a property on the row definition" -->
+      
+        <!-- Position Column -->
+        <ng-container matColumnDef="user">
+          <th mat-header-cell *matHeaderCellDef> Profesional </th>
+          <td mat-cell *matCellDef="let prescription"> {{prescription.professional_fullname}} </td>
+        </ng-container>
+      
+        <!-- Name Column -->
+        <ng-container matColumnDef="date">
+          <th mat-header-cell *matHeaderCellDef> Fecha </th>
+          <td mat-cell *matCellDef="let prescription"> {{prescription.date | date :'dd/MM/y':'UTC-3'}} </td>
+        </ng-container>
+      
+        <!-- Weight Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef> Estado </th>
+          <td mat-cell *matCellDef="let prescription"> {{prescription.status}} </td>
+        </ng-container>
+      
+        <!-- Symbol Column -->
+        <ng-container matColumnDef="supplies">
+          <th mat-header-cell *matHeaderCellDef> Insumos </th>
+          <td mat-cell *matCellDef="let prescription"> {{prescription.supplies}} </td>
+        </ng-container>
+
+        <!-- Buttons Column -->
+        <ng-container matColumnDef="buttons">
+          <th mat-header-cell *matHeaderCellDef> Acción </th>
+          <td mat-cell *matCellDef="let prescription">
+            <button mat-button color="primary" matTooltip="Dispensar"><mat-icon >done_outline</mat-icon></button>
+          </td>
+        </ng-container>
+      
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+    </div>
+  </mat-card>
+
+  <mat-card class="insurances">
+    <h1>Obras sociales</h1>
+  </mat-card>
 </div>
