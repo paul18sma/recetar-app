@@ -16,7 +16,6 @@ export class AuthService {
   private readonly JWT_TOKEN = 'JWT_TOKEN';
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly apiEndPoint = environment.API_END_POINT;
-  private loggedUser: string;
   private loggedIn: BehaviorSubject<boolean>;
 
 
@@ -64,7 +63,8 @@ export class AuthService {
   }
 
   getLoggedUsername(): string{
-    return this.loggedUser;
+    const payLoadJwt: any = this.getDecodeJwt();
+    return payLoadJwt.usrn;
   }
 
   getLoggedUserId(): string{
@@ -82,13 +82,11 @@ export class AuthService {
   }
 
   private doLoginUser(username: string, tokens: Tokens) {
-    this.loggedUser = username;
     this.storeTokens(tokens);
     this.loggedIn.next(!!this.getJwtToken());
   }
 
   private doLogoutUser() {
-    this.loggedUser = null;
     this.removeTokens();
     this.loggedIn.next(!!this.getJwtToken());
   }
