@@ -8,6 +8,7 @@ import { PatientsService } from '@root/app/services/patients.service';
 import { Patients } from '@root/app/interfaces/patients';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { PrescriptionsService } from '@services/prescriptions.service';
+import { AuthService } from '@auth/services/auth.service';
 
 @Component({
   selector: 'app-professional-form',
@@ -31,7 +32,8 @@ export class ProfessionalFormComponent implements OnInit {
     private fBuilder: FormBuilder, 
     private apiPatients: PatientsService, 
     private router: Router,
-    private apiPrescriptions: PrescriptionsService
+    private apiPrescriptions: PrescriptionsService,
+    private authService: AuthService
   ){}
 
   ngOnInit(): void {
@@ -106,10 +108,17 @@ export class ProfessionalFormComponent implements OnInit {
   onSubmitProfessionalForm() {
     console.log("Hola");
     if(this.patient){
-      // this.apiPrescriptions.newPrecription()
-      this.router.navigate(['/recetas/nueva']);
+      console.log("Patient id: ", this.patient._id);
+      let newPrescription: Prescriptions = new Prescriptions();
+      newPrescription.user = this.authService.getLoggedUserId();
+      newPrescription.patient = this.patient._id;
+      newPrescription.date = this.professionalForm.get('date').value;
+      this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
+        this.router.navigate(['/profesionales/recetas/nueva']);
+      }, (err: any) => {
+        console.log(err);
+      });;
     }else{
-      console.log("Entró");
       let newPatient: Patients = new Patients();
       newPatient.dni = this.professionalForm.get('patient_dni').value;
       newPatient.firstName = this.professionalForm.get('patient_first_name').value;
@@ -117,12 +126,15 @@ export class ProfessionalFormComponent implements OnInit {
       newPatient.sex = this.professionalForm.get('patient_sex').value;
       this.apiPatients.newPatient(newPatient)
         .subscribe((res: any) => {
-          // const usertoken = sessionStorage.getItem('JWT_TOKEN');
-          // const decoded = jwt.verify(usertoken, 'secret-key');
-          // console.log(decoded);
           let newPrescription: Prescriptions = new Prescriptions();
-          newPrescription.patient_id = res["newPatient"]._id;
+          newPrescription.user = this.authService.getLoggedUserId();
+          newPrescription.patient = res["newPatient"]._id;
           newPrescription.date = this.professionalForm.get('date').value;
+          this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
+            this.router.navigate(['/profesionales/recetas/nueva']);
+          }, (err: any) => {
+            console.log(err);
+          });;
           this.router.navigate(['/profesionales/recetas/nueva']);
         }, (err: any) => {
           console.log(err);
