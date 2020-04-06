@@ -45,7 +45,7 @@ export class ProfessionalFormComponent implements OnInit {
 
     this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
       res => {
-      this.professionalFullname = res[0].last_name+", "+res[0].first_name;
+        this.professionalFullname = res[0].last_name+", "+res[0].first_name;
       },
     )
 
@@ -113,7 +113,7 @@ export class ProfessionalFormComponent implements OnInit {
       let newPrescription: Prescriptions = new Prescriptions();
       newPrescription.user_id = this.authService.getLoggedUserId();
       newPrescription.professionalFullname = this.professionalFullname;
-      newPrescription.patient_id = this.patient._id;
+      newPrescription.patientId = this.patient._id;
       newPrescription.date = this.professionalForm.get('date').value;
       newPrescription.supplies = this.professionalForm.get('supplies').value;
 this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
@@ -132,7 +132,7 @@ this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
     let newPrescription: Prescriptions = new Prescriptions();
     newPrescription.user_id = this.authService.getLoggedUserId();
           newPrescription.professionalFullname = this.professionalFullname;
-          newPrescription.patient_id = res["newPatient"]._id;
+          newPrescription.patientId = res["newPatient"]._id;
           newPrescription.date = this.professionalForm.get('date').value;
           newPrescription.supplies = this.professionalForm.get('supplies').value;
           this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {

@@ -5,6 +5,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { Prescriptions } from "../interfaces/prescriptions";
 import { AuthService } from '@auth/services/auth.service';
+import { Patients } from '@interfaces/patients';
 
 @Injectable({
   providedIn: 'root'
@@ -26,10 +27,10 @@ export class PrescriptionsService {
     );
   }
 
-  getPrescriptionByDate(date: Date): Observable<Prescriptions> {
-    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-date/${date}`).pipe(
-      tap(_ => console.log(`fetched prescription date=${date}`)),
-      catchError(this.handleError<Prescriptions>(`getPrescriptionByDate date=${date}`))
+  getByPatientAndDate(patient_id: string, date: Date): Observable<Prescriptions> {
+    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-and-date/?patient_id=${patient_id}?date=${date}`).pipe(
+      tap(_ => console.log(`fetched prescription with date and patient`)),
+      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientAndDate`))
     );
   }
 

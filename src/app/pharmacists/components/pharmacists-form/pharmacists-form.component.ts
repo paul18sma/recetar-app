@@ -8,6 +8,7 @@ import { PrescriptionsService } from '@services/prescriptions.service';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { InsurancesService } from '@services/insurance.service';
 import { Insurances } from '@interfaces/insurances';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pharmacists-form',
@@ -34,11 +35,12 @@ export class PharmacistsFormComponent implements OnInit {
     private fBuilder: FormBuilder, 
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
-    private apiInsurances: InsurancesService
+    private apiInsurances: InsurancesService,
+    private _snackBar: MatSnackBar
   ){}
 
   ngOnInit(): void{
-    this.initPrescriptionForm();
+    this.initFilterPrescriptionForm();
     this.today = new Date();
 
     this.prescriptionForm.get('patient_dni').valueChanges.subscribe(
@@ -46,15 +48,25 @@ export class PharmacistsFormComponent implements OnInit {
         this.getPatientByDni(term);
       }
     )
+
+    this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
+      term => {
+        if(this.patient)
+          console.log(this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe());
+        else{
+          this.openSnackBar("Seleccione un paciente.", "Cerrar");
+        }
+      }
+    )
   }
 
-  initPrescriptionForm(){
+  initFilterPrescriptionForm(){
     this.prescriptionForm = this.fBuilder.group({
       patient_dni: ['', [
         Validators.required,
         Validators.minLength(8)
       ]],
-      date: ['', [
+      dateFilter: ['', [
       ]],
     });
   }
@@ -75,6 +87,13 @@ export class PharmacistsFormComponent implements OnInit {
         this.prescription = res;
       },
     );
+    this.openSnackBar("Le prescripción se dispensó conrrectamente.", "Cerrar")
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   searchPrescriptions(patient: Patients):void{
@@ -86,7 +105,6 @@ export class PharmacistsFormComponent implements OnInit {
     );
     this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(
       res => {
-        console.log("")
         this.insurances = res;
       },
     );
@@ -96,7 +114,7 @@ export class PharmacistsFormComponent implements OnInit {
     return this.prescriptionForm.get('patient_dni');
   }
 
-  get date(): AbstractControl{
-    return this.prescriptionForm.get('date');
+  get dateFilter(): AbstractControl{
+    return this.prescriptionForm.get('dateFilter');
   }
 }

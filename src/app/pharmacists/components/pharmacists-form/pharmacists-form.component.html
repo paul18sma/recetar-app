@@ -1,7 +1,7 @@
-<div class="container" fxLayout="row" fxLayoutAlign="space-between center">
+<div class="container" fxLayout="row" fxLayoutAlign="space-evenly start">
   <mat-card class="search-prescription">
     <form [formGroup]="prescriptionForm">
-      <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
+      <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
         <h1><mat-icon >search</mat-icon> Buscar prescripción</h1>
 
         <!-- Dni del paciente -->
@@ -33,7 +33,7 @@
         <!-- Fecha de receta -->
         <mat-form-field appearance="fill">
           <mat-label>Fecha receta</mat-label>
-          <input matInput [matDatepicker]="picker1" [formControl]="date">
+          <input matInput [matDatepicker]="picker1" [formControl]="dateFilter">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker #picker1></mat-datepicker>
         </mat-form-field>
@@ -43,8 +43,11 @@
 
 
   <mat-card class="prescriptions">
-    <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
-      <h1>Prescripciones</h1>
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <h1>
+        <mat-icon>gesture</mat-icon>
+        Prescripciones
+      </h1>
 
       <table mat-table *ngIf="prescriptions" [dataSource]="prescriptions" class="mat-elevation-z8">
       
@@ -80,7 +83,7 @@
         <ng-container matColumnDef="print">
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let prescription">
-            <button mat-button color="info" matTooltip="Próximamente"><mat-icon >print</mat-icon></button>
+            <button mat-button color="info" matTooltip="Próximamente" matTooltipPosition="above"><mat-icon >print</mat-icon></button>
           </td>
         </ng-container>
         
@@ -88,7 +91,7 @@
           <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let prescription">
             <div *ngIf="prescription.status === 'Pendiente'">
-              <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar"><mat-icon >done_outline</mat-icon></button>
+              <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar" matTooltipPosition="above"><mat-icon >done_outline</mat-icon></button>
             </div>
           </td>
         </ng-container>
@@ -100,8 +103,11 @@
   </mat-card>
 
   <mat-card class="insurances">
-    <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
-      <h1>Obras sociales</h1>
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <h1>
+        <mat-icon>policy</mat-icon>
+        Obras sociales
+      </h1>
       <table mat-table *ngIf="insurances" [dataSource]="insurances" class="mat-elevation-z8">
       
         <!-- Position Column -->
