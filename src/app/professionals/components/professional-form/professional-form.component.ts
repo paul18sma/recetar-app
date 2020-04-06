@@ -26,7 +26,7 @@ export class ProfessionalFormComponent implements OnInit {
   storedSupplies: Supplies[] = [];
   patient: Patients;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
-  today = new FormControl((new Date()).toISOString());
+  today = new Date((new Date()));
   professionalFullname: string;
   readonly maxQSupplies: number = 2;
 
