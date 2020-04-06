@@ -87,9 +87,10 @@
             <mat-option value="Otro">Otro</mat-option>
           </mat-select>
         </mat-form-field>
-        
-        <!-- <mat-form-field appearance="fill">
+
+        <mat-form-field appearance="fill">
           <mat-label>Medicamento</mat-label>
+          {{drugs | json }}
           <input type="text"
                   placeholder="Medicamento"
                   aria-label="Number"
@@ -97,11 +98,11 @@
                   formControlName="supply"
                   [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of drugs" [value]="option.term">
-              {{option.term}}
+            <mat-option *ngFor="let option of drugs" [value]="option.name">
+              {{option.name}}
             </mat-option>
           </mat-autocomplete>
-        </mat-form-field> -->
+        </mat-form-field>
 
         <button mat-raised-button color="primary" type="submit">
           Crear

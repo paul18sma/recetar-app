@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpParams } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import Drugs from "../interfaces/drugs";
@@ -20,14 +20,10 @@ export class DrugsService {
   }
 
   getDrugByTerm(term: string): Observable<any>{
-    const opts = {
-      headers: new HttpHeaders({
-        'Accept-Language': 'es,en'
-      })
-    }
-    return this.http.get<any>(`https://browser.ihtsdotools.org/snowstorm/snomed-ct/browser/MAIN/SNOMEDCT-ES/2019-10-31/descriptions?&limit=10&term=${term}&active=true&conceptActive=true&lang=english`, opts);
+    const params = new HttpParams().set('supplyName', term);
+    return this.http.get<any>(`${environment.API_END_POINT}/supplies/get-by-name`, {params});
   }
-  
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 

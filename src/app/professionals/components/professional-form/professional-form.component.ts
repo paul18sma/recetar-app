@@ -30,9 +30,9 @@ export class ProfessionalFormComponent implements OnInit {
   professionalFullname: string;
 
   constructor(
-    private drugsService: DrugsService, 
-    private fBuilder: FormBuilder, 
-    private apiPatients: PatientsService, 
+    private drugsService: DrugsService,
+    private fBuilder: FormBuilder,
+    private apiPatients: PatientsService,
     private router: Router,
     private apiPrescriptions: PrescriptionsService,
     private authService: AuthService,
@@ -44,15 +44,15 @@ export class ProfessionalFormComponent implements OnInit {
 
     this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
       res => {
-      this.professionalFullname = res[0].last_name+", "+res[0].first_name;
+      this.professionalFullname = res[0].lastName+", "+res[0].firstName;
       },
     )
 
-    // this.professionalForm.get('supply').valueChanges.subscribe(
-    //   term => {
-    //     this.getDrugs(term);
-    //   }
-    // )
+    this.professionalForm.get('supply').valueChanges.subscribe(
+      term => {
+        this.getDrugs(term);
+      }
+    )
 
     this.professionalForm.get('patient_dni').valueChanges.subscribe(
       term => {
@@ -78,19 +78,20 @@ export class ProfessionalFormComponent implements OnInit {
       ]],
       date: [this.today, [
         Validators.required
-      ]]
-      // supply: ['', [
-      //   Validators.required
-      // ]],
+      ]],
+      supply: ['', [
+        Validators.required
+      ]],
     });
   }
 
   getDrugs(term: string):void{
-    if(term.length > 2){
+    if(term.length > 3){
 
       this.drugsService.getDrugByTerm(term).subscribe(
         res => {
-          this.drugs = res.items;
+          console.log(res, 'from get drugs');
+          this.drugs = res;
         },
       );
     }
@@ -108,8 +109,8 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   completePatientInputs(patient: Patients):void{
-    this.professionalForm.get('patient_dni').setValue(patient.dni); 
-    this.professionalForm.get('patient_last_name').setValue(patient.lastName); 
+    this.professionalForm.get('patient_dni').setValue(patient.dni);
+    this.professionalForm.get('patient_last_name').setValue(patient.lastName);
     this.professionalForm.get('patient_first_name').setValue(patient.firstName);
     this.professionalForm.get('patient_sex').setValue(patient.sex);
   }
