@@ -81,7 +81,6 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   getSupplies(term: string):void{
-    console.log(term, 'consulting');
     if(term.length > 3){
 
       this.suppliesService.getSupplyByTerm(term).subscribe(
@@ -117,7 +116,6 @@ export class ProfessionalFormComponent implements OnInit {
       newPrescription.patient_id = this.patient._id;
       newPrescription.date = this.professionalForm.get('date').value;
       newPrescription.supplies = this.professionalForm.get('supplies').value;
-console.log(newPrescription.supplies);
 this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
   this.router.navigate(['/profesionales/recetas/nueva']);
 }, (err: any) => {
@@ -137,7 +135,6 @@ this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
           newPrescription.patient_id = res["newPatient"]._id;
           newPrescription.date = this.professionalForm.get('date').value;
           newPrescription.supplies = this.professionalForm.get('supplies').value;
-          console.log(newPrescription.supplies, 'in front');
           this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
             this.router.navigate(['/profesionales/recetas/nueva']);
           }, (err: any) => {
@@ -189,7 +186,6 @@ this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
 
 
   displayFn(supply: Supplies): string {
-    console.log('into dfn', supply);
     return supply && supply.name ? supply.name : '';
   }
 
@@ -204,7 +200,6 @@ this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
   }
 
   deleteSupply(i) {
-    // this.seletedSupplies.
     this.suppliesForm.removeAt(i);
   }
 }
