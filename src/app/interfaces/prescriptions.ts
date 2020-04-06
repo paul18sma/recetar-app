@@ -8,4 +8,5 @@ export class Prescriptions {
   dispensedBy: string;
   status: string;
   date: Date;
+  supplies: string[];
 }

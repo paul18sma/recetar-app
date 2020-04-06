@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
 import { SuppliesService } from '@services/supplies.service'
@@ -23,11 +23,12 @@ export class ProfessionalFormComponent implements OnInit {
 
   filteredOptions: Observable<string[]>;
   options: string[] = [];
-  supplies: Supplies;
+  storedSupplies: Supplies[] = [];
   patient: Patients;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new FormControl((new Date()).toISOString());
   professionalFullname: string;
+  readonly maxQSupplies: number = 2;
 
   constructor(
     private suppliesService: SuppliesService,
@@ -44,15 +45,11 @@ export class ProfessionalFormComponent implements OnInit {
 
     this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
       res => {
-      this.professionalFullname = res[0].lastName+", "+res[0].firstName;
+      this.professionalFullname = res[0].last_name+", "+res[0].first_name;
       },
     )
 
-    this.professionalForm.get('supply').valueChanges.subscribe(
-      term => {
-        this.getSupplies(term);
-      }
-    )
+    this.addSupply(); //init atleast one supply
 
     this.professionalForm.get('patient_dni').valueChanges.subscribe(
       term => {
@@ -79,19 +76,17 @@ export class ProfessionalFormComponent implements OnInit {
       date: [this.today, [
         Validators.required
       ]],
-      supply: ['', [
-        Validators.required
-      ]],
+      supplies: this.fBuilder.array([])
     });
   }
 
   getSupplies(term: string):void{
+    console.log(term, 'consulting');
     if(term.length > 3){
 
       this.suppliesService.getSupplyByTerm(term).subscribe(
         res => {
-          console.log(res, 'from get supplies');
-          this.supplies = res;
+          this.storedSupplies = res as Supplies[];
         },
       );
     }
@@ -101,7 +96,6 @@ export class ProfessionalFormComponent implements OnInit {
     if(term.length > 2){
       this.apiPatients.getPatientByDni(term).subscribe(
         res => {
-          console.log(res);
           this.patient = res;
         },
       );
@@ -116,31 +110,34 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   onSubmitProfessionalForm() {
-
     if(this.patient){
       let newPrescription: Prescriptions = new Prescriptions();
       newPrescription.user_id = this.authService.getLoggedUserId();
       newPrescription.professionalFullname = this.professionalFullname;
       newPrescription.patient_id = this.patient._id;
       newPrescription.date = this.professionalForm.get('date').value;
-      this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
-        this.router.navigate(['/profesionales/recetas/nueva']);
-      }, (err: any) => {
-        console.log(err);
-      });;
-    }else{
-      let newPatient: Patients = new Patients();
-      newPatient.dni = this.professionalForm.get('patient_dni').value;
-      newPatient.firstName = this.professionalForm.get('patient_first_name').value;
-      newPatient.lastName = this.professionalForm.get('patient_last_name').value;
-      newPatient.sex = this.professionalForm.get('patient_sex').value;
-      this.apiPatients.newPatient(newPatient)
-        .subscribe((res: any) => {
-          let newPrescription: Prescriptions = new Prescriptions();
-          newPrescription.user_id = this.authService.getLoggedUserId();
+      newPrescription.supplies = this.professionalForm.get('supplies').value;
+console.log(newPrescription.supplies);
+this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
+  this.router.navigate(['/profesionales/recetas/nueva']);
+}, (err: any) => {
+  console.log(err);
+});
+}else{
+  let newPatient: Patients = new Patients();
+  newPatient.dni = this.professionalForm.get('patient_dni').value;
+  newPatient.firstName = this.professionalForm.get('patient_first_name').value;
+  newPatient.lastName = this.professionalForm.get('patient_last_name').value;
+  newPatient.sex = this.professionalForm.get('patient_sex').value;
+  this.apiPatients.newPatient(newPatient)
+  .subscribe((res: any) => {
+    let newPrescription: Prescriptions = new Prescriptions();
+    newPrescription.user_id = this.authService.getLoggedUserId();
           newPrescription.professionalFullname = this.professionalFullname;
           newPrescription.patient_id = res["newPatient"]._id;
           newPrescription.date = this.professionalForm.get('date').value;
+          newPrescription.supplies = this.professionalForm.get('supplies').value;
+          console.log(newPrescription.supplies, 'in front');
           this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
             this.router.navigate(['/profesionales/recetas/nueva']);
           }, (err: any) => {
@@ -149,9 +146,10 @@ export class ProfessionalFormComponent implements OnInit {
           this.router.navigate(['/profesionales/recetas/nueva']);
         }, (err: any) => {
           console.log(err);
-        });;
+        });
     }
   }
+
 
   get patient_dni(): AbstractControl{
     return this.professionalForm.get('patient_dni');
@@ -185,8 +183,28 @@ export class ProfessionalFormComponent implements OnInit {
     return this.professionalForm.get('professional_last_name');
   }
 
-  get supply(): AbstractControl{
-    return this.professionalForm.get('supply');
+  get suppliesForm(): FormArray{
+    return this.professionalForm.get('supplies') as FormArray;
   }
 
+
+  displayFn(supply: Supplies): string {
+    console.log('into dfn', supply);
+    return supply && supply.name ? supply.name : '';
+  }
+
+
+  addSupply() {
+    if(this.suppliesForm.length < 2){
+      const supplies = this.fBuilder.group({
+        supply: ['', [Validators.required]]
+      });
+      this.suppliesForm.push(supplies);
+    }
+  }
+
+  deleteSupply(i) {
+    // this.seletedSupplies.
+    this.suppliesForm.removeAt(i);
+  }
 }
