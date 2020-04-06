@@ -20,12 +20,13 @@ import { MatNativeDateModule } from '@angular/material/core';
 import { MatListModule } from '@angular/material/list';
 import { MatTableModule } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { MatChipsModule } from '@angular/material/chips';
 
 
 @NgModule({
   declarations: [
-    routingComponent
+    routingComponent,
   ],
   imports: [
     BrowserModule,
@@ -46,7 +47,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatListModule,
     MatTableModule,
     MatIconModule,
-    MatTooltipModule
+    MatTooltipModule,
+    MatChipsModule
   ]
 })
 export class PharmacistsModule { }

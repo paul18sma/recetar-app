@@ -26,7 +26,7 @@ import { HeaderComponent } from '@shared/layouts/header/header.component';
   declarations: [
     AppComponent,
     routingComponents,
-    HeaderComponent
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,

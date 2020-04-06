@@ -3,7 +3,6 @@ import { Routes, RouterModule } from '@angular/router';
 import { AuthGuard } from '@auth/guards/auth.guard';
 import { NotFoundComponent } from './shared/not-found/not-found.component';
 
-
 const routes: Routes = [
   {
     path: '',

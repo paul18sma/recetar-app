@@ -4,16 +4,26 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { Prescriptions } from "../interfaces/prescriptions";
+import { AuthService } from '@auth/services/auth.service';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrescriptionsService {
   
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private authService: AuthService,) { }
 
   getPrescriptions(): Observable<any>{
     return this.http.get(`${environment.API_END_POINT}/prescriptions`);
+  }
+
+  dispense(prescription: Prescriptions): Observable<Prescriptions> {
+    prescription.status = 'Dispensada'
+    prescription.dispensedBy = this.authService.getLoggedUserId();
+    return this.http.put<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${prescription._id}`, prescription).pipe(
+      tap(_ => console.log(`fetched prescription date=${prescription._id}`)),
+      catchError(this.handleError<Prescriptions>(`getPrescriptionByDate date=${prescription._id}`))
+    );
   }
 
   getPrescriptionByDate(date: Date): Observable<Prescriptions> {
