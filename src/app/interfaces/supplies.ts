@@ -1,4 +1,4 @@
 export default interface Supplies {
-  id: string;
+  _id: string;
   name: string;
 }
