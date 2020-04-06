@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Router } from '@angular/router';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
 import { PatientsService } from '@root/app/services/patients.service';
@@ -10,6 +9,7 @@ import { Prescriptions } from '@interfaces/prescriptions';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { AuthService } from '@auth/services/auth.service';
 import { ProfessionalsService } from '@services/professionals.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-professional-form',
@@ -34,10 +34,10 @@ export class ProfessionalFormComponent implements OnInit {
     private suppliesService: SuppliesService,
     private fBuilder: FormBuilder,
     private apiPatients: PatientsService,
-    private router: Router,
     private apiPrescriptions: PrescriptionsService,
     private authService: AuthService,
-    private apiProfessionals: ProfessionalsService
+    private apiProfessionals: ProfessionalsService,
+    private _snackBar: MatSnackBar
   ){}
 
   ngOnInit(): void {
@@ -48,8 +48,7 @@ export class ProfessionalFormComponent implements OnInit {
         this.professionalFullname = res[0].last_name+", "+res[0].first_name;
       },
     )
-
-    this.addSupply(); //init atleast one supply
+    
 
     this.professionalForm.get('patient_dni').valueChanges.subscribe(
       term => {
@@ -59,6 +58,7 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   initProfessionalForm(){
+    this.today = new Date((new Date()));
     this.professionalForm = this.fBuilder.group({
       patient_dni: ['', [
         Validators.required,
@@ -78,6 +78,7 @@ export class ProfessionalFormComponent implements OnInit {
       ]],
       supplies: this.fBuilder.array([])
     });
+    this.addSupply(); //init atleast one supply
   }
 
   getSupplies(term: string):void{
@@ -92,23 +93,22 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   getPatientByDni(term: string):void{
-    if(term.length > 2){
-      this.apiPatients.getPatientByDni(term).subscribe(
-        res => {
-          this.patient = res;
-        },
-      );
-    }
+    this.apiPatients.getPatientByDni(term).subscribe(
+      res => {
+        this.patient = res;
+      },
+    );
   }
 
   completePatientInputs(patient: Patients):void{
-    this.professionalForm.get('patient_dni').setValue(patient.dni);
+    this.professionalForm.get('patient_dni').setValue(patient.dni)
     this.professionalForm.get('patient_last_name').setValue(patient.lastName);
     this.professionalForm.get('patient_first_name').setValue(patient.firstName);
     this.professionalForm.get('patient_sex').setValue(patient.sex);
   }
 
-  onSubmitProfessionalForm() {
+  async onSubmitProfessionalForm() {
+    console.log("Paciente: ", this.patient);
     if(this.patient){
       let newPrescription: Prescriptions = new Prescriptions();
       newPrescription.user_id = this.authService.getLoggedUserId();
@@ -116,34 +116,42 @@ export class ProfessionalFormComponent implements OnInit {
       newPrescription.patientId = this.patient._id;
       newPrescription.date = this.professionalForm.get('date').value;
       newPrescription.supplies = this.professionalForm.get('supplies').value;
-this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
-  this.router.navigate(['/profesionales/recetas/nueva']);
-}, (err: any) => {
-  console.log(err);
-});
-}else{
-  let newPatient: Patients = new Patients();
-  newPatient.dni = this.professionalForm.get('patient_dni').value;
-  newPatient.firstName = this.professionalForm.get('patient_first_name').value;
-  newPatient.lastName = this.professionalForm.get('patient_last_name').value;
-  newPatient.sex = this.professionalForm.get('patient_sex').value;
-  this.apiPatients.newPatient(newPatient)
-  .subscribe((res: any) => {
-    let newPrescription: Prescriptions = new Prescriptions();
-    newPrescription.user_id = this.authService.getLoggedUserId();
-          newPrescription.professionalFullname = this.professionalFullname;
-          newPrescription.patientId = res["newPatient"]._id;
-          newPrescription.date = this.professionalForm.get('date').value;
-          newPrescription.supplies = this.professionalForm.get('supplies').value;
-          this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
-            this.router.navigate(['/profesionales/recetas/nueva']);
-          }, (err: any) => {
-            console.log(err);
-          });;
-          this.router.navigate(['/profesionales/recetas/nueva']);
+      this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
+        this.initProfessionalForm();
+        this.professionalForm.markAsPristine();
+        this.professionalForm.markAsUntouched();
+        this.professionalForm.updateValueAndValidity();
+        this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
+      }, (err: any) => {
+        console.log(err);
+      });
+    }else{
+      let newPatient: Patients = new Patients();
+      newPatient.dni = this.professionalForm.get('patient_dni').value;
+      newPatient.firstName = this.professionalForm.get('patient_first_name').value;
+      newPatient.lastName = this.professionalForm.get('patient_last_name').value;
+      newPatient.sex = this.professionalForm.get('patient_sex').value;
+      this.apiPatients.newPatient(newPatient)
+      .subscribe((res: any) => {
+        let newPrescription: Prescriptions = new Prescriptions();
+        newPrescription.user_id = this.authService.getLoggedUserId();
+        newPrescription.professionalFullname = this.professionalFullname;
+        newPrescription.patientId = res["newPatient"]._id;
+        newPrescription.date = this.professionalForm.get('date').value;
+        newPrescription.supplies = this.professionalForm.get('supplies').value;
+        this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
+          this.initProfessionalForm();
+          this.professionalForm.markAsPristine();
+          this.professionalForm.markAsUntouched();
+          this.professionalForm.updateValueAndValidity();
+          this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
         }, (err: any) => {
           console.log(err);
-        });
+        });;
+        }, (err: any) => {
+          console.log(err);
+        }
+      );
     }
   }
 
@@ -189,7 +197,6 @@ this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
     return supply && supply.name ? supply.name : '';
   }
 
-
   addSupply() {
     if(this.suppliesForm.length < 2){
       const supplies = this.fBuilder.group({
@@ -201,5 +208,11 @@ this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
 
   deleteSupply(i) {
     this.suppliesForm.removeAt(i);
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 }

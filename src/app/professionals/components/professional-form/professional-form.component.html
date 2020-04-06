@@ -26,11 +26,11 @@
             formControlName="patient_dni"
             [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient">
+            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient.dni">
               {{patient.lastName}} {{patient.firstName}} DNI {{patient.dni}}
             </mat-option>
           </mat-autocomplete>
-          <mat-hint align="end">{{patient_dni.value.length}} / 8</mat-hint>
+
           <mat-error *ngIf="patient_dni.errors?.required && patient_dni.touched">
             Debe ingresar el dni del paciente
           </mat-error>
