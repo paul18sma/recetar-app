@@ -20,16 +20,16 @@ describe('AppComponent', () => {
     expect(app).toBeTruthy();
   });
 
-  it(`should have as title 'preinscriptions-control'`, () => {
+  it(`should have as title 'RecetAR'`, () => {
     const fixture = TestBed.createComponent(AppComponent);
     const app = fixture.componentInstance;
-    expect(app.title).toEqual('preinscriptions-control');
+    expect(app.title).toEqual('RecetAR');
   });
 
   it('should render title', () => {
     const fixture = TestBed.createComponent(AppComponent);
     fixture.detectChanges();
     const compiled = fixture.nativeElement;
-    expect(compiled.querySelector('.content span').textContent).toContain('preinscriptions-control app is running!');
+    expect(compiled.querySelector('.content span').textContent).toContain('RecetAR app is running!');
   });
 });
