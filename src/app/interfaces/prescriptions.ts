@@ -5,5 +5,7 @@ export class Prescriptions {
   user_id: string;
   professionalFullname: string;
   patient_id: string;
+  dispensedBy: string;
+  status: string;
   date: Date;
 }

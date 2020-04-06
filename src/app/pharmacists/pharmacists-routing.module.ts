@@ -6,8 +6,6 @@ import { PharmacistsComponent } from '@pharmacists/pharmacists.component';
 import { PharmacistsFormComponent } from '@pharmacists/components/pharmacists-form/pharmacists-form.component';
 import { RolePharmacistGuard } from '@auth/guards/role-pharmacist.guard';
 
-
-
 const routes: Routes = [
   {
     path: 'farmacias',
