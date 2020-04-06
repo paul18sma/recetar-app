@@ -27,17 +27,17 @@ export class PrescriptionsService {
     );
   }
 
-  getByPatientAndDate(patient_id: string, date: Date): Observable<Prescriptions> {
-    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-and-date/?patient_id=${patient_id}?date=${date}`).pipe(
+  getByPatientAndDate(patientId: string, date: Date): Observable<Prescriptions> {
+    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-and-date/?patientId=${patientId}?date=${date}`).pipe(
       tap(_ => console.log(`fetched prescription with date and patient`)),
       catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientAndDate`))
     );
   }
 
-  getByPatientId(id: string): Observable<Prescriptions> {
-    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${id}`).pipe(
-      tap(_ => console.log(`fetched prescription patient id=${id}`)),
-      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientId id=${id}`))
+  getByPatientId(patientId: string): Observable<Prescriptions> {
+    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${patientId}`).pipe(
+      tap(_ => console.log(`fetched prescription patient id=${patientId}`)),
+      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientId id=${patientId}`))
     );
   }
 
