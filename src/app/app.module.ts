@@ -19,6 +19,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 // component
 import { HeaderComponent } from '@shared/layouts/header/header.component';
+import { MAT_DATE_LOCALE } from '@angular/material/core';
 
 
 
@@ -42,7 +43,8 @@ import { HeaderComponent } from '@shared/layouts/header/header.component';
     MatButtonModule
   ],
   providers: [
-    PatientsService
+    PatientsService,
+    {provide: MAT_DATE_LOCALE, useValue: 'es-AR'}
   ],
   bootstrap: [AppComponent]
 })

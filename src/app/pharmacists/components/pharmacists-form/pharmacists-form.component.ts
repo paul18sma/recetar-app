@@ -51,7 +51,11 @@ export class PharmacistsFormComponent implements OnInit {
 
     this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
       term => {
-        this.getPatientByDni(term);
+        if(this.patient)
+          console.log(this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe());
+        else{
+          this.openSnackBar("Seleccione un paciente.", "Cerrar");
+        }
       }
     )
   }
