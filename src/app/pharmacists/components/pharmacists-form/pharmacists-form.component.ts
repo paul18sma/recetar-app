@@ -20,7 +20,7 @@ export class PharmacistsFormComponent implements OnInit {
   prescriptionForm: FormGroup;
   today;
 
-  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'buttons'];
+  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'print', 'dispense'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
   professional: Professionals;

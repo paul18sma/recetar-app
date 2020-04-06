@@ -77,12 +77,17 @@
         </ng-container>
 
         <!-- Buttons Column -->
-        <ng-container matColumnDef="buttons">
-          <th mat-header-cell *matHeaderCellDef> Acción </th>
+        <ng-container matColumnDef="print">
+          <th mat-header-cell *matHeaderCellDef></th>
           <td mat-cell *matCellDef="let prescription">
-
             <button mat-button color="info" matTooltip="Próximamente"><mat-icon >print</mat-icon></button>
-            <div *ngIf="prescription.status == 'Pendiente'">
+          </td>
+        </ng-container>
+        
+        <ng-container matColumnDef="dispense">
+          <th mat-header-cell *matHeaderCellDef></th>
+          <td mat-cell *matCellDef="let prescription">
+            <div *ngIf="prescription.status === 'Pendiente'">
               <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar"><mat-icon >done_outline</mat-icon></button>
             </div>
           </td>
