@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Router } from '@angular/router';
-import { DrugsService } from '@root/app/services/drugs.service'
-import Drugs from '@root/app/interfaces/drugs';
+import { SuppliesService } from '@services/supplies.service'
+import Supplies from '@interfaces/supplies';
 import { PatientsService } from '@root/app/services/patients.service';
 import { Patients } from '@root/app/interfaces/patients';
 import { Prescriptions } from '@interfaces/prescriptions';
@@ -23,14 +23,14 @@ export class ProfessionalFormComponent implements OnInit {
 
   filteredOptions: Observable<string[]>;
   options: string[] = [];
-  drugs: Drugs[] = [];
+  supplies: Supplies;
   patient: Patients;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new FormControl((new Date()).toISOString());
   professionalFullname: string;
 
   constructor(
-    private drugsService: DrugsService,
+    private suppliesService: SuppliesService,
     private fBuilder: FormBuilder,
     private apiPatients: PatientsService,
     private router: Router,
@@ -50,7 +50,7 @@ export class ProfessionalFormComponent implements OnInit {
 
     this.professionalForm.get('supply').valueChanges.subscribe(
       term => {
-        this.getDrugs(term);
+        this.getSupplies(term);
       }
     )
 
@@ -85,13 +85,13 @@ export class ProfessionalFormComponent implements OnInit {
     });
   }
 
-  getDrugs(term: string):void{
+  getSupplies(term: string):void{
     if(term.length > 3){
 
-      this.drugsService.getDrugByTerm(term).subscribe(
+      this.suppliesService.getSupplyByTerm(term).subscribe(
         res => {
-          console.log(res, 'from get drugs');
-          this.drugs = res;
+          console.log(res, 'from get supplies');
+          this.supplies = res;
         },
       );
     }
