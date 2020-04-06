@@ -40,7 +40,7 @@ export class PharmacistsFormComponent implements OnInit {
   ){}
 
   ngOnInit(): void{
-    this.initPrescriptionForm();
+    this.initFilterPrescriptionForm();
     this.today = new Date();
 
     this.prescriptionForm.get('patient_dni').valueChanges.subscribe(
@@ -48,15 +48,21 @@ export class PharmacistsFormComponent implements OnInit {
         this.getPatientByDni(term);
       }
     )
+
+    this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
+      term => {
+        this.getPatientByDni(term);
+      }
+    )
   }
 
-  initPrescriptionForm(){
+  initFilterPrescriptionForm(){
     this.prescriptionForm = this.fBuilder.group({
       patient_dni: ['', [
         Validators.required,
         Validators.minLength(8)
       ]],
-      date: ['', [
+      dateFilter: ['', [
       ]],
     });
   }
@@ -105,7 +111,7 @@ export class PharmacistsFormComponent implements OnInit {
     return this.prescriptionForm.get('patient_dni');
   }
 
-  get date(): AbstractControl{
-    return this.prescriptionForm.get('date');
+  get dateFilter(): AbstractControl{
+    return this.prescriptionForm.get('dateFilter');
   }
 }

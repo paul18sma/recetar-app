@@ -44,7 +44,7 @@ export class ProfessionalFormComponent implements OnInit {
 
     this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
       res => {
-      this.professionalFullname = res[0].lastName+", "+res[0].firstName;
+        this.professionalFullname = res[0].last_name+", "+res[0].first_name;
       },
     )
 
