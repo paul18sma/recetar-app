@@ -26,6 +26,7 @@ export class PharmacistsFormComponent implements OnInit {
   professional: Professionals;
   patient: Patients;
   prescriptions: Prescriptions;
+  prescription: Prescriptions;
   insurances: Insurances;
   filteredOptions: Observable<string[]>;
 
@@ -66,6 +67,14 @@ export class PharmacistsFormComponent implements OnInit {
         },
       );
     }
+  }
+
+  dispense(prescription: Prescriptions){
+  this.apiPrescriptions.dispense(prescription).subscribe(
+      res => {
+        this.prescription = res;
+      },
+    );
   }
 
   searchPrescriptions(patient: Patients):void{

@@ -26,7 +26,7 @@ import { MatChipsModule } from '@angular/material/chips';
 
 @NgModule({
   declarations: [
-    routingComponent
+    routingComponent,
   ],
   imports: [
     BrowserModule,

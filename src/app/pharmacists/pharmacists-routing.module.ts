@@ -5,8 +5,6 @@ import { AuthGuard } from '@auth/guards/auth.guard';
 import { PharmacistsComponent } from '@pharmacists/pharmacists.component';
 import { PharmacistsFormComponent } from '@pharmacists/components/pharmacists-form/pharmacists-form.component';
 
-
-
 const routes: Routes = [
   {
     path: 'farmacias',
