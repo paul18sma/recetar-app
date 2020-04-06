@@ -8,6 +8,7 @@ import { PrescriptionsService } from '@services/prescriptions.service';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { InsurancesService } from '@services/insurance.service';
 import { Insurances } from '@interfaces/insurances';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-pharmacists-form',
@@ -34,7 +35,8 @@ export class PharmacistsFormComponent implements OnInit {
     private fBuilder: FormBuilder, 
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
-    private apiInsurances: InsurancesService
+    private apiInsurances: InsurancesService,
+    private _snackBar: MatSnackBar
   ){}
 
   ngOnInit(): void{
@@ -75,6 +77,13 @@ export class PharmacistsFormComponent implements OnInit {
         this.prescription = res;
       },
     );
+    this.openSnackBar("Le prescripción se dispensó conrrectamente.", "Cerrar")
+  }
+
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 2000,
+    });
   }
 
   searchPrescriptions(patient: Patients):void{
