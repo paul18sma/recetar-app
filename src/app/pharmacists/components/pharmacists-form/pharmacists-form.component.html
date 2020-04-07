@@ -48,57 +48,78 @@
         <mat-icon>gesture</mat-icon>
         Prescripciones
       </h1>
+      <div class="prescriptions-container mat-elevation-z8">
+        <mat-table #table [dataSource]="dataSource">
 
-      <table mat-table *ngIf="prescriptions" [dataSource]="prescriptions" class="mat-elevation-z8">
-      
-        <!-- Position Column -->
-        <ng-container matColumnDef="user">
-          <th mat-header-cell *matHeaderCellDef> Profesional </th>
-          <td mat-cell *matCellDef="let prescription"> {{prescription.professionalFullname}} {{prescription.patientId.firstName}} </td>
-        </ng-container>
-      
-        <!-- Name Column -->
-        <ng-container matColumnDef="date">
-          <th mat-header-cell *matHeaderCellDef> Fecha </th>
-          <td mat-cell *matCellDef="let prescription"> {{prescription.date | date :'dd/MM/y' }} </td>
-        </ng-container>
-      
-        <!-- Weight Column -->
-        <ng-container matColumnDef="status">
-          <th mat-header-cell *matHeaderCellDef> Estado </th>
-          <td mat-cell *matCellDef="let prescription"> {{prescription.status}} </td>
-        </ng-container>
-      
-        <!-- Symbol Column -->
-        <ng-container matColumnDef="supplies">
-          <th mat-header-cell *matHeaderCellDef> Insumos </th>
-          <td mat-cell *matCellDef="let prescription"> 
-            <mat-chip-list>
-              <mat-chip>{{prescription.supplies.length}}</mat-chip> 
-            </mat-chip-list>
-          </td>
-        </ng-container>
+          <!-- Professional -->
+          <ng-container matColumnDef="user">
+            <mat-header-cell *matHeaderCellDef> Profesional </mat-header-cell>
+            <mat-cell *matCellDef="let prescription"> {{prescription.professionalFullname}} </mat-cell>
+          </ng-container>
 
-        <!-- Buttons Column -->
-        <ng-container matColumnDef="print">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let prescription">
-            <button mat-button color="info" matTooltip="Imprimir" matTooltipPosition="above" printTitle="Imprimir receta" printSectionId="{{prescription._id}}" ngxPrint><mat-icon >print</mat-icon></button>
-          </td>
-        </ng-container>
-        
-        <ng-container matColumnDef="dispense">
-          <th mat-header-cell *matHeaderCellDef></th>
-          <td mat-cell *matCellDef="let prescription">
-            <div *ngIf="prescription.status === 'Pendiente'">
-              <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar" matTooltipPosition="above"><mat-icon >done_outline</mat-icon></button>
-            </div>
-          </td>
-        </ng-container>
-      
-        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-      </table>
+          <!-- Date -->
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let prescription"> {{prescription.date | date :'dd/MM/y' }} </mat-cell>
+          </ng-container>
+
+          <!-- Status -->
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let prescription"> {{prescription.status}} </mat-cell>
+          </ng-container>
+
+          <!-- Supply count-->
+          <ng-container matColumnDef="supplies">
+            <mat-header-cell *matHeaderCellDef> Insumos </mat-header-cell>
+            <mat-cell *matCellDef="let prescription">
+              <mat-chip-list>
+                <mat-chip>{{prescription.supplies.length}}</mat-chip>
+              </mat-chip-list>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Print -->
+          <ng-container matColumnDef="print">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let prescription">
+              <button mat-button color="info" matTooltip="Próximamente" matTooltipPosition="above"><mat-icon >print</mat-icon></button>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Dispense -->
+          <ng-container matColumnDef="dispense">
+            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+            <mat-cell *matCellDef="let prescription">
+              <div *ngIf="prescription.status === 'Pendiente'">
+                <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar" matTooltipPosition="above"><mat-icon >done_outline</mat-icon></button>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Expanded Content Column - Supplies details-->
+          <ng-container matColumnDef="expandedDetail">
+            <mat-cell *matCellDef="let detail">
+              <div fxLayout="column" fxLayoutAlign="space-around start">
+                <div *ngFor="let supp of detail.element.supplies">
+                  {{ supp.name }}
+                </div>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"
+                  matRipple
+                  class="element-row"
+                  [class.expanded]="expandedElement == row"
+                  (click)="expandedElement = row"></mat-row>
+          <mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
+                  [@detailExpand]="row.element == expandedElement ? 'expanded' : 'collapsed'"
+                  style="overflow: hidden">
+          </mat-row>
+        </mat-table>
+      </div>
     </div>
   </mat-card>
 
@@ -109,19 +130,19 @@
         Obras sociales
       </h1>
       <table mat-table *ngIf="insurances" [dataSource]="insurances" class="mat-elevation-z8">
-      
+
         <!-- Position Column -->
         <ng-container matColumnDef="codigoPuco">
           <th mat-header-cell *matHeaderCellDef> Código </th>
           <td mat-cell *matCellDef="let insurnace"> {{insurnace.codigoPuco}} </td>
         </ng-container>
-      
+
         <!-- Weight Column -->
         <ng-container matColumnDef="financiador">
           <th mat-header-cell *matHeaderCellDef> Financiador </th>
           <td mat-cell *matCellDef="let insurnace"> {{insurnace.financiador}} </td>
         </ng-container>
-      
+
         <tr mat-header-row *matHeaderRowDef="displayedInsColumns"></tr>
         <tr mat-row *matRowDef="let row; columns: displayedInsColumns;"></tr>
       </table>
