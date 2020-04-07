@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Professionals } from '@root/app/interfaces/professionals';
-import Patient from '@root/app/interfaces/patients';
+import { Patient } from '@interfaces/patients';
 import { PatientsService } from '@services/patients.service';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { Prescriptions } from '@interfaces/prescriptions';

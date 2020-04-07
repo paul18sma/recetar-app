@@ -3,7 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import { Patients } from "../interfaces/patients";
+import { Patient } from "../interfaces/patients";
 
 @Injectable({
   providedIn: 'root'
@@ -16,24 +16,24 @@ export class PatientsService {
     return this.http.get(`${environment.API_END_POINT}/patients`);
   }
 
-  getPatientByDni(dni: string): Observable<Patients> {
-    return this.http.get<Patients>(`${environment.API_END_POINT}/patients/get-by-dni/${dni}`).pipe(
+  getPatientByDni(dni: string): Observable<Patient> {
+    return this.http.get<Patient>(`${environment.API_END_POINT}/patients/get-by-dni/${dni}`).pipe(
       tap(_ => console.log(`fetched patient dni=${dni}`)),
-      catchError(this.handleError<Patients>(`getPatientByDni dni=${dni}`))
+      catchError(this.handleError<Patient>(`getPatientByDni dni=${dni}`))
     );
   }
 
-  getPatientById(id: string): Observable<Patients> {
-    return this.http.get<Patients>(`${environment.API_END_POINT}/patients/${id}`).pipe(
+  getPatientById(id: string): Observable<Patient> {
+    return this.http.get<Patient>(`${environment.API_END_POINT}/patients/${id}`).pipe(
       tap(_ => console.log(`fetched patient id=${id}`)),
-      catchError(this.handleError<Patients>(`getPatientById id=${id}`))
+      catchError(this.handleError<Patient>(`getPatientById id=${id}`))
     );
   }
 
-  newPatient(patient: Patients): Observable<Patients> {
-    return this.http.post<Patients>(`${environment.API_END_POINT}/patients`, patient).pipe(
-      tap((p: Patients) => console.log(`added patient w/ id=${p._id}`)),
-      catchError(this.handleError<Patients>('newPatient'))
+  newPatient(patient: Patient): Observable<Patient> {
+    return this.http.post<Patient>(`${environment.API_END_POINT}/patients`, patient).pipe(
+      tap((p: Patient) => console.log(`added patient w/ id=${p._id}`)),
+      catchError(this.handleError<Patient>('newPatient'))
     );
   }
 

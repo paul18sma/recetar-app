@@ -1,4 +1,4 @@
-export default interface Patients {
+export class Patient {
   _id: string;
   dni: string;
   firstName: string;

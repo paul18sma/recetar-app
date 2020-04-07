@@ -4,12 +4,12 @@ import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
 import { PatientsService } from '@root/app/services/patients.service';
-import Patient from '@root/app/interfaces/patients';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { AuthService } from '@auth/services/auth.service';
 import { ProfessionalsService } from '@services/professionals.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { Patient } from '@interfaces/patients';
 
 @Component({
   selector: 'app-professional-form',
@@ -109,7 +109,7 @@ export class ProfessionalFormComponent implements OnInit {
 
   // Create patient if doesn't exist and create prescription
   async onSubmitProfessionalForm() {
-    console.log("Paciente: ", this.patient);
+
     if(this.patient){
       let newPrescription: Prescriptions = new Prescriptions();
       newPrescription.user_id = this.authService.getLoggedUserId();
@@ -127,7 +127,7 @@ export class ProfessionalFormComponent implements OnInit {
         console.log(err);
       });
     }else{
-      let newPatient: Patient;
+      let newPatient: Patient = new Patient();
       newPatient.dni = this.professionalForm.get('patient_dni').value;
       newPatient.firstName = this.professionalForm.get('patient_first_name').value;
       newPatient.lastName = this.professionalForm.get('patient_last_name').value;

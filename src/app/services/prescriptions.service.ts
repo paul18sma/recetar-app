@@ -5,14 +5,14 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { Prescriptions } from "../interfaces/prescriptions";
 import { AuthService } from '@auth/services/auth.service';
-import Patient from '@interfaces/patients';
+import { Patient } from '@interfaces/patients';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PrescriptionsService {
 
-  constructor(private http: HttpClient, private authService: AuthService,) { }
+  constructor(private http: HttpClient, private authService: AuthService) { }
 
   getPrescriptions(): Observable<any>{
     return this.http.get(`${environment.API_END_POINT}/prescriptions`);
