@@ -5,7 +5,7 @@ import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
 import { Prescriptions } from "../interfaces/prescriptions";
 import { AuthService } from '@auth/services/auth.service';
-import { Patients } from '@interfaces/patients';
+import Patient from '@interfaces/patients';
 
 @Injectable({
   providedIn: 'root'
@@ -34,10 +34,10 @@ export class PrescriptionsService {
     );
   }
 
-  getByPatientId(patientId: string): Observable<Prescriptions> {
-    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${patientId}`).pipe(
-      tap(_ => console.log(`fetched prescription patient id=${patientId}`)),
-      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientId id=${patientId}`))
+  getByPatientId(patient_id): Observable<Prescriptions> {
+    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${patient_id}`).pipe(
+      tap(_ => console.log(`fetched prescription patient id=${patient_id}`)),
+      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientId id=${patient_id}`))
     );
   }
 

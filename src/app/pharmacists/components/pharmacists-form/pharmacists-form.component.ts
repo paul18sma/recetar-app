@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Professionals } from '@root/app/interfaces/professionals';
-import { Patients } from '@root/app/interfaces/patients';
+import Patient from '@root/app/interfaces/patients';
 import { PatientsService } from '@services/patients.service';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { Prescriptions } from '@interfaces/prescriptions';
@@ -25,7 +25,7 @@ export class PharmacistsFormComponent implements OnInit {
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
   professional: Professionals;
-  patient: Patients;
+  patient: Patient;
   prescriptions: Prescriptions;
   prescription: Prescriptions;
   insurances: Insurances;
@@ -97,7 +97,7 @@ export class PharmacistsFormComponent implements OnInit {
   }
 
   // Return prescriptions related to a patient
-  searchPrescriptions(patient: Patients):void{
+  searchPrescriptions(patient: Patient):void{
     this.prescriptionForm.get('patient_dni').setValue(patient.dni+" "+patient.lastName+" "+patient.firstName);
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {

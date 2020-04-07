@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
 import { PatientsService } from '@root/app/services/patients.service';
-import { Patients } from '@root/app/interfaces/patients';
+import Patient from '@root/app/interfaces/patients';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { AuthService } from '@auth/services/auth.service';
@@ -24,7 +24,7 @@ export class ProfessionalFormComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   options: string[] = [];
   storedSupplies: Supplies[] = [];
-  patient: Patients;
+  patient: Patient;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
   professionalFullname: string;
@@ -100,20 +100,21 @@ export class ProfessionalFormComponent implements OnInit {
     );
   }
 
-  completePatientInputs(patient: Patients):void{
+  completePatientInputs(patient: Patient):void{
     this.professionalForm.get('patient_dni').setValue(patient.dni)
     this.professionalForm.get('patient_last_name').setValue(patient.lastName);
     this.professionalForm.get('patient_first_name').setValue(patient.firstName);
     this.professionalForm.get('patient_sex').setValue(patient.sex);
   }
 
+  // Create patient if doesn't exist and create prescription
   async onSubmitProfessionalForm() {
     console.log("Paciente: ", this.patient);
     if(this.patient){
       let newPrescription: Prescriptions = new Prescriptions();
       newPrescription.user_id = this.authService.getLoggedUserId();
       newPrescription.professionalFullname = this.professionalFullname;
-      newPrescription.patientId = this.patient._id;
+      newPrescription.patient = this.patient
       newPrescription.date = this.professionalForm.get('date').value;
       newPrescription.supplies = this.professionalForm.get('supplies').value;
       this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
@@ -126,7 +127,7 @@ export class ProfessionalFormComponent implements OnInit {
         console.log(err);
       });
     }else{
-      let newPatient: Patients = new Patients();
+      let newPatient: Patient;
       newPatient.dni = this.professionalForm.get('patient_dni').value;
       newPatient.firstName = this.professionalForm.get('patient_first_name').value;
       newPatient.lastName = this.professionalForm.get('patient_last_name').value;
@@ -136,7 +137,7 @@ export class ProfessionalFormComponent implements OnInit {
         let newPrescription: Prescriptions = new Prescriptions();
         newPrescription.user_id = this.authService.getLoggedUserId();
         newPrescription.professionalFullname = this.professionalFullname;
-        newPrescription.patientId = res["newPatient"]._id;
+        newPrescription.patient = res["newPatient"];
         newPrescription.date = this.professionalForm.get('date').value;
         newPrescription.supplies = this.professionalForm.get('supplies').value;
         this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
