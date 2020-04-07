@@ -10,4 +10,5 @@ export class Prescriptions {
   supplies: Supply[];
   status: string;
   date: Date;
+  detailRow?: boolean;
 }

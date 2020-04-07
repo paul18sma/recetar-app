@@ -9,11 +9,21 @@ import { Prescriptions } from '@interfaces/prescriptions';
 import { InsurancesService } from '@services/insurance.service';
 import { Insurances } from '@interfaces/insurances';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { DataSource } from '@angular/cdk/collections';
+import { of } from 'rxjs';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
   selector: 'app-pharmacists-form',
   templateUrl: './pharmacists-form.component.html',
-  styleUrls: ['./pharmacists-form.component.sass']
+  styleUrls: ['./pharmacists-form.component.sass'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
+      state('expanded', style({ height: '*', visibility: 'visible' })),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class PharmacistsFormComponent implements OnInit {
 
@@ -26,13 +36,18 @@ export class PharmacistsFormComponent implements OnInit {
   options: string[] = [];
   professional: Professionals;
   patient: Patients;
-  prescriptions: Prescriptions;
+  prescriptions: Prescriptions[] = [];
   prescription: Prescriptions;
   insurances: Insurances;
   filteredOptions: Observable<string[]>;
+  dataSource: any = [];
+
+
+  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
+  expandedElement: any;
 
   constructor(
-    private fBuilder: FormBuilder, 
+    private fBuilder: FormBuilder,
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private apiInsurances: InsurancesService,
@@ -100,7 +115,7 @@ export class PharmacistsFormComponent implements OnInit {
     this.prescriptionForm.get('patient_dni').setValue(patient.dni+" "+patient.lastName+" "+patient.firstName);
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
-        this.prescriptions = res;
+        this.dataSource = new ExampleDataSource(res);
       },
     );
     this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(
@@ -117,4 +132,20 @@ export class PharmacistsFormComponent implements OnInit {
   get dateFilter(): AbstractControl{
     return this.prescriptionForm.get('dateFilter');
   }
+}
+
+export class ExampleDataSource extends DataSource<any> {
+
+  constructor(private data: Prescriptions[]){
+    super();
+  }
+
+  connect(): Observable<Element[]> {
+    const rows: any = [];
+    this.data.forEach(element => rows.push(element, { detailRow: true, element }));
+    console.log(rows);
+    return of(rows);
+  }
+
+  disconnect() { }
 }

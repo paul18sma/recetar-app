@@ -11,7 +11,7 @@ import { Patients } from '@interfaces/patients';
   providedIn: 'root'
 })
 export class PrescriptionsService {
-  
+
   constructor(private http: HttpClient, private authService: AuthService,) { }
 
   getPrescriptions(): Observable<any>{
@@ -34,11 +34,12 @@ export class PrescriptionsService {
     );
   }
 
-  getByPatientId(patientId: string): Observable<Prescriptions> {
-    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${patientId}`).pipe(
-      tap(_ => console.log(`fetched prescription patient id=${patientId}`)),
-      catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientId id=${patientId}`))
-    );
+  getByPatientId(patientId: string): Observable<Prescriptions[]> {
+    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${patientId}`);
+    // .pipe(
+
+    //   catchError(this.handleError<Prescriptions>(`getPrescriptionByPatientId id=${patientId}`))
+    // );
   }
 
   newPrescription(prescription: Prescriptions): Observable<Prescriptions> {
@@ -50,10 +51,10 @@ export class PrescriptionsService {
 
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
-  
+
       // TODO: send the error to remote logging infrastructure
       console.error(error); // log to console instead
-  
+
       // Let the app keep running by returning an empty result.
       return of(result as T);
     };
