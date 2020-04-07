@@ -117,6 +117,7 @@ export class PharmacistsFormComponent implements OnInit {
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
         this.dataSource = new ExampleDataSource(res);
+        this.prescriptions = res;
       },
     );
     this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(

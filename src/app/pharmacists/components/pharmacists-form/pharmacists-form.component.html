@@ -83,7 +83,9 @@
           <ng-container matColumnDef="print">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let prescription">
-              <button mat-button color="info" matTooltip="Próximamente" matTooltipPosition="above"><mat-icon >print</mat-icon></button>
+              <button mat-button matTooltip="Imprimir" matTooltipPosition="above">
+                <mat-icon >print</mat-icon>
+              </button>
             </mat-cell>
           </ng-container>
 
@@ -151,14 +153,15 @@
 </div>
 
 <div class="hidden-print">
-  <div *ngFor="let prescription of prescriptions" class="hidden" id="{{prescription._id}}">
-    <h3>Prescripción electrónica RecetAR</h3>
+  <div *ngFor="let prescription of prescriptions">
     <p>
       <strong>Profesional: </strong>{{prescription.professionalFullname}}
     </p>
     <p>
-      <strong>Paciente: </strong>{{patient.lastName}}, {{patient.firstName}} DNI {{patient.dni}}
+      <strong>Paciente: </strong>DNI {{prescription.patient.dni}} {{prescription.patient.lastName}}, {{prescription.patient.firstName}}
     </p>
-    <mat-chip>{{prescription.supplies.length}}</mat-chip> 
+    <div *ngFor="let supply of prescription.supplies">
+      {{supply.name}}
+    </div>
   </div>
 </div>
