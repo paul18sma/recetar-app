@@ -52,7 +52,7 @@ export class PharmacistsFormComponent implements OnInit {
     this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
       term => {
         if(this.patient)
-          console.log(this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe());
+          this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe();
         else{
           this.openSnackBar("Seleccione un paciente.", "Cerrar");
         }
@@ -96,16 +96,17 @@ export class PharmacistsFormComponent implements OnInit {
     });
   }
 
+  // Return prescriptions related to a patient
   searchPrescriptions(patient: Patients):void{
     this.prescriptionForm.get('patient_dni').setValue(patient.dni+" "+patient.lastName+" "+patient.firstName);
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
+        console.log(res);
         this.prescriptions = res;
       },
     );
     this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(
       res => {
-        console.log("")
         this.insurances = res;
       },
     );
