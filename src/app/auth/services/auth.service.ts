@@ -72,6 +72,19 @@ export class AuthService {
     return payLoadJwt.sub;
   }
 
+  isPharmacistsRole(): boolean {
+    return this.getLoggedRole() === 'pharmacist';
+  }
+
+  isProfessionalRole(): boolean {
+    return this.getLoggedRole() === 'professional';
+  }
+
+  getLoggedRole(): string{
+    const payLoadJwt: any = this.getDecodeJwt();
+    return payLoadJwt.rl;
+  }
+
   private getDecodeJwt(){
     if(!!this.getJwtToken()){
       const token = this.getJwtToken();

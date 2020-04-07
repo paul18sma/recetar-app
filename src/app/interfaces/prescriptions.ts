@@ -5,7 +5,7 @@ export class Prescriptions {
   _id: string;
   user_id: string;
   professionalFullname: string;
-  patient_id: string;
+  patientId: string;
   dispensedBy: string;
   supplies: Supply[];
   status: string;

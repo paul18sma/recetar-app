@@ -8,6 +8,8 @@ export class AppComponent implements OnInit {
 
   constructor(){}
 
+  title = 'RecetAR';
+
   ngOnInit(){}
 
 }

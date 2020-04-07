@@ -9,9 +9,9 @@
         <!-- Fecha de receta -->
         <mat-form-field appearance="fill">
           <mat-label>Fecha receta</mat-label>
-          <input matInput [matDatepicker]="picker1" [formControl]="date">
+          <input matInput [matDatepicker]="picker1" [formControl]="date" autocomplete="off">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker #picker1></mat-datepicker>
+          <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
         </mat-form-field>
 
         <!-- Dni del paciente -->
@@ -26,11 +26,11 @@
             formControlName="patient_dni"
             [matAutocomplete]="auto">
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient">
+            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient.dni">
               {{patient.lastName}} {{patient.firstName}} DNI {{patient.dni}}
             </mat-option>
           </mat-autocomplete>
-          <mat-hint align="end">{{patient_dni.value.length}} / 8</mat-hint>
+
           <mat-error *ngIf="patient_dni.errors?.required && patient_dni.touched">
             Debe ingresar el dni del paciente
           </mat-error>
@@ -88,20 +88,32 @@
           </mat-select>
         </mat-form-field>
 
-        <mat-form-field appearance="fill">
-          <mat-label>Medicamento</mat-label>
-          <input type="text"
-                  placeholder="Medicamento"
-                  aria-label="Number"
-                  matInput
-                  formControlName="supply"
-                  [matAutocomplete]="supply">
-          <mat-autocomplete #supply="matAutocomplete">
-            <mat-option *ngFor="let supply of supplies" [value]="supply.name">
-              {{supply.name}}
-            </mat-option>
-          </mat-autocomplete>
-        </mat-form-field>
+        <div formArrayName="supplies" class="nested-supplies">
+          <div *ngFor="let supply of suppliesForm.controls; let i=index" [formGroupName]="i">
+
+            <mat-form-field appearance="fill" >
+              <mat-label>Medicamento</mat-label>
+              <input type="text"
+                placeholder="Medicamento"
+                matInput
+                formControlName="supply"
+                [matAutocomplete]="supplyref"
+                (ngModelChange)="getSupplies(supply.value.supply)">
+                <button type="button" mat-icon-button matSuffix  (click)="deleteSupply(i)">
+                  <mat-icon>{{ 'clear' }}</mat-icon>
+                </button>
+              <mat-autocomplete #supplyref="matAutocomplete" [displayWith]="displayFn">
+                <mat-option *ngFor="let sup of storedSupplies" [value]="sup">
+                  {{sup.name}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+          </div>
+        </div>
+        <button mat-raised-button color="primary" type="button" (click)="addSupply()" *ngIf="suppliesForm.controls.length < maxQSupplies">
+          Agregar medicamento
+        </button>
 
         <button mat-raised-button color="primary" type="submit">
           Crear

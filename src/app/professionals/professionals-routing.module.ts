@@ -4,13 +4,14 @@ import { AuthGuard } from '@auth/guards/auth.guard';
 // components
 import { ProfessionalsComponent } from '@professionals/professionals.component';
 import { ProfessionalFormComponent } from '@professionals/components/professional-form/professional-form.component';
+import { RoleProfessionalGuard } from '@auth/guards/role-professional.guard';
 
 
 const routes: Routes = [
   {
     path: 'profesionales',
     component: ProfessionalsComponent,
-    canActivate: [AuthGuard],
+    canActivate: [AuthGuard, RoleProfessionalGuard],
     children: [
       {
         path: 'recetas/nueva',
