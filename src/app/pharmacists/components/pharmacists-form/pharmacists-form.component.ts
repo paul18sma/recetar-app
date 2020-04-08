@@ -87,6 +87,7 @@ export class PharmacistsFormComponent implements OnInit {
   // Print a prescription as PDF
   public printPrescription(prescription: Prescriptions){
     const pdf: PdfMakeWrapper = new PdfMakeWrapper();
+    console.log(prescription);
     pdf.info({
       title: "Receta digital "+prescription.professionalFullname,
       author: 'RecetAR'
@@ -106,8 +107,11 @@ export class PharmacistsFormComponent implements OnInit {
       ]).end
     );
     pdf.add(pdf.ln(1));
+    console.log("Supplies:", prescription.supplies);
     prescription.supplies.forEach(supply => {
-      pdf.add(new Txt(""+supply.name).end);
+      console.log("Supply:", supply);
+
+      pdf.add(new Txt(""+supply.supply.name+", cantidad: "+supply.quantity).end); // Marca error pero funciona bien
       pdf.add(pdf.ln(1));
     });
     pdf.add(
@@ -150,7 +154,7 @@ export class PharmacistsFormComponent implements OnInit {
         this.prescription = res;
       },
     );
-    this.openSnackBar("Le prescripción se dispensó conrrectamente.", "Cerrar")
+    this.openSnackBar("Le prescripción se dispensó correctamente.", "Cerrar")
   }
 
   openSnackBar(message: string, action: string) {
