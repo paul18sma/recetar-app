@@ -184,7 +184,8 @@ export class ProfessionalFormComponent implements OnInit {
   addSupply() {
     if(this.suppliesForm.length < 2){
       const supplies = this.fBuilder.group({
-        supply: ['', [Validators.required]]
+        supply: ['', [Validators.required]],
+        quantity: ['2', [Validators.required]]
       });
       this.suppliesForm.push(supplies);
     }
