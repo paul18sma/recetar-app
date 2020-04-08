@@ -19,9 +19,9 @@ export class TokenInterceptorService implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 400) {
+      if (error instanceof HttpErrorResponse && error.status === 401) {
         return this.handle401Error(request, next);
-      } 
+      }
       else {
         return this.errorHandler(error);
       }
@@ -29,6 +29,9 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   errorHandler(err: HttpErrorResponse){
+    if(err.status == 422){
+      return throwError(err);
+    }
     return throwError(err.error.message || "Server Error");
   }
 
