@@ -1,10 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormControl, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
 import { PatientsService } from '@root/app/services/patients.service';
-import { Prescriptions } from '@interfaces/prescriptions';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { AuthService } from '@auth/services/auth.service';
 import { ProfessionalsService } from '@services/professionals.service';
@@ -24,10 +23,9 @@ export class ProfessionalFormComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   options: string[] = [];
   storedSupplies: Supplies[] = [];
-  patient: Patient;
+  patientSearch: Patient = new Patient();
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
-  professionalFullname: string;
   readonly maxQSupplies: number = 2;
 
   constructor(
@@ -45,14 +43,13 @@ export class ProfessionalFormComponent implements OnInit {
 
     this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
       res => {
-        this.professionalFullname = res[0].last_name+", "+res[0].first_name;
+        this.professionalFullname.setValue(res[0].last_name+", "+res[0].first_name);
       },
     )
-    
-
-    this.professionalForm.get('patient_dni').valueChanges.subscribe(
-      term => {
-        this.getPatientByDni(term);
+    // on DNI changes
+    this.patientDni.valueChanges.subscribe(
+      dniValue => {
+        this.getPatientByDni(dniValue);
       }
     )
   }
@@ -60,19 +57,23 @@ export class ProfessionalFormComponent implements OnInit {
   initProfessionalForm(){
     this.today = new Date((new Date()));
     this.professionalForm = this.fBuilder.group({
-      patient_dni: ['', [
-        Validators.required,
-        Validators.minLength(8)
-      ]],
-      patient_last_name: ['', [
-        Validators.required
-      ]],
-      patient_first_name: ['', [
-        Validators.required
-      ]],
-      patient_sex: ['', [
-        Validators.required
-      ]],
+      user_id: [this.authService.getLoggedUserId()],
+      professionalFullname: [''],
+      patient: this.fBuilder.group({
+        dni: ['', [
+          Validators.required,
+          Validators.minLength(8)
+        ]],
+        lastName: ['', [
+          Validators.required
+        ]],
+        firstName: ['', [
+          Validators.required
+        ]],
+        sex: ['', [
+          Validators.required
+        ]]
+      }),
       date: [this.today, [
         Validators.required
       ]],
@@ -92,107 +93,77 @@ export class ProfessionalFormComponent implements OnInit {
     }
   }
 
-  getPatientByDni(term: string):void{
-    this.apiPatients.getPatientByDni(term).subscribe(
-      res => {
-        this.patient = res;
-      },
-    );
-  }
-
-  completePatientInputs(patient: Patient):void{
-    this.professionalForm.get('patient_dni').setValue(patient.dni)
-    this.professionalForm.get('patient_last_name').setValue(patient.lastName);
-    this.professionalForm.get('patient_first_name').setValue(patient.firstName);
-    this.professionalForm.get('patient_sex').setValue(patient.sex);
-  }
-
-  // Create patient if doesn't exist and create prescription
-  async onSubmitProfessionalForm() {
-
-    if(this.patient){
-      let newPrescription: Prescriptions = new Prescriptions();
-      newPrescription.user_id = this.authService.getLoggedUserId();
-      newPrescription.professionalFullname = this.professionalFullname;
-      newPrescription.patient = this.patient
-      newPrescription.date = this.professionalForm.get('date').value;
-      newPrescription.supplies = this.professionalForm.get('supplies').value;
-      this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
-        this.initProfessionalForm();
-        this.professionalForm.markAsPristine();
-        this.professionalForm.markAsUntouched();
-        this.professionalForm.updateValueAndValidity();
-        this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
-      }, (err: any) => {
-        console.log(err);
-      });
-    }else{
-      let newPatient: Patient = new Patient();
-      newPatient.dni = this.professionalForm.get('patient_dni').value;
-      newPatient.firstName = this.professionalForm.get('patient_first_name').value;
-      newPatient.lastName = this.professionalForm.get('patient_last_name').value;
-      newPatient.sex = this.professionalForm.get('patient_sex').value;
-      this.apiPatients.newPatient(newPatient)
-      .subscribe((res: any) => {
-        let newPrescription: Prescriptions = new Prescriptions();
-        newPrescription.user_id = this.authService.getLoggedUserId();
-        newPrescription.professionalFullname = this.professionalFullname;
-        newPrescription.patient = res["newPatient"];
-        newPrescription.date = this.professionalForm.get('date').value;
-        newPrescription.supplies = this.professionalForm.get('supplies').value;
-        this.apiPrescriptions.newPrescription(newPrescription).subscribe((res: any) => {
-          this.initProfessionalForm();
-          this.professionalForm.markAsPristine();
-          this.professionalForm.markAsUntouched();
-          this.professionalForm.updateValueAndValidity();
-          this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
-        }, (err: any) => {
-          console.log(err);
-        });;
-        }, (err: any) => {
-          console.log(err);
-        }
+  getPatientByDni(dniValue: string):void{
+    if(dniValue.length == 8){
+      this.apiPatients.getPatientByDni(dniValue).subscribe(
+        res => {
+          if(res){
+            this.patientSearch = res;
+          }
+        },
       );
     }
   }
 
-
-  get patient_dni(): AbstractControl{
-    return this.professionalForm.get('patient_dni');
+  completePatientInputs(patient: Patient):void{
+    this.patientLastName.setValue(patient.lastName);
+    this.patientFirstName.setValue(patient.firstName);
+    this.patientSex.setValue(patient.sex);
   }
 
-  get patient_first_name(): AbstractControl{
-    return this.professionalForm.get('patient_first_name');
-  }
+  // Create patient if doesn't exist and create prescription
+  onSubmitProfessionalForm() {
 
-  get patient_last_name(): AbstractControl{
-    return this.professionalForm.get('patient_last_name');
-  }
-
-  get patient_sex(): AbstractControl{
-    return this.professionalForm.get('patient_sex');
+    if(this.professionalForm.valid){
+      const newPrescription = this.professionalForm.value;
+      this.apiPrescriptions.newPrescription(newPrescription).subscribe(
+        res => {
+            this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
+          },
+        err => {
+          err.error.map(err => {
+            // handle supplies error
+            this.suppliesForm.controls.map(control => {
+              if(control.get('supply').value == err.supply){
+                control.get('supply').setErrors({ invalid: err.message});
+              }
+            });
+          });
+      });
+    }
   }
 
   get date(): AbstractControl{
     return this.professionalForm.get('date');
   }
 
-  get professional_enrollment(): AbstractControl{
-    return this.professionalForm.get('professional_enrollment');
-  }
-
-  get professional_first_name(): AbstractControl{
-    return this.professionalForm.get('professional_first_name');
-  }
-
-  get professional_last_name(): AbstractControl{
-    return this.professionalForm.get('professional_last_name');
+  get professionalFullname(): AbstractControl{
+    return this.professionalForm.get('professionalFullname');
   }
 
   get suppliesForm(): FormArray{
     return this.professionalForm.get('supplies') as FormArray;
   }
 
+  get patientDni(): AbstractControl {
+    const patient = this.professionalForm.get('patient');
+    return patient.get('dni');
+  }
+
+  get patientLastName(): AbstractControl{
+    const patient = this.professionalForm.get('patient');
+    return patient.get('lastName');
+  }
+
+  get patientFirstName(): AbstractControl{
+    const patient = this.professionalForm.get('patient');
+    return patient.get('firstName');
+  }
+
+  get patientSex(): AbstractControl{
+    const patient = this.professionalForm.get('patient');
+    return patient.get('sex');
+  }
 
   displayFn(supply: Supplies): string {
     return supply && supply.name ? supply.name : '';

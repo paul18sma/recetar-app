@@ -14,82 +14,76 @@
           <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
         </mat-form-field>
 
-        <!-- Dni del paciente -->
-        <mat-form-field appearance="fill">
-          <mat-label>DNI paciente</mat-label>
-          <input type="text"
-            cdkFocusInitial
-            placeholder="DNI"
-            aria-label="Number"
-            matInput
-            maxlength="8"
-            formControlName="patient_dni"
-            [matAutocomplete]="auto">
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient.dni">
-              {{patient.lastName}} {{patient.firstName}} DNI {{patient.dni}}
-            </mat-option>
-          </mat-autocomplete>
+        <div formGroupName="patient">
 
-          <mat-error *ngIf="patient_dni.errors?.required && patient_dni.touched">
-            Debe ingresar el dni del paciente
-          </mat-error>
 
-          <mat-error *ngIf="patient_dni.errors?.minlength && patient_dni.touched">
-            Debe ingresar 8 digitos
-          </mat-error>
-        </mat-form-field>
+          <!-- Dni -->
+          <mat-form-field appearance="fill">
+            <mat-label>DNI paciente</mat-label>
+            <input type="text"
+              cdkFocusInitial
+              placeholder="DNI"
+              aria-label="Number"
+              matInput
+              maxlength="8"
+              formControlName="dni"
+              [matAutocomplete]="auto">
+            <mat-autocomplete #auto="matAutocomplete">
+              <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch._id" [value]="patientSearch.dni">
+                {{patientSearch.lastName}} {{patientSearch.firstName}} DNI {{patientSearch.dni}}
+              </mat-option>
+            </mat-autocomplete>
 
-        <!-- Apellido del paciente -->
-        <mat-form-field appearance="fill">
-          <mat-label>Apellido paciente</mat-label>
-          <input type="text"
-            placeholder="Apellido"
-            matInput
-            formControlName="patient_last_name">
+            <mat-error *ngIf="patientDni.errors?.required && patientDni.touched">
+              Debe ingresar el dni del paciente
+            </mat-error>
 
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient.lastName">
-              {{patient.lastName}}
-            </mat-option>
-          </mat-autocomplete>
+            <mat-error *ngIf="patientDni.errors?.minlength && patientDni.touched">
+              Debe ingresar 8 digitos
+            </mat-error>
+          </mat-form-field>
 
-          <mat-error *ngIf="patient_last_name.errors?.required && patient_last_name.touched">
-            Debe ingresar el apellido del paciente
-          </mat-error>
-        </mat-form-field>
+          <!-- Lastname -->
+          <mat-form-field appearance="fill">
+            <mat-label>Apellido paciente</mat-label>
+            <input type="text"
+              placeholder="Apellido"
+              matInput
+              formControlName="lastName">
 
-        <!-- Nombre del paciente -->
-        <mat-form-field appearance="fill">
-          <mat-label>Nombre paciente</mat-label>
-          <input type="text"
-            placeholder="Nombre"
-            matInput
-            formControlName="patient_first_name">
 
-          <mat-autocomplete #auto="matAutocomplete">
-            <mat-option (onSelectionChange)="completePatientInputs(patient)" *ngIf="patient" [value]="patient.firstName">
-              {{patient.firstName}}
-            </mat-option>
-          </mat-autocomplete>
+            <mat-error *ngIf="patientLastName.errors?.required && patientLastName.touched">
+              Debe ingresar el apellido del paciente
+              </mat-error>
+          </mat-form-field>
 
-          <mat-error *ngIf="patient_first_name.errors?.required && patient_first_name.touched">
-            Debe ingresar el nombre del paciente
-          </mat-error>
-        </mat-form-field>
+          <!-- Firstname -->
+          <mat-form-field appearance="fill">
+            <mat-label>Nombre paciente</mat-label>
+            <input type="text"
+              placeholder="Nombre"
+              matInput
+              formControlName="firstName">
 
-        <!-- Sexo del paciente -->
-        <mat-form-field appearance="fill">
-          <mat-label>Sexo</mat-label>
-          <mat-select formControlName="patient_sex">
-            <mat-option value="Femenino">Femenino</mat-option>
-            <mat-option value="Masculino">Masculino</mat-option>
-            <mat-option value="Otro">Otro</mat-option>
-          </mat-select>
-        </mat-form-field>
+            <mat-error *ngIf="patientFirstName.errors?.required && patientFirstName.touched">
+              Debe ingresar el nombre del paciente
+            </mat-error>
+          </mat-form-field>
+
+          <!-- sex -->
+          <mat-form-field appearance="fill">
+            <mat-label>Sexo</mat-label>
+            <mat-select formControlName="sex">
+              <mat-option value="Femenino">Femenino</mat-option>
+              <mat-option value="Masculino">Masculino</mat-option>
+              <mat-option value="Otro">Otro</mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
 
         <div formArrayName="supplies" class="nested-supplies">
-          <div *ngFor="let supply of suppliesForm.controls; let i=index" [formGroupName]="i">
+          <div *ngFor="let control of suppliesForm.controls; let i=index" [formGroupName]="i">
 
             <mat-form-field appearance="fill" >
               <mat-label>Medicamento</mat-label>
@@ -98,7 +92,7 @@
                 matInput
                 formControlName="supply"
                 [matAutocomplete]="supplyref"
-                (ngModelChange)="getSupplies(supply.value.supply)">
+                (ngModelChange)="getSupplies(control.value.supply)">
                 <button type="button" mat-icon-button matSuffix  (click)="deleteSupply(i)">
                   <mat-icon>{{ 'clear' }}</mat-icon>
                 </button>
@@ -107,6 +101,9 @@
                   {{sup.name}}
                 </mat-option>
               </mat-autocomplete>
+              <mat-error *ngIf="control.get('supply').hasError('invalid')">
+                {{ control.get('supply').getError('invalid') }}
+              </mat-error>
             </mat-form-field>
 
           </div>
