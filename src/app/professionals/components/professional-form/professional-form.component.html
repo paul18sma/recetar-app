@@ -1,6 +1,6 @@
 <div class="container">
   <mat-card>
-    <form [formGroup]="professionalForm" (ngSubmit)="onSubmitProfessionalForm()">
+    <form [formGroup]="professionalForm" #professionalNgForm="ngForm" (ngSubmit)="onSubmitProfessionalForm(professionalForm, professionalNgForm)">
       <div fxFlex="100" fxLayout="column" fxLayoutAlign="center">
         <h1>
           Registrar nueva receta
@@ -14,7 +14,7 @@
           <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
         </mat-form-field>
 
-        <div formGroupName="patient">
+        <div formGroupName="patient" class="patient-container">
 
 
           <!-- Dni -->

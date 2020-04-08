@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
@@ -83,7 +83,7 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   getSupplies(term: string):void{
-    if(term.length > 3){
+    if(term !== null && term.length > 3){
 
       this.suppliesService.getSupplyByTerm(term).subscribe(
         res => {
@@ -93,13 +93,11 @@ export class ProfessionalFormComponent implements OnInit {
     }
   }
 
-  getPatientByDni(dniValue: string):void{
-    if(dniValue.length == 8){
+  getPatientByDni(dniValue: string | null):void{
+    if(dniValue !== null && dniValue.length == 8){
       this.apiPatients.getPatientByDni(dniValue).subscribe(
         res => {
-          if(res){
-            this.patientSearch = res;
-          }
+          this.patientSearch = res;
         },
       );
     }
@@ -112,13 +110,23 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   // Create patient if doesn't exist and create prescription
-  onSubmitProfessionalForm() {
+  onSubmitProfessionalForm(professionalForm: FormGroup, professionalNgForm: FormGroupDirective):void {
 
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
       this.apiPrescriptions.newPrescription(newPrescription).subscribe(
         res => {
-            this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
+          // get defualt value before reset
+          const userId = this.userId.value;
+          const date = this.today;
+          const professionalFullname = this.professionalFullname.value;
+          professionalNgForm.resetForm();
+          professionalForm.reset({
+            user_id: userId,
+            date: date,
+            professionalFullname: professionalFullname
+          });
+          this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
           },
         err => {
           err.error.map(err => {
@@ -131,6 +139,10 @@ export class ProfessionalFormComponent implements OnInit {
           });
       });
     }
+  }
+
+  get userId(): AbstractControl{
+    return this.professionalForm.get('user_id');
   }
 
   get date(): AbstractControl{
