@@ -12,6 +12,12 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 import { DataSource } from '@angular/cdk/collections';
 import { of } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
+import { PdfMakeWrapper, Txt, Canvas, Line } from 'pdfmake-wrapper';
+import { DatePipe } from '@angular/common';
+import { AuthService } from '@auth/services/auth.service';
+
+PdfMakeWrapper.setFonts(pdfFontsX);
 
 @Component({
   selector: 'app-pharmacists-form',
@@ -31,7 +37,7 @@ export class PharmacistsFormComponent implements OnInit {
   prescriptionForm: FormGroup;
   today;
 
-  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'print', 'dispense'];
+  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
   professional: Professionals;
@@ -42,7 +48,6 @@ export class PharmacistsFormComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   dataSource: any = [];
 
-
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   expandedElement: any;
 
@@ -51,7 +56,9 @@ export class PharmacistsFormComponent implements OnInit {
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private apiInsurances: InsurancesService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private authService: AuthService,
+    private datePipe: DatePipe
   ){}
 
   ngOnInit(): void{
@@ -73,6 +80,44 @@ export class PharmacistsFormComponent implements OnInit {
         }
       }
     )
+  }
+
+  async printPrescription(prescription: Prescriptions){
+    const pdf: PdfMakeWrapper = new PdfMakeWrapper();
+    pdf.info({
+      title: "Receta digital "+prescription.professionalFullname,
+      author: 'RecetAR'
+    });
+    
+    pdf.add(new Txt('RECETA DIGITAL').bold().alignment('center').end);
+    pdf.add(pdf.ln(2));
+    pdf.add(new Txt(""+this.datePipe.transform(prescription.date, 'dd/MM/yyyy')).alignment('right').end);
+    pdf.add(new Txt("Profesional").bold().end);
+    pdf.add(new Txt(""+prescription.professionalFullname).end);
+    pdf.add(pdf.ln(1));
+    pdf.add(new Txt("Paciente").bold().end);
+    pdf.add(new Txt(""+prescription.patient.lastName.toUpperCase()+", "+prescription.patient.firstName.toUpperCase()).end);
+    pdf.add(
+      new Canvas([
+          new Line(10, [500, 10]).end
+      ]).end
+    );
+    pdf.add(pdf.ln(1));
+    prescription.supplies.forEach(supply => {
+      pdf.add(new Txt(""+supply.name).end);
+      pdf.add(pdf.ln(1));
+    });
+    pdf.add(
+      new Canvas([
+          new Line(10, [500, 10]).end
+      ]).end
+    );
+    pdf.add(pdf.ln(1));
+    pdf.add(new Txt("Observaciones").bold().end);
+
+    pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);
+
+    pdf.create().open();
   }
 
   initFilterPrescriptionForm(){
@@ -107,7 +152,7 @@ export class PharmacistsFormComponent implements OnInit {
 
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
-      duration: 2000,
+      duration: 5000
     });
   }
 
@@ -125,6 +170,11 @@ export class PharmacistsFormComponent implements OnInit {
         this.insurances = res;
       },
     );
+  }
+
+  // Return true if was dispensed and is seeing who dispensed the prescription 
+  canPrint(prescription: Prescriptions){
+    return (prescription.status === "Dispensada") && (prescription.dispensedBy === this.authService.getLoggedUserId())
   }
 
   get patient_dni(): AbstractControl{

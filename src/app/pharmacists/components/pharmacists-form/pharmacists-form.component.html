@@ -79,20 +79,15 @@
             </mat-cell>
           </ng-container>
 
-          <!-- Print -->
-          <ng-container matColumnDef="print">
-            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <!-- Acción -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
             <mat-cell *matCellDef="let prescription">
-              <button mat-button matTooltip="Imprimir" matTooltipPosition="above">
-                <mat-icon >print</mat-icon>
-              </button>
-            </mat-cell>
-          </ng-container>
-
-          <!-- Dispense -->
-          <ng-container matColumnDef="dispense">
-            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-            <mat-cell *matCellDef="let prescription">
+              <div *ngIf="canPrint(prescription)">
+                <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
+                  <mat-icon >print</mat-icon>
+                </button>
+              </div>
               <div *ngIf="prescription.status === 'Pendiente'">
                 <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar" matTooltipPosition="above"><mat-icon >done_outline</mat-icon></button>
               </div>
@@ -113,7 +108,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"
                   matRipple
-                  class="element-row"
+                  class="element-row border"
                   [class.expanded]="expandedElement == row"
                   (click)="expandedElement = row"></mat-row>
           <mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
@@ -150,18 +145,4 @@
       </table>
     </div>
   </mat-card>
-</div>
-
-<div class="hidden-print">
-  <div *ngFor="let prescription of prescriptions">
-    <p>
-      <strong>Profesional: </strong>{{prescription.professionalFullname}}
-    </p>
-    <p>
-      <strong>Paciente: </strong>DNI {{prescription.patient.dni}} {{prescription.patient.lastName}}, {{prescription.patient.firstName}}
-    </p>
-    <div *ngFor="let supply of prescription.supplies">
-      {{supply.name}}
-    </div>
-  </div>
 </div>

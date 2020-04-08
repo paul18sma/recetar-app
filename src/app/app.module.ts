@@ -20,8 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 // component
 import { HeaderComponent } from '@shared/layouts/header/header.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
-
-
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -44,6 +43,7 @@ import { MAT_DATE_LOCALE } from '@angular/material/core';
   ],
   providers: [
     PatientsService,
+    DatePipe,
     {provide: MAT_DATE_LOCALE, useValue: 'es-AR'}
   ],
   bootstrap: [AppComponent]
