@@ -79,20 +79,15 @@
             </mat-cell>
           </ng-container>
 
-          <!-- Print -->
-          <ng-container matColumnDef="print">
-            <mat-header-cell *matHeaderCellDef></mat-header-cell>
+          <!-- Acción -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
             <mat-cell *matCellDef="let prescription">
-              <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
-                <mat-icon >print</mat-icon>
-              </button>
-            </mat-cell>
-          </ng-container>
-
-          <!-- Dispense -->
-          <ng-container matColumnDef="dispense">
-            <mat-header-cell *matHeaderCellDef></mat-header-cell>
-            <mat-cell *matCellDef="let prescription">
+              <div *ngIf="canPrint(prescription)">
+                <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
+                  <mat-icon >print</mat-icon>
+                </button>
+              </div>
               <div *ngIf="prescription.status === 'Pendiente'">
                 <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar" matTooltipPosition="above"><mat-icon >done_outline</mat-icon></button>
               </div>

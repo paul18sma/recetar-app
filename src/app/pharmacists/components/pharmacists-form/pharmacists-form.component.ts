@@ -15,6 +15,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
 import { PdfMakeWrapper, Txt, Canvas, Line } from 'pdfmake-wrapper';
 import { DatePipe } from '@angular/common';
+import { AuthService } from '@auth/services/auth.service';
 
 PdfMakeWrapper.setFonts(pdfFontsX);
 
@@ -36,7 +37,7 @@ export class PharmacistsFormComponent implements OnInit {
   prescriptionForm: FormGroup;
   today;
 
-  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'print', 'dispense'];
+  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
   professional: Professionals;
@@ -56,6 +57,7 @@ export class PharmacistsFormComponent implements OnInit {
     private apiPrescriptions: PrescriptionsService,
     private apiInsurances: InsurancesService,
     private _snackBar: MatSnackBar,
+    private authService: AuthService,
     private datePipe: DatePipe
   ){}
 
@@ -168,6 +170,11 @@ export class PharmacistsFormComponent implements OnInit {
         this.insurances = res;
       },
     );
+  }
+
+  // Return true if was dispensed and is seeing who dispensed the prescription 
+  canPrint(prescription: Prescriptions){
+    return (prescription.status === "Dispensada") && (prescription.dispensedBy === this.authService.getLoggedUserId())
   }
 
   get patient_dni(): AbstractControl{
