@@ -39,10 +39,7 @@ export class PrescriptionsService {
   }
 
   newPrescription(prescription: Prescriptions): Observable<Prescriptions> {
-    return this.http.post<Prescriptions>(`${environment.API_END_POINT}/prescriptions`, prescription).pipe(
-      tap((p: Prescriptions) => console.log(`Added prescription`)),
-      catchError(this.handleError<Prescriptions>('newPrescription'))
-    );
+    return this.http.post<Prescriptions>(`${environment.API_END_POINT}/prescriptions`, prescription);
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
