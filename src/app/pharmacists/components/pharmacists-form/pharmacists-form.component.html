@@ -83,7 +83,7 @@
           <ng-container matColumnDef="print">
             <mat-header-cell *matHeaderCellDef></mat-header-cell>
             <mat-cell *matCellDef="let prescription">
-              <button mat-button matTooltip="Imprimir" matTooltipPosition="above">
+              <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
                 <mat-icon >print</mat-icon>
               </button>
             </mat-cell>
@@ -113,7 +113,7 @@
           <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
           <mat-row *matRowDef="let row; columns: displayedColumns;"
                   matRipple
-                  class="element-row"
+                  class="element-row border"
                   [class.expanded]="expandedElement == row"
                   (click)="expandedElement = row"></mat-row>
           <mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
@@ -150,18 +150,4 @@
       </table>
     </div>
   </mat-card>
-</div>
-
-<div class="hidden-print">
-  <div *ngFor="let prescription of prescriptions">
-    <p>
-      <strong>Profesional: </strong>{{prescription.professionalFullname}}
-    </p>
-    <p>
-      <strong>Paciente: </strong>DNI {{prescription.patient.dni}} {{prescription.patient.lastName}}, {{prescription.patient.firstName}}
-    </p>
-    <div *ngFor="let supply of prescription.supplies">
-      {{supply.name}}
-    </div>
-  </div>
 </div>
