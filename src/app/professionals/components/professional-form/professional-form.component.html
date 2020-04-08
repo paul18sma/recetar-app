@@ -1,6 +1,6 @@
 <div class="container">
   <mat-card>
-    <mat-card-title>        
+    <mat-card-title>
       <h1>
         Registrar nueva receta
       </h1>
@@ -8,23 +8,26 @@
     <mat-card-content>
       <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalForm, professionalNgForm)">
         <div class="sub-container"
-          fxLayout="row"
+          fxLayout="column"
             fxLayout.xs="column"
             fxLayoutAlign="center"
             fxLayoutGap="10px"
             fxLayoutGap.xs="0">
 
-  
-        <div class="patient-fields" fxFlex="50%">
-          <div formGroupName="patient" class="patient-container">
-            <!-- Fecha de receta -->            
-            <mat-form-field appearance="fill">
-              <mat-label>Fecha receta</mat-label>
-              <input matInput [matDatepicker]="picker1" [formControl]="date" autocomplete="off">
-              <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-              <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
-            </mat-form-field>
+        <!-- Fecha de receta -->
+        <mat-form-field appearance="fill">
+          <mat-label>Fecha receta</mat-label>
+          <input matInput [matDatepicker]="picker1" [formControl]="date" autocomplete="off" required>
+          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+          <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
 
+          <mat-error *ngIf="date.errors?.required">
+            Debe ingresar una fecha válida
+          </mat-error>
+        </mat-form-field>
+
+        <div formGroupName="patient" class="patient-container" fxLayout="row" fxLayoutGap="10px">
+          <div>
             <!-- Dni -->
             <mat-form-field appearance="fill">
               <mat-label>DNI paciente</mat-label>
@@ -33,6 +36,7 @@
                 placeholder="DNI"
                 aria-label="Number"
                 matInput
+                required
                 maxlength="8"
                 formControlName="dni"
                 [matAutocomplete]="auto">
@@ -42,12 +46,41 @@
                 </mat-option>
               </mat-autocomplete>
 
-              <mat-error *ngIf="patientDni.errors?.required && patientDni.touched">
+              <mat-error *ngIf="patientDni.errors?.required">
                 Debe ingresar el dni del paciente
               </mat-error>
 
-              <mat-error *ngIf="patientDni.errors?.minlength && patientDni.touched">
-                Debe ingresar 8 digitos
+              <mat-error *ngIf="patientDni.errors?.minlength">
+                El dni debe contener {{patientDni.errors?.minlength.requiredLength}} digitos
+              </mat-error>
+            </mat-form-field>
+            <!-- Firstname -->
+            <mat-form-field appearance="fill">
+              <mat-label>Nombre paciente</mat-label>
+              <input type="text"
+                placeholder="Nombre"
+                matInput
+                required
+                formControlName="firstName">
+
+              <mat-error *ngIf="patientFirstName.errors?.required">
+                Debe ingresar el nombre del paciente
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div>
+            <!-- sex -->
+            <mat-form-field appearance="fill">
+              <mat-label>Sexo</mat-label>
+              <mat-select formControlName="sex" required>
+                <mat-option value="Femenino">Femenino</mat-option>
+                <mat-option value="Masculino">Masculino</mat-option>
+                <mat-option value="Otro">Otro</mat-option>
+              </mat-select>
+
+              <mat-error *ngIf="patientSex.errors?.required">
+                Debe seleccionar el tipo de sexo
               </mat-error>
             </mat-form-field>
 
@@ -57,48 +90,28 @@
               <input type="text"
                 placeholder="Apellido"
                 matInput
+                required
                 formControlName="lastName">
 
 
-              <mat-error *ngIf="patientLastName.errors?.required && patientLastName.touched">
+              <mat-error *ngIf="patientLastName.errors?.required">
                 Debe ingresar el apellido del paciente
                 </mat-error>
             </mat-form-field>
-
-            <!-- Firstname -->
-            <mat-form-field appearance="fill">
-              <mat-label>Nombre paciente</mat-label>
-              <input type="text"
-                placeholder="Nombre"
-                matInput
-                formControlName="firstName">
-
-              <mat-error *ngIf="patientFirstName.errors?.required && patientFirstName.touched">
-                Debe ingresar el nombre del paciente
-              </mat-error>
-            </mat-form-field>
-
-            <!-- sex -->
-            <mat-form-field appearance="fill">
-              <mat-label>Sexo</mat-label>
-              <mat-select formControlName="sex">
-                <mat-option value="Femenino">Femenino</mat-option>
-                <mat-option value="Masculino">Masculino</mat-option>
-                <mat-option value="Otro">Otro</mat-option>
-              </mat-select>
-            </mat-form-field>
           </div>
+
         </div>
-        <div class="item item-2" fxFlex="50%">
 
-            <div formArrayName="supplies" class="nested-supplies">
-              <div *ngFor="let control of suppliesForm.controls; let i=index" [formGroupName]="i">
 
-                <mat-form-field appearance="fill" >
+          <div formArrayName="supplies" class="nested-supplies">
+            <div *ngFor="let control of suppliesForm.controls; let i=index" [formGroupName]="i">
+              <div fxLayout="row" fxLayoutGap="10px">
+                <mat-form-field appearance="fill" fxFlex="80%">
                   <mat-label>Medicamento</mat-label>
                   <input type="text"
                     placeholder="Medicamento"
                     matInput
+                    required
                     formControlName="supply"
                     [matAutocomplete]="supplyref"
                     (ngModelChange)="getSupplies(control.value.supply)">
@@ -110,19 +123,39 @@
                       {{sup.name}}
                     </mat-option>
                   </mat-autocomplete>
+                  <mat-error *ngIf="control.get('supply').hasError('required')">
+                    Debe seleccionar un insumo
+                  </mat-error>
                   <mat-error *ngIf="control.get('supply').hasError('invalid')">
                     {{ control.get('supply').getError('invalid') }}
                   </mat-error>
                 </mat-form-field>
 
+                <mat-form-field appearance="fill" fxFlex="20%">
+                  <mat-label>Cantidad</mat-label>
+                  <input type="number" matInput formControlName="quantity" required>
+
+                  <mat-error *ngIf="control.get('quantity').hasError('required')">
+                    Debe ingresar una cantidad
+                  </mat-error>
+
+                  <mat-error *ngIf="control.get('quantity').hasError('min')">
+                    Debe ingresar un mínimo de {{control.get('quantity').errors?.min.min}}
+                  </mat-error>
+                </mat-form-field>
               </div>
             </div>
-
-            <button mat-raised-button color="primary" type="button" (click)="addSupply()" *ngIf="suppliesForm.controls.length < maxQSupplies">
-              Agregar medicamento
-            </button>
-    
           </div>
+
+          <button mat-raised-button color="primary" type="button" (click)="addSupply()" *ngIf="suppliesForm.controls.length < maxQSupplies">
+            Agregar medicamento
+          </button>
+
+          <mat-form-field appearance="fill">
+            <mat-label>Observaciones</mat-label>
+            <textarea matInput placeholder="Observaciones" formControlName="observation"></textarea>
+          </mat-form-field>
+
         </div>
         <button mat-raised-button color="primary" type="submit">
           Crear

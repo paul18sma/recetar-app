@@ -27,6 +27,7 @@ export class ProfessionalFormComponent implements OnInit {
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
   readonly maxQSupplies: number = 2;
+  hide= true;
 
   constructor(
     private suppliesService: SuppliesService,
@@ -77,6 +78,7 @@ export class ProfessionalFormComponent implements OnInit {
       date: [this.today, [
         Validators.required
       ]],
+      observation: [''],
       supplies: this.fBuilder.array([])
     });
     this.addSupply(); //init atleast one supply
@@ -185,7 +187,10 @@ export class ProfessionalFormComponent implements OnInit {
     if(this.suppliesForm.length < 2){
       const supplies = this.fBuilder.group({
         supply: ['', [Validators.required]],
-        quantity: ['2', [Validators.required]]
+        quantity: ['1', [
+          Validators.required,
+          Validators.min(1),
+        ]]
       });
       this.suppliesForm.push(supplies);
     }
