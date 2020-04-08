@@ -23,28 +23,25 @@ export class AuthService {
     this.loggedIn = new BehaviorSubject<boolean>(!!this.getJwtToken());
   }
 
-  // signUp(user): Observable<any>{
-    // return this.http.post<any>(`${config.apiUrl}/auth/register`, user);
-    // }
+  login(user: { username: string, password: string }): Observable<boolean | HttpErrorResponse> {
+    return this.http.post<any>(`${this.apiEndPoint}/auth/login`, user).pipe(
+      tap(tokens => this.doLoginUser(user.username, tokens)),
+      mapTo(true)
+    );
+  }
 
-    login(user: { username: string, password: string }): Observable<boolean | HttpErrorResponse> {
-      return this.http.post<any>(`${this.apiEndPoint}/auth/login`, user).pipe(
-        tap(tokens => this.doLoginUser(user.username, tokens)),
-        mapTo(true)
-        );
-      }
-
-      logout() {
-        return this.http.post<any>(`${this.apiEndPoint}/auth/logout`, {
-          'refreshToken': this.getRefreshToken()
-        }).pipe(
-          tap(() => this.doLogoutUser()),
-          mapTo(true),
+  logout() {
+    return this.http.post<any>(`${this.apiEndPoint}/auth/logout`, {
+      'refreshToken': this.getRefreshToken()
+    }).pipe(
+      tap(() => this.doLogoutUser()),
+      mapTo(true),
       catchError(error => {
         console.log(error.error);
         return of(false);
-      }));
-    }
+      })
+    );
+  }
 
   get isLoggedIn() {
     return this.loggedIn.asObservable();
@@ -53,9 +50,11 @@ export class AuthService {
   refreshToken() {
     return this.http.post<any>(`${this.apiEndPoint}/auth/refresh`, {
       'refreshToken': this.getRefreshToken()
-    }).pipe(tap((tokens: Tokens) => {
-      this.storeJwtToken(tokens.jwt);
-    }));
+    }).pipe(
+      tap((tokens: Tokens) => {
+        this.storeJwtToken(tokens.jwt);
+      })
+    );
   }
 
   getJwtToken() {
