@@ -35,7 +35,6 @@ export class PharmacistsFormComponent implements OnInit {
 
   title = 'preinscriptions-control';
   prescriptionForm: FormGroup;
-  today;
 
   displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
@@ -63,7 +62,6 @@ export class PharmacistsFormComponent implements OnInit {
 
   ngOnInit(): void{
     this.initFilterPrescriptionForm();
-    this.today = new Date();
 
     this.prescriptionForm.get('patient_dni').valueChanges.subscribe(
       term => {
@@ -74,7 +72,11 @@ export class PharmacistsFormComponent implements OnInit {
     this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
       term => {
         if(this.patient)
-          this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe();
+          this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe(
+            res => {
+              this.dataSource = new ExampleDataSource(res);
+            },
+          );
         else{
           this.openSnackBar("Seleccione un paciente.", "Cerrar");
         }
@@ -82,7 +84,8 @@ export class PharmacistsFormComponent implements OnInit {
     )
   }
 
-  async printPrescription(prescription: Prescriptions){
+  // Print a prescription as PDF
+  public printPrescription(prescription: Prescriptions){
     const pdf: PdfMakeWrapper = new PdfMakeWrapper();
     pdf.info({
       title: "Receta digital "+prescription.professionalFullname,
@@ -162,7 +165,6 @@ export class PharmacistsFormComponent implements OnInit {
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
         this.dataSource = new ExampleDataSource(res);
-        this.prescriptions = res;
       },
     );
     this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(
