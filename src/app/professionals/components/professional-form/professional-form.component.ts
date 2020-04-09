@@ -9,6 +9,7 @@ import { AuthService } from '@auth/services/auth.service';
 import { ProfessionalsService } from '@services/professionals.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Patient } from '@interfaces/patients';
+import {ThemePalette} from '@angular/material/core';
 
 @Component({
   selector: 'app-professional-form',
@@ -17,7 +18,7 @@ import { Patient } from '@interfaces/patients';
 })
 export class ProfessionalFormComponent implements OnInit {
 
-  title = 'preinscriptions-control';
+  private supplyRequest: any = null;
   professionalForm: FormGroup;
 
   filteredOptions: Observable<string[]>;
@@ -27,6 +28,11 @@ export class ProfessionalFormComponent implements OnInit {
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
   readonly maxQSupplies: number = 2;
+  readonly spinnerColor: ThemePalette = 'accent';
+  readonly spinnerDiameter: number = 30;
+  showDiameter: boolean = false;
+  dniShowSpinner: boolean = false;
+  supplySpinner: { show: boolean}[] = [{show: false}, {show: false}];
 
   constructor(
     private suppliesService: SuppliesService,
@@ -41,6 +47,7 @@ export class ProfessionalFormComponent implements OnInit {
   ngOnInit(): void {
     this.initProfessionalForm();
 
+    // get professionals
     this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
       res => {
         this.professionalFullname.setValue(res[0].last_name+", "+res[0].first_name);
@@ -77,27 +84,44 @@ export class ProfessionalFormComponent implements OnInit {
       date: [this.today, [
         Validators.required
       ]],
+      observation: [''],
       supplies: this.fBuilder.array([])
     });
     this.addSupply(); //init atleast one supply
+    this.addSupply(); //init atleast one supply
   }
 
-  getSupplies(term: string):void{
+  // on before fetch supplies data, it checks if we had a previous request,
+  // so this will be canceled and then re call a new one with updated params
+  public getSupplies(term: string, index: number):void{
+    if(this.supplyRequest){
+      this.supplyRequest.unsubscribe();
+      this.fetchSupplies(term, index);
+    } else {
+      this.fetchSupplies(term, index);
+    }
+  }
+
+  private fetchSupplies(term: string, index: number):void{
     if(term !== null && term.length > 3){
 
-      this.suppliesService.getSupplyByTerm(term).subscribe(
+      this.supplySpinner[index] = {show: true};
+      this.supplyRequest = this.suppliesService.getSupplyByTerm(term).subscribe(
         res => {
           this.storedSupplies = res as Supplies[];
+          this.supplySpinner[index] = {show: false};
         },
       );
     }
   }
 
   getPatientByDni(dniValue: string | null):void{
-    if(dniValue !== null && dniValue.length == 8){
+    if(dniValue !== null && dniValue.length == 8 && this.patientSearch?.dni != dniValue  ){
+      this.dniShowSpinner = true;
       this.apiPatients.getPatientByDni(dniValue).subscribe(
         res => {
           this.patientSearch = res;
+          this.dniShowSpinner = false;
         },
       );
     }
@@ -114,6 +138,7 @@ export class ProfessionalFormComponent implements OnInit {
 
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
+      this.showDiameter = !this.showDiameter;
       this.apiPrescriptions.newPrescription(newPrescription).subscribe(
         res => {
           // get defualt value before reset
@@ -126,8 +151,10 @@ export class ProfessionalFormComponent implements OnInit {
             date: date,
             professionalFullname: professionalFullname
           });
+
+          this.showDiameter = !this.showDiameter;
           this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
-          },
+        },
         err => {
           err.error.map(err => {
             // handle supplies error
@@ -137,6 +164,7 @@ export class ProfessionalFormComponent implements OnInit {
               }
             });
           });
+          this.showDiameter = !this.showDiameter;
       });
     }
   }
@@ -185,7 +213,10 @@ export class ProfessionalFormComponent implements OnInit {
     if(this.suppliesForm.length < 2){
       const supplies = this.fBuilder.group({
         supply: ['', [Validators.required]],
-        quantity: ['2', [Validators.required]]
+        quantity: ['1', [
+          Validators.required,
+          Validators.min(1),
+        ]]
       });
       this.suppliesForm.push(supplies);
     }
