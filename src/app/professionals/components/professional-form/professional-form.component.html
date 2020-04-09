@@ -40,8 +40,10 @@
                 maxlength="8"
                 formControlName="dni"
                 [matAutocomplete]="auto">
+                <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
+
               <mat-autocomplete #auto="matAutocomplete">
-                <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch._id" [value]="patientSearch.dni">
+                <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch?._id" [value]="patientSearch.dni">
                   {{patientSearch.lastName}} {{patientSearch.firstName}} DNI {{patientSearch.dni}}
                 </mat-option>
               </mat-autocomplete>
@@ -114,10 +116,11 @@
                     required
                     formControlName="supply"
                     [matAutocomplete]="supplyref"
-                    (ngModelChange)="getSupplies(control.value.supply)">
-                    <button type="button" mat-icon-button matSuffix  (click)="deleteSupply(i)">
+                    (ngModelChange)="getSupplies(control.value.supply, i)">
+                    <button type="button" mat-icon-button matSuffix  (click)="deleteSupply(i)" *ngIf="!supplySpinner[i].show">
                       <mat-icon>{{ 'clear' }}</mat-icon>
                     </button>
+                    <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="supplySpinner[i].show"></mat-spinner>
                   <mat-autocomplete #supplyref="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngFor="let sup of storedSupplies" [value]="sup">
                       {{sup.name}}
@@ -158,7 +161,10 @@
 
         </div>
         <button mat-raised-button color="primary" type="submit">
-          Crear
+          <span *ngIf="!showDiameter">
+            Crear
+          </span>
+          <mat-spinner [color]="spinnerColor" [diameter]="spinnerDiameter" *ngIf="showDiameter"></mat-spinner>
         </button>
       </form>
     </mat-card-content>
