@@ -96,13 +96,13 @@ export class ProfessionalFormComponent implements OnInit {
   public getSupplies(term: string, index: number):void{
     if(this.supplyRequest){
       this.supplyRequest.unsubscribe();
-      this.fethSupplies(term, index);
+      this.fetchSupplies(term, index);
     } else {
-      this.fethSupplies(term, index);
+      this.fetchSupplies(term, index);
     }
   }
 
-  private fethSupplies(term: string, index: number):void{
+  private fetchSupplies(term: string, index: number):void{
     if(term !== null && term.length > 3){
 
       this.supplySpinner[index] = {show: true};
