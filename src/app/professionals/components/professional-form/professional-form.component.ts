@@ -18,6 +18,7 @@ import {ThemePalette} from '@angular/material/core';
 })
 export class ProfessionalFormComponent implements OnInit {
 
+  private supplyRequest: any = null;
   professionalForm: FormGroup;
 
   filteredOptions: Observable<string[]>;
@@ -87,13 +88,25 @@ export class ProfessionalFormComponent implements OnInit {
       supplies: this.fBuilder.array([])
     });
     this.addSupply(); //init atleast one supply
+    this.addSupply(); //init atleast one supply
   }
 
-  getSupplies(term: string, index: number):void{
+  // on before fetch supplies data, it checks if we had a previous request,
+  // so this will be canceled and then re call a new one with updated params
+  public getSupplies(term: string, index: number):void{
+    if(this.supplyRequest){
+      this.supplyRequest.unsubscribe();
+      this.fethSupplies(term, index);
+    } else {
+      this.fethSupplies(term, index);
+    }
+  }
+
+  private fethSupplies(term: string, index: number):void{
     if(term !== null && term.length > 3){
 
       this.supplySpinner[index] = {show: true};
-      this.suppliesService.getSupplyByTerm(term).subscribe(
+      this.supplyRequest = this.suppliesService.getSupplyByTerm(term).subscribe(
         res => {
           this.storedSupplies = res as Supplies[];
           this.supplySpinner[index] = {show: false};
