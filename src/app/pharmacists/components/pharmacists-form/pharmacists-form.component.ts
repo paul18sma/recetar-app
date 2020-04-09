@@ -74,6 +74,7 @@ export class PharmacistsFormComponent implements OnInit {
         if(this.patient)
           this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe(
             res => {
+              console.log("RES:", res);
               this.dataSource = new ExampleDataSource(res);
             },
           );
@@ -122,6 +123,7 @@ export class PharmacistsFormComponent implements OnInit {
     );
     pdf.add(pdf.ln(1));
     pdf.add(new Txt("Observaciones").bold().end);
+    pdf.add(new Txt(""+prescription.observation).end);
     pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);
 
     pdf.create().open();

@@ -10,6 +10,7 @@ export class Prescriptions {
   dispensedBy: string;
   supplies: Supply[];
   status: string;
+  observation: string;
   date: Date;
   detailRow?: boolean;
 }
