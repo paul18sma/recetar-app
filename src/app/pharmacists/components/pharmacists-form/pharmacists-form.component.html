@@ -99,7 +99,7 @@
             <mat-cell *matCellDef="let detail">
               <div fxLayout="column" fxLayoutAlign="space-around start">
                 <div *ngFor="let supp of detail.element.supplies">
-                  {{ supp.name }}
+                  {{ supp.supply.name }} <mat-chip>{{ supp.quantity }}</mat-chip>
                 </div>
               </div>
             </mat-cell>

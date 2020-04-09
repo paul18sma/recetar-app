@@ -13,7 +13,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { of } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
-import { PdfMakeWrapper, Txt, Canvas, Line } from 'pdfmake-wrapper';
+import { PdfMakeWrapper, Txt, Canvas, Line, Img, Stack, Columns } from 'pdfmake-wrapper';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '@auth/services/auth.service';
 
@@ -85,13 +85,15 @@ export class PharmacistsFormComponent implements OnInit {
   }
 
   // Print a prescription as PDF
-  public printPrescription(prescription: Prescriptions){
+  async printPrescription(prescription: Prescriptions){
     const pdf: PdfMakeWrapper = new PdfMakeWrapper();
+    console.log(prescription);
     pdf.info({
       title: "Receta digital "+prescription.professionalFullname,
       author: 'RecetAR'
     });
     
+    pdf.add(await new Img('assets/img/LogoPdf.jpg').fit([60, 60]).build());
     pdf.add(new Txt('RECETA DIGITAL').bold().alignment('center').end);
     pdf.add(pdf.ln(2));
     pdf.add(new Txt(""+this.datePipe.transform(prescription.date, 'dd/MM/yyyy')).alignment('right').end);
@@ -106,8 +108,11 @@ export class PharmacistsFormComponent implements OnInit {
       ]).end
     );
     pdf.add(pdf.ln(1));
+    console.log("Supplies:", prescription.supplies);
     prescription.supplies.forEach(supply => {
-      pdf.add(new Txt(""+supply.name).end);
+      console.log("Supply:", supply);
+
+      pdf.add(new Txt(""+supply.supply.name+", cantidad: "+supply.quantity).end); // Marca error pero funciona bien
       pdf.add(pdf.ln(1));
     });
     pdf.add(
@@ -117,7 +122,6 @@ export class PharmacistsFormComponent implements OnInit {
     );
     pdf.add(pdf.ln(1));
     pdf.add(new Txt("Observaciones").bold().end);
-
     pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);
 
     pdf.create().open();
@@ -150,7 +154,7 @@ export class PharmacistsFormComponent implements OnInit {
         this.prescription = res;
       },
     );
-    this.openSnackBar("Le prescripción se dispensó conrrectamente.", "Cerrar")
+    this.openSnackBar("Le prescripción se dispensó correctamente.", "Cerrar")
   }
 
   openSnackBar(message: string, action: string) {
