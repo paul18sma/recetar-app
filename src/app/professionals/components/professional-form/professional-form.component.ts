@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
@@ -10,6 +10,7 @@ import { ProfessionalsService } from '@services/professionals.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Patient } from '@interfaces/patients';
 import {ThemePalette} from '@angular/material/core';
+import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-professional-form',
@@ -17,6 +18,7 @@ import {ThemePalette} from '@angular/material/core';
   styleUrls: ['./professional-form.component.sass']
 })
 export class ProfessionalFormComponent implements OnInit {
+  @ViewChild('dni', {static: true}) dni:any;
 
   private supplyRequest: any = null;
   professionalForm: FormGroup;
@@ -89,6 +91,7 @@ export class ProfessionalFormComponent implements OnInit {
     });
     this.addSupply(); //init atleast one supply
     this.addSupply(); //init atleast one supply
+    this.dni.nativeElement.focus();
   }
 
   // on before fetch supplies data, it checks if we had a previous request,
@@ -154,6 +157,7 @@ export class ProfessionalFormComponent implements OnInit {
 
           this.showDiameter = !this.showDiameter;
           this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
+          this.dni.nativeElement.focus();
         },
         err => {
           err.error.map(err => {
