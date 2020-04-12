@@ -13,7 +13,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { of } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
-import { PdfMakeWrapper, Txt, Canvas, Line, Img, Stack, Columns } from 'pdfmake-wrapper';
+import { PdfMakeWrapper, Txt, Canvas, Line, Img } from 'pdfmake-wrapper';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '@auth/services/auth.service';
 
@@ -152,11 +152,13 @@ export class PharmacistsFormComponent implements OnInit {
 
   dispense(prescription: Prescriptions){
   this.apiPrescriptions.dispense(prescription).subscribe(
-      res => {
-        this.prescription = res;
-      },
-    );
-    this.openSnackBar("Le prescripción se dispensó correctamente.", "Cerrar")
+    res => {
+      this.prescription = res;
+      this.openSnackBar("Le prescripción se dispensó correctamente.", "Cerrar")
+    },
+    err => {
+      this.openSnackBar(err.error, "Cerrar");
+    });
   }
 
   openSnackBar(message: string, action: string) {

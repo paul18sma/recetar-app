@@ -19,12 +19,8 @@ export class PrescriptionsService {
   }
 
   dispense(prescription: Prescriptions): Observable<Prescriptions> {
-    prescription.status = 'Dispensada'
     prescription.dispensedBy = this.authService.getLoggedUserId();
-    return this.http.put<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${prescription._id}`, prescription).pipe(
-      tap(_ => console.log(`fetched prescription date=${prescription._id}`)),
-      catchError(this.handleError<Prescriptions>(`getPrescriptionByDate date=${prescription._id}`))
-    );
+    return this.http.patch<Prescriptions>(`${environment.API_END_POINT}/prescriptions/dispense/${prescription._id}`, prescription);
   }
 
   getByPatientAndDate(patientId: string, date: Date): Observable<Prescriptions[]> {
