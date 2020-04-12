@@ -2,7 +2,7 @@
   <mat-card>
     <mat-card-title>
       <h1>
-        Registrar nueva receta
+        <mat-icon>gesture</mat-icon> Registrar nueva receta
       </h1>
     </mat-card-title>
     <mat-card-content>
@@ -17,7 +17,7 @@
         <!-- Fecha de receta -->
         <mat-form-field appearance="fill">
           <mat-label>Fecha receta</mat-label>
-          <input matInput [matDatepicker]="picker1" [formControl]="date" autocomplete="off" required>
+          <input matInput [matDatepicker]="picker1" [formControl]="date" autocomplete="off" required tabIndex="-1">
           <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
           <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
 
@@ -32,7 +32,8 @@
             <mat-form-field appearance="fill">
               <mat-label>DNI paciente</mat-label>
               <input type="text"
-                cdkFocusInitial
+                tabIndex="1"
+                #dni
                 placeholder="DNI"
                 aria-label="Number"
                 matInput
@@ -56,26 +57,30 @@
                 El dni debe contener {{patientDni.errors?.minlength.requiredLength}} digitos
               </mat-error>
             </mat-form-field>
-            <!-- Firstname -->
+
+            <!-- Lastname -->
             <mat-form-field appearance="fill">
-              <mat-label>Nombre paciente</mat-label>
+              <mat-label>Apellido paciente</mat-label>
               <input type="text"
-                placeholder="Nombre"
+                tabIndex="3"
+                placeholder="Apellido"
                 matInput
                 required
-                formControlName="firstName">
+                formControlName="lastName">
 
-              <mat-error *ngIf="patientFirstName.errors?.required">
-                Debe ingresar el nombre del paciente
-              </mat-error>
+
+              <mat-error *ngIf="patientLastName.errors?.required">
+                Debe ingresar el apellido del paciente
+                </mat-error>
             </mat-form-field>
+
           </div>
 
           <div>
             <!-- sex -->
             <mat-form-field appearance="fill">
               <mat-label>Sexo</mat-label>
-              <mat-select formControlName="sex" required>
+              <mat-select formControlName="sex" required tabIndex="2">
                 <mat-option value="Femenino">Femenino</mat-option>
                 <mat-option value="Masculino">Masculino</mat-option>
                 <mat-option value="Otro">Otro</mat-option>
@@ -86,19 +91,19 @@
               </mat-error>
             </mat-form-field>
 
-            <!-- Lastname -->
+            <!-- Firstname -->
             <mat-form-field appearance="fill">
-              <mat-label>Apellido paciente</mat-label>
+              <mat-label>Nombre paciente</mat-label>
               <input type="text"
-                placeholder="Apellido"
+              tabIndex="4"
+                placeholder="Nombre"
                 matInput
                 required
-                formControlName="lastName">
+                formControlName="firstName">
 
-
-              <mat-error *ngIf="patientLastName.errors?.required">
-                Debe ingresar el apellido del paciente
-                </mat-error>
+              <mat-error *ngIf="patientFirstName.errors?.required">
+                Debe ingresar el nombre del paciente
+              </mat-error>
             </mat-form-field>
           </div>
 
@@ -111,6 +116,7 @@
                 <mat-form-field appearance="fill" fxFlex="80%">
                   <mat-label>Medicamento</mat-label>
                   <input type="text"
+                    tabIndex="5"
                     placeholder="Medicamento"
                     matInput
                     required
@@ -136,7 +142,7 @@
 
                 <mat-form-field appearance="fill" fxFlex="20%">
                   <mat-label>Cantidad</mat-label>
-                  <input type="number" matInput formControlName="quantity" required>
+                  <input tabIndex="6" type="number" matInput formControlName="quantity" required>
 
                   <mat-error *ngIf="control.get('quantity').hasError('required')">
                     Debe ingresar una cantidad
@@ -156,7 +162,7 @@
 
           <mat-form-field appearance="fill">
             <mat-label>Observaciones</mat-label>
-            <textarea matInput placeholder="Observaciones" formControlName="observation"></textarea>
+            <textarea tabIndex="7" matInput placeholder="Observaciones" formControlName="observation"></textarea>
           </mat-form-field>
 
         </div>
