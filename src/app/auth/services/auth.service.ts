@@ -72,14 +72,18 @@ export class AuthService {
   }
 
   isPharmacistsRole(): boolean {
-    return this.getLoggedRole() === 'pharmacist';
+    const roles: string[] = this.getLoggedRole();
+    return roles.some( (role: string) => role === 'pharmacist');
+    // return this.getLoggedRole() === 'pharmacist';
   }
 
   isProfessionalRole(): boolean {
-    return this.getLoggedRole() === 'professional';
+    const roles: string[] = this.getLoggedRole();
+    return roles.some( (role: string) => role === 'professional');
+    // return this.getLoggedRole() === 'professional';
   }
 
-  getLoggedRole(): string{
+  getLoggedRole(): string[]{
     const payLoadJwt: any = this.getDecodeJwt();
     return payLoadJwt.rl;
   }
