@@ -18,6 +18,10 @@ export class PrescriptionsService {
     return this.http.get(`${environment.API_END_POINT}/prescriptions`);
   }
 
+  getById(id: string): Observable<Prescriptions>{
+    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${id}`);
+  }
+
   dispense(prescription: Prescriptions): Observable<Prescriptions> {
     prescription.dispensedBy = this.authService.getLoggedUserId();
     return this.http.patch<Prescriptions>(`${environment.API_END_POINT}/prescriptions/dispense/${prescription._id}`, prescription);

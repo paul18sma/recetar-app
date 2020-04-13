@@ -46,6 +46,7 @@ export class PharmacistsFormComponent implements OnInit {
   insurances: Insurances;
   filteredOptions: Observable<string[]>;
   dataSource: any = [];
+  private dsData: any;
 
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   expandedElement: any;
@@ -150,17 +151,38 @@ export class PharmacistsFormComponent implements OnInit {
     }
   }
 
+  // Dispense prescription, but if was, update table.
   dispense(prescription: Prescriptions){
-  this.apiPrescriptions.dispense(prescription).subscribe(
-    res => {
-      this.prescription = res;
-      this.openSnackBar("Le prescripción se dispensó correctamente.", "Cerrar")
-    },
-    err => {
-      this.openSnackBar(err.error, "Cerrar");
-    });
+    this.apiPrescriptions.dispense(prescription).subscribe(
+      res => {
+        this.updateDataTable(res);
+        this.openSnackBar("Le prescripción se dispensó correctamente.", "Cerrar");
+      },
+      err => {
+        this.apiPrescriptions.getById(prescription._id).subscribe(
+          res => {
+            this.updateDataTable(res);
+            this.openSnackBar(err.error, "Cerrar");
+          }
+        );
+      }
+    );
   }
 
+  // Update the row table with the prescription
+  private updateDataTable (prescription: Prescriptions) {
+    this.dsData = this.dataSource.data;
+    if (this.dsData.length > 0) {
+      for (let i = 0; i < this.dsData.length; i++ ) {
+        if (this.dsData[i]._id === prescription._id) {
+          this.dsData[i] = prescription; // Assign the new prescription
+          this.dataSource = new ExampleDataSource(this.dsData); // Create new dataSource
+        }
+      }
+    }
+  }
+
+  // Show a notification
   openSnackBar(message: string, action: string) {
     this._snackBar.open(message, action, {
       duration: 5000
@@ -205,7 +227,6 @@ export class ExampleDataSource extends DataSource<any> {
   connect(): Observable<Element[]> {
     const rows: any = [];
     this.data.forEach(element => rows.push(element, { detailRow: true, element }));
-    console.log(rows);
     return of(rows);
   }
 
