@@ -19,7 +19,7 @@ import { MatCardModule } from '@angular/material/card';
 
 @NgModule({
   declarations: [
-    routingComponents
+    routingComponents,
   ],
   imports: [
     CommonModule,
