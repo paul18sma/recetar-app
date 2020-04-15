@@ -38,10 +38,11 @@ export class ResetPasswordComponent implements OnInit {
 
   onSubmitEvent(resetForm: FormGroup, resetNgForm: FormGroupDirective): void{
     if(this.resetForm.valid){
-
+      this.isLoading = true;
       this.authService.resetPassword(this.resetForm.value).subscribe(
         res => {
           // menssage
+          this.isLoading = false;
           setTimeout(() => {
             if(this.authService.isPharmacistsRole()){
               this.router.navigate(['/farmacias/recetas/dispensar']);
