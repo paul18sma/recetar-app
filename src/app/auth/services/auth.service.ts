@@ -43,6 +43,10 @@ export class AuthService {
     );
   }
 
+  resetPassword(passwords: {oldPassword: string, newPassword: string}){
+    return this.http.post<any>(`${this.apiEndPoint}/auth/reset-password`, passwords);
+  }
+
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
