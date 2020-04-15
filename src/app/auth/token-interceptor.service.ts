@@ -19,8 +19,8 @@ export class TokenInterceptorService implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 401) {
-        return this.handle401Error(request, next);
+      if (error instanceof HttpErrorResponse && error.status === 403) {
+        return this.handle403Error(request, next);
       }
       else {
         return this.errorHandler(error);
@@ -43,7 +43,7 @@ export class TokenInterceptorService implements HttpInterceptor {
     });
   }
 
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+  private handle403Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
