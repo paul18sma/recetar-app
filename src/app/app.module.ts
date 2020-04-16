@@ -17,6 +17,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 // material
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
+import { MatMenuModule } from '@angular/material/menu';
 // component
 import { HeaderComponent } from '@shared/layouts/header/header.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
@@ -39,7 +40,8 @@ import { DatePipe } from '@angular/common';
     ReactiveFormsModule,
     FlexLayoutModule,
     MatToolbarModule,
-    MatButtonModule
+    MatButtonModule,
+    MatMenuModule
   ],
   providers: [
     PatientsService,
