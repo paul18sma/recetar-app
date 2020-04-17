@@ -13,7 +13,7 @@ import { DataSource } from '@angular/cdk/collections';
 import { of } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
-import { PdfMakeWrapper, Txt, Canvas, Line, Img } from 'pdfmake-wrapper';
+import { PdfMakeWrapper, Txt, Canvas, Line, Img, Table, Columns } from 'pdfmake-wrapper';
 import { DatePipe } from '@angular/common';
 import { AuthService } from '@auth/services/auth.service';
 
@@ -94,16 +94,16 @@ export class PharmacistsFormComponent implements OnInit {
       title: "Receta digital "+prescription.professionalFullname,
       author: 'RecetAR'
     });
-    
     pdf.add(await new Img('assets/img/LogoPdf.jpg').fit([60, 60]).build());
     pdf.add(new Txt('RECETA DIGITAL').bold().alignment('center').end);
     pdf.add(pdf.ln(2));
     pdf.add(new Txt(""+this.datePipe.transform(prescription.date, 'dd/MM/yyyy')).alignment('right').end);
-    pdf.add(new Txt("Profesional").bold().end);
-    pdf.add(new Txt(""+prescription.professionalFullname).end);
+    pdf.add(new Columns([ new Txt("Profesional").bold().end, new Txt("Matrícula").bold().end ]).end);
+    console.log(prescription);
+    pdf.add(new Columns([ new Txt(""+prescription.professionalFullname).end, new Txt(""+prescription.user.enrollment).end ]).end);
     pdf.add(pdf.ln(1));
-    pdf.add(new Txt("Paciente").bold().end);
-    pdf.add(new Txt(""+prescription.patient.lastName.toUpperCase()+", "+prescription.patient.firstName.toUpperCase()).end);
+    pdf.add(new Columns([ new Txt("Paciente").bold().end, new Txt("DNI").bold().end ]).end);
+    pdf.add(new Columns([ new Txt(""+prescription.patient.lastName.toUpperCase()+", "+prescription.patient.firstName.toUpperCase()).end, new Txt(""+prescription.patient.dni) .end ]).end);
     pdf.add(
       new Canvas([
           new Line(10, [500, 10]).end
