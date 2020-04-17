@@ -94,37 +94,35 @@ export class PharmacistsFormComponent implements OnInit {
       title: "Receta digital "+prescription.professionalFullname,
       author: 'RecetAR'
     });
+    // Header
     pdf.add(await new Img('assets/img/LogoPdf.jpg').fit([60, 60]).build());
     pdf.add(new Txt('RECETA DIGITAL').bold().alignment('center').end);
     pdf.add(pdf.ln(2));
     pdf.add(new Txt(""+this.datePipe.transform(prescription.date, 'dd/MM/yyyy')).alignment('right').end);
+    // Professional
     pdf.add(new Columns([ new Txt("Profesional").bold().end, new Txt("Matrícula").bold().end ]).end);
-    console.log(prescription);
     pdf.add(new Columns([ new Txt(""+prescription.professionalFullname).end, new Txt(""+prescription.user.enrollment).end ]).end);
-    pdf.add(pdf.ln(1));
+    pdf.add(pdf.ln(2));
+    // Patient
     pdf.add(new Columns([ new Txt("Paciente").bold().end, new Txt("DNI").bold().end ]).end);
     pdf.add(new Columns([ new Txt(""+prescription.patient.lastName.toUpperCase()+", "+prescription.patient.firstName.toUpperCase()).end, new Txt(""+prescription.patient.dni) .end ]).end);
-    pdf.add(
-      new Canvas([
-          new Line(10, [500, 10]).end
-      ]).end
-    );
+    pdf.add(new Canvas([ new Line(10, [500, 10]).end ]).end);
+    // Supplies
     pdf.add(pdf.ln(1));
     console.log("Supplies:", prescription.supplies);
     prescription.supplies.forEach(supply => {
-      console.log("Supply:", supply);
-
       pdf.add(new Txt(""+supply.supply.name+", cantidad: "+supply.quantity).end); // Marca error pero funciona bien
       pdf.add(pdf.ln(1));
     });
-    pdf.add(
-      new Canvas([
-          new Line(10, [500, 10]).end
-      ]).end
-    );
+    pdf.add(new Canvas([ new Line(10, [500, 10]).end]).end);
     pdf.add(pdf.ln(1));
     pdf.add(new Txt("Observaciones").bold().end);
     pdf.add(new Txt(""+prescription.observation).end);
+    pdf.add(pdf.ln(2));
+    // Pharmacy
+    pdf.add(new Columns([ new Txt("Dispensado por").bold().end, new Txt("CUIL").bold().end ]).end);
+    pdf.add(new Columns([ new Txt(""+prescription.user.businessName.toUpperCase()).end, new Txt(""+prescription.user.cuil).end ]).end);
+
     pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);
 
     pdf.create().open();
