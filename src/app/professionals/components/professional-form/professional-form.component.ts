@@ -10,7 +10,6 @@ import { ProfessionalsService } from '@services/professionals.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Patient } from '@interfaces/patients';
 import {ThemePalette} from '@angular/material/core';
-import { MatInput } from '@angular/material/input';
 
 @Component({
   selector: 'app-professional-form',
@@ -30,9 +29,9 @@ export class ProfessionalFormComponent implements OnInit {
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
   readonly maxQSupplies: number = 2;
-  readonly spinnerColor: ThemePalette = 'accent';
+  readonly spinnerColor: ThemePalette = 'primary';
   readonly spinnerDiameter: number = 30;
-  showDiameter: boolean = false;
+  showSubmit: boolean = false;
   dniShowSpinner: boolean = false;
   supplySpinner: { show: boolean}[] = [{show: false}, {show: false}];
 
@@ -115,6 +114,8 @@ export class ProfessionalFormComponent implements OnInit {
           this.supplySpinner[index] = {show: false};
         },
       );
+    }else{
+      this.supplySpinner[index] = {show: false};
     }
   }
 
@@ -126,8 +127,9 @@ export class ProfessionalFormComponent implements OnInit {
           this.patientSearch = res;
           this.dniShowSpinner = false;
         },
-      );
-    }
+        );
+      }
+     this.dniShowSpinner = false;
   }
 
   completePatientInputs(patient: Patient):void{
@@ -141,7 +143,7 @@ export class ProfessionalFormComponent implements OnInit {
 
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
-      this.showDiameter = !this.showDiameter;
+      this.showSubmit = !this.showSubmit;
       this.apiPrescriptions.newPrescription(newPrescription).subscribe(
         res => {
           // get defualt value before reset
@@ -155,7 +157,7 @@ export class ProfessionalFormComponent implements OnInit {
             professionalFullname: professionalFullname
           });
 
-          this.showDiameter = !this.showDiameter;
+          this.showSubmit = !this.showSubmit;
           this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
           this.dni.nativeElement.focus();
         },
@@ -168,7 +170,7 @@ export class ProfessionalFormComponent implements OnInit {
               }
             });
           });
-          this.showDiameter = !this.showDiameter;
+          this.showSubmit = !this.showSubmit;
       });
     }
   }

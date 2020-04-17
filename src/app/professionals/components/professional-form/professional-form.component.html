@@ -166,12 +166,13 @@
           </mat-form-field>
 
         </div>
-        <button mat-raised-button color="primary" type="submit">
-          <span *ngIf="!showDiameter">
+        <div fxLayout="row" fxLayoutAlign="center">
+          <button mat-raised-button color="primary" type="submit" *ngIf="!showSubmit" fxFlex="100%">
             Crear
-          </span>
-          <mat-spinner [color]="spinnerColor" [diameter]="spinnerDiameter" *ngIf="showDiameter"></mat-spinner>
-        </button>
+          </button>
+
+          <mat-spinner [color]="spinnerColor" [diameter]="spinnerDiameter" *ngIf="showSubmit"></mat-spinner>
+        </div>
       </form>
     </mat-card-content>
   </mat-card>
