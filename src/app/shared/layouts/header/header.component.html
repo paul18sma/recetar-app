@@ -6,7 +6,7 @@
     </button>
 
     <div>
-      <button mat-button [matMenuTriggerFor]="menu">Menu</button>
+      <button mat-button [matMenuTriggerFor]="menu">{{businessName$.source.value}}</button>
       <mat-menu #menu="matMenu">
         <a mat-menu-item [routerLink]="['/auth/reset-password']">Cambiar contraseña</a>
         <button mat-menu-item (click)="logout()">Salir</button>
