@@ -22,6 +22,7 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { AuthService } from '@auth/services/auth.service';
 import { DialogComponent } from '@pharmacists/components/dialog/dialog.component';
 import { PrescriptionPrinterComponent } from '@pharmacists/components/prescription-printer/prescription-printer.component';
+import { DatePipe } from '@angular/common'
 
 
 @Component({
@@ -64,7 +65,8 @@ export class PharmacistsFormComponent implements OnInit {
     private apiInsurances: InsurancesService,
     private authService: AuthService,
     public dialog: MatDialog,
-    private prescriptionPrinter: PrescriptionPrinterComponent
+    private prescriptionPrinter: PrescriptionPrinterComponent,
+    public datepipe: DatePipe
   ){}
 
   ngOnInit(): void{
@@ -84,13 +86,14 @@ export class PharmacistsFormComponent implements OnInit {
           this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe(
             res => {
               if(!res.length){
-                this.openDialog("noPrescriptionsDate", undefined, term);
+                this.openDialog("noPrescriptionsDate", undefined, this.datepipe.transform(term, 'dd/MM/yyyy'));
               }else{
                 this.dataSource = new ExampleDataSource(res);
               }
             }
           );
         else{
+          console.log(this.patient);
           this.openDialog("selectPatient");
         }
       }
@@ -123,7 +126,7 @@ export class PharmacistsFormComponent implements OnInit {
     this.apiPrescriptions.dispense(prescription).subscribe(
       res => {
         this.updateDataTable(res);
-        this.openDialog("dispensed", res);
+        this.openDialog("dispensed", res, res.professionalFullname);
       },
       err => {
         this.apiPrescriptions.getById(prescription._id).subscribe(
@@ -163,6 +166,7 @@ export class PharmacistsFormComponent implements OnInit {
 
   // Return prescriptions related to a patient
   searchPrescriptions(patient: Patient):void{
+    this.patient = patient;
     this.prescriptionForm.get('patient_dni').setValue(patient.dni+" "+patient.lastName+" "+patient.firstName);
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
