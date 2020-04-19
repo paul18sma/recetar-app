@@ -10,6 +10,7 @@ import { ProfessionalsService } from '@services/professionals.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Patient } from '@interfaces/patients';
 import {ThemePalette} from '@angular/material/core';
+import { ArrayValidators } from '@utils/custome-validators/array.validators';
 
 @Component({
   selector: 'app-professional-form',
@@ -86,7 +87,7 @@ export class ProfessionalFormComponent implements OnInit {
         Validators.required
       ]],
       observation: [''],
-      supplies: this.fBuilder.array([])
+      supplies: this.fBuilder.array([], ArrayValidators.minLengthFilled(1, 'supply', '_id'))
     });
     this.addSupply(); //init atleast one supply
     this.addSupply(); //init atleast one supply
@@ -141,6 +142,7 @@ export class ProfessionalFormComponent implements OnInit {
   // Create patient if doesn't exist and create prescription
   onSubmitProfessionalForm(professionalForm: FormGroup, professionalNgForm: FormGroupDirective):void {
 
+    this.suppliesForm.markAsTouched();
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
       this.showSubmit = !this.showSubmit;
@@ -150,6 +152,7 @@ export class ProfessionalFormComponent implements OnInit {
           const userId = this.userId.value;
           const date = this.today;
           const professionalFullname = this.professionalFullname.value;
+          console.log('after submit');
           professionalNgForm.resetForm();
           professionalForm.reset({
             user_id: userId,
@@ -218,7 +221,7 @@ export class ProfessionalFormComponent implements OnInit {
   addSupply() {
     if(this.suppliesForm.length < 2){
       const supplies = this.fBuilder.group({
-        supply: ['', [Validators.required]],
+        supply: [''],
         quantity: ['1', [
           Validators.required,
           Validators.min(1),
@@ -237,4 +240,5 @@ export class ProfessionalFormComponent implements OnInit {
       duration: 2000,
     });
   }
+
 }
