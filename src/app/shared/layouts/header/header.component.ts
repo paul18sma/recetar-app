@@ -11,11 +11,13 @@ import { Observable } from 'rxjs';
 export class HeaderComponent implements OnInit {
 
   isLoggedIn$: Observable<boolean>;
+  businessName$: Observable<string>;
 
   constructor(private authService: AuthService, private router: Router) { }
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.authService.isLoggedIn;
+    this.businessName$ = this.authService.getBusinessName;
   }
 
   logout(){
@@ -25,5 +27,4 @@ export class HeaderComponent implements OnInit {
       }
     });
   }
-
 }

@@ -3,6 +3,7 @@ import { FormBuilder, FormGroup, AbstractControl, FormGroupDirective, Validators
 import { AuthService } from '@auth/services/auth.service';
 import { Router } from '@angular/router';
 import { ThemePalette } from '@angular/material/core/common-behaviors/color';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-reset-password',
@@ -18,7 +19,12 @@ export class ResetPasswordComponent implements OnInit {
   isLoading: boolean = false;
   readonly spinnerColor: ThemePalette = 'accent';
 
-  constructor(private fBuild: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(
+    private fBuild: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router,
+    private _snackBar: MatSnackBar
+  ) { }
 
   ngOnInit(): void {
     this.initResetForm();
@@ -50,13 +56,22 @@ export class ResetPasswordComponent implements OnInit {
               this.router.navigate(['/profesionales/recetas/nueva']);
             }
           }, 5000);
+          this.openSnackBar(res, "Cerrar");
         },
         err => {
           resetNgForm.resetForm();
           resetForm.reset();
           this.error = err;
+          this.isLoading = false;
       });
     }
+  }
+
+  // Show a notification
+  openSnackBar(message: string, action: string) {
+    this._snackBar.open(message, action, {
+      duration: 5000
+    });
   }
 
   get oldPassword(): AbstractControl {

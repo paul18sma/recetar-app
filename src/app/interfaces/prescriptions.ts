@@ -1,10 +1,10 @@
-import { AuthService } from '@auth/services/auth.service';
 import Supply from '@interfaces/supplies'
 import { Patient } from '@interfaces/patients'
+import { User } from '@interfaces/users';
 
 export class Prescriptions {
   _id: string;
-  user_id: string;
+  user: User;
   professionalFullname: string;
   patient: Patient;
   dispensedBy: string;

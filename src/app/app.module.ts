@@ -27,7 +27,7 @@ import { DatePipe } from '@angular/common';
   declarations: [
     AppComponent,
     routingComponents,
-    HeaderComponent,
+    HeaderComponent
   ],
   imports: [
     BrowserModule,

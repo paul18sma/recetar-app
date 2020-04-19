@@ -17,10 +17,12 @@ export class AuthService {
   private readonly REFRESH_TOKEN = 'REFRESH_TOKEN';
   private readonly apiEndPoint = environment.API_END_POINT;
   private loggedIn: BehaviorSubject<boolean>;
+  private businessName: BehaviorSubject<string>;
 
 
   constructor(private http: HttpClient) {
     this.loggedIn = new BehaviorSubject<boolean>(!!this.getJwtToken());
+    this.businessName = new BehaviorSubject<string>(this.getLoggedBusinessName());
   }
 
   login(user: { username: string, password: string }): Observable<boolean | HttpErrorResponse> {
@@ -51,6 +53,10 @@ export class AuthService {
     return this.loggedIn.asObservable();
   }
 
+  get getBusinessName() {
+    return this.businessName.asObservable();
+  }
+
   refreshToken() {
     return this.http.post<any>(`${this.apiEndPoint}/auth/refresh`, {
       'refreshToken': this.getRefreshToken()
@@ -73,6 +79,11 @@ export class AuthService {
   getLoggedUserId(): string{
     const payLoadJwt: any = this.getDecodeJwt();
     return payLoadJwt.sub;
+  }
+
+  getLoggedBusinessName(): string{
+    const payLoadJwt: any = this.getDecodeJwt();
+    return payLoadJwt.bsname;
   }
 
   isPharmacistsRole(): boolean {
@@ -103,6 +114,7 @@ export class AuthService {
 
   private doLoginUser(username: string, tokens: Tokens) {
     this.storeTokens(tokens);
+    this.businessName.next(this.getLoggedBusinessName());
     this.loggedIn.next(!!this.getJwtToken());
   }
 

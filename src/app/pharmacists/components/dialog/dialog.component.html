@@ -1,0 +1,54 @@
+<div [ngSwitch]="data.dialogType">
+
+  <div *ngSwitchCase="'noPrescriptions'">
+    <h3 mat-dialog-title><mat-icon>error_outline</mat-icon>  Atención</h3>
+    <div mat-dialog-content>
+      <p>No hay recetas para este paciente</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End case noPrescriptions -->
+
+  <div *ngSwitchCase="'dispensed'">
+    <h3 mat-dialog-title><mat-icon>check</mat-icon>  Dispensada</h3>
+    <div mat-dialog-content>
+      <p>La receta de {{data.text}} se ha dispensado correctamente!</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button *ngIf="data.prescription" (click)=printPrescription(data.prescription)>Imprimir</button>
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End case dispensed -->
+
+  <div *ngSwitchCase="'noPrescriptionsDate'">
+    <h3 mat-dialog-title><mat-icon>error_outline</mat-icon>  Atención</h3>
+    <div mat-dialog-content>
+      <p>No hay recetas para este paciente en la fecha {{data.text}}</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End case noPrescriptionsDate -->
+
+  <div *ngSwitchCase="'selectPatient'">
+    <h3 mat-dialog-title><mat-icon>error_outline</mat-icon>  Atención</h3>
+    <div mat-dialog-content>
+      <p>Seleccione un paciente para luego filtrar por fecha</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End case noPrescriptionsDate -->
+
+  <div *ngSwitchDefault>
+    <h3 mat-dialog-title><mat-icon>error</mat-icon>  Error</h3>
+    <div mat-dialog-content>
+      <p>{{data.text}}</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End default switch -->
+</div>
+

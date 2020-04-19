@@ -91,7 +91,7 @@ export class ProfessionalFormComponent implements OnInit {
   initProfessionalForm(){
     this.today = new Date((new Date()));
     this.professionalForm = this.fBuilder.group({
-      user_id: [this.authService.getLoggedUserId()],
+      user: [this.authService.getLoggedUserId()],
       professionalFullname: [''],
       patient: this.fBuilder.group({
         dni: ['', [
@@ -172,12 +172,12 @@ export class ProfessionalFormComponent implements OnInit {
       this.apiPrescriptions.newPrescription(newPrescription).subscribe(
         res => {
           // get defualt value before reset
-          const userId = this.userId.value;
+          const user = this.user.value;
           const date = this.today;
           const professionalFullname = this.professionalFullname.value;
           professionalNgForm.resetForm();
           professionalForm.reset({
-            user_id: userId,
+            user: user,
             date: date,
             professionalFullname: professionalFullname
           });
@@ -200,8 +200,8 @@ export class ProfessionalFormComponent implements OnInit {
     }
   }
 
-  get userId(): AbstractControl{
-    return this.professionalForm.get('user_id');
+  get user(): AbstractControl{
+    return this.professionalForm.get('user');
   }
 
   get date(): AbstractControl{
