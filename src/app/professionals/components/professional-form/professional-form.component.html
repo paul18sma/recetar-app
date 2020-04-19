@@ -75,7 +75,6 @@
             </mat-form-field>
 
           </div>
-
           <div>
             <!-- sex -->
             <mat-form-field appearance="fill">
@@ -111,6 +110,12 @@
 
 
           <div formArrayName="supplies" class="nested-supplies">
+            <div class="custom-error-container">
+              <mat-error *ngIf="suppliesForm.errors?.minLengthFilled && suppliesForm.invalid && suppliesForm.touched">
+                Debe seleccionar almenos un medicamento
+              </mat-error>
+            </div>
+
             <div *ngFor="let control of suppliesForm.controls; let i=index" [formGroupName]="i">
               <div fxLayout="row" fxLayoutGap="10px">
                 <mat-form-field appearance="fill" fxFlex="80%">
@@ -119,7 +124,6 @@
                     tabIndex="5"
                     placeholder="Medicamento"
                     matInput
-                    required
                     formControlName="supply"
                     [matAutocomplete]="supplyref"
                     (ngModelChange)="getSupplies(control.value.supply, i)">
@@ -166,6 +170,7 @@
           </mat-form-field>
 
         </div>
+
         <div fxLayout="row" fxLayoutAlign="center">
           <button mat-raised-button color="primary" type="submit" *ngIf="!showSubmit" fxFlex="100%">
             Crear

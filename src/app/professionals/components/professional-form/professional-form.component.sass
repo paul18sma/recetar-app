@@ -14,3 +14,25 @@
 
 .sub-container
   width: 100%
+
+.custom-error-container
+  position: relative
+
+  mat-error
+    position: relative
+    font-size: 75%
+    animation-name: error-show
+    animation-duration: .3s
+    top: calc(100% - 1.7916666667em)
+
+
+@keyframes error-show
+  from
+    transform: translateY(-100%)
+    opacity: 0
+
+  to
+    transform: translateY(0%)
+    opacity: 1
+
+
