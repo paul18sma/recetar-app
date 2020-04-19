@@ -125,11 +125,7 @@
                     placeholder="Medicamento"
                     matInput
                     formControlName="supply"
-                    [matAutocomplete]="supplyref"
-                    (ngModelChange)="getSupplies(control.value.supply, i)">
-                    <button type="button" mat-icon-button matSuffix  (click)="deleteSupply(i)" *ngIf="!supplySpinner[i].show">
-                      <mat-icon>{{ 'clear' }}</mat-icon>
-                    </button>
+                    [matAutocomplete]="supplyref">
                     <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="supplySpinner[i].show"></mat-spinner>
                   <mat-autocomplete #supplyref="matAutocomplete" [displayWith]="displayFn">
                     <mat-option *ngFor="let sup of storedSupplies" [value]="sup">
@@ -146,8 +142,7 @@
 
                 <mat-form-field appearance="fill" fxFlex="20%">
                   <mat-label>Cantidad</mat-label>
-                  <input tabIndex="6" type="number" matInput formControlName="quantity" required>
-
+                  <input tabIndex="6" type="number" matInput formControlName="quantity">
                   <mat-error *ngIf="control.get('quantity').hasError('required')">
                     Debe ingresar una cantidad
                   </mat-error>

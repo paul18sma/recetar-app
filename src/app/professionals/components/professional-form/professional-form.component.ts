@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
@@ -10,7 +10,6 @@ import { ProfessionalsService } from '@services/professionals.service';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { Patient } from '@interfaces/patients';
 import {ThemePalette} from '@angular/material/core';
-import { ArrayValidators } from '@utils/custome-validators/array.validators';
 
 @Component({
   selector: 'app-professional-form',
@@ -54,13 +53,39 @@ export class ProfessionalFormComponent implements OnInit {
       res => {
         this.professionalFullname.setValue(res[0].last_name+", "+res[0].first_name);
       },
-    )
+    );
     // on DNI changes
     this.patientDni.valueChanges.subscribe(
       dniValue => {
         this.getPatientByDni(dniValue);
       }
-    )
+    );
+
+    // subscribe to each supply field changes
+    this.suppliesForm.controls.map((supplyControl, index) => {
+      supplyControl.get('supply').valueChanges.subscribe((supply: string | {_id: string, name: string})  => {
+        if(typeof(supply) === 'string' && supply.length > 3){
+          console.log(this.supplyRequest);
+          if(this.supplyRequest !== null) this.supplyRequest.unsubscribe();
+
+          this.supplySpinner[index] = {show: true};
+          this.supplyRequest = this.suppliesService.getSupplyByTerm(supply).subscribe(
+            res => {
+              this.storedSupplies = res as Supplies[];
+              this.supplySpinner[index] = {show: false};
+            },
+          );
+        }else{
+          this.supplySpinner[index] = {show: false};
+        }
+        // add or remove closest quantity validation
+        if(index > 0) this.onSuppliesAddControlQuantityValidators(index, (
+          ((typeof(supply) === 'string' && supply.length > 0) ||
+          (typeof(supply) === 'object')) &&
+          (typeof(supply) !== 'undefined' || supply !== null))
+        );
+      });
+    });
   }
 
   initProfessionalForm(){
@@ -87,37 +112,35 @@ export class ProfessionalFormComponent implements OnInit {
         Validators.required
       ]],
       observation: [''],
-      supplies: this.fBuilder.array([], ArrayValidators.minLengthFilled(1, 'supply', '_id'))
+      supplies: this.fBuilder.array([
+        this.fBuilder.group({
+          supply: ['', Validators.required],
+          quantity: ['', [
+            Validators.required,
+            Validators.min(1)
+          ]]
+        }),
+        this.fBuilder.group({
+          supply: [''],
+          quantity: ['']
+        }),
+      ])
     });
-    this.addSupply(); //init atleast one supply
-    this.addSupply(); //init atleast one supply
     this.dni.nativeElement.focus();
   }
 
-  // on before fetch supplies data, it checks if we had a previous request,
-  // so this will be canceled and then re call a new one with updated params
-  public getSupplies(term: string, index: number):void{
-    if(this.supplyRequest){
-      this.supplyRequest.unsubscribe();
-      this.fetchSupplies(term, index);
-    } else {
-      this.fetchSupplies(term, index);
-    }
-  }
 
-  private fetchSupplies(term: string, index: number):void{
-    if(term !== null && term.length > 3){
-
-      this.supplySpinner[index] = {show: true};
-      this.supplyRequest = this.suppliesService.getSupplyByTerm(term).subscribe(
-        res => {
-          this.storedSupplies = res as Supplies[];
-          this.supplySpinner[index] = {show: false};
-        },
-      );
-    }else{
-      this.supplySpinner[index] = {show: false};
+  onSuppliesAddControlQuantityValidators(index: number, add: boolean){
+    const quantity = this.suppliesForm.controls[index].get('quantity');
+    if(add && !quantity.validator){
+      quantity.setValidators([
+        Validators.required,
+        Validators.min(1)
+      ]);
+    }else if(!add && !!quantity.validator){
+      quantity.clearValidators();
     }
+    quantity.updateValueAndValidity();
   }
 
   getPatientByDni(dniValue: string | null):void{
@@ -133,14 +156,14 @@ export class ProfessionalFormComponent implements OnInit {
      this.dniShowSpinner = false;
   }
 
-  completePatientInputs(patient: Patient):void{
+  completePatientInputs(patient: Patient): void {
     this.patientLastName.setValue(patient.lastName);
     this.patientFirstName.setValue(patient.firstName);
     this.patientSex.setValue(patient.sex);
   }
 
   // Create patient if doesn't exist and create prescription
-  onSubmitProfessionalForm(professionalForm: FormGroup, professionalNgForm: FormGroupDirective):void {
+  onSubmitProfessionalForm(professionalForm: FormGroup, professionalNgForm: FormGroupDirective): void {
 
     this.suppliesForm.markAsTouched();
     if(this.professionalForm.valid){
@@ -152,7 +175,6 @@ export class ProfessionalFormComponent implements OnInit {
           const userId = this.userId.value;
           const date = this.today;
           const professionalFullname = this.professionalFullname.value;
-          console.log('after submit');
           professionalNgForm.resetForm();
           professionalForm.reset({
             user_id: userId,
@@ -222,10 +244,7 @@ export class ProfessionalFormComponent implements OnInit {
     if(this.suppliesForm.length < 2){
       const supplies = this.fBuilder.group({
         supply: [''],
-        quantity: ['1', [
-          Validators.required,
-          Validators.min(1),
-        ]]
+        quantity: ['']
       });
       this.suppliesForm.push(supplies);
     }
