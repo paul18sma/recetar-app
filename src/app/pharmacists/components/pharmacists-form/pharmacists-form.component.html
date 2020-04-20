@@ -46,7 +46,7 @@
     <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
       <h1>
         <mat-icon>gesture</mat-icon>
-        Recetas
+        Recetas <span *ngIf="this.dataSource.data"> de {{dataSource.data[0].patient.lastName}}, {{dataSource.data[0].patient.firstName}} DNI {{dataSource.data[0].patient.dni}}</span>
       </h1>
       <div class="prescriptions-container mat-elevation-z8">
         <mat-table #table [dataSource]="dataSource">

@@ -113,7 +113,6 @@ export class PharmacistsFormComponent implements OnInit {
 
   getPatientByDni(term: string):void{
     if(term.length > 7){
-      console.log("Buscó");
       this.apiPatients.getPatientByDni(term).subscribe(
         res => {
           if(res){
@@ -171,14 +170,13 @@ export class PharmacistsFormComponent implements OnInit {
 
   // Return prescriptions related to a patient
   searchPrescriptions(patient: Patient):void{
-    this.patient = patient;
-    this.prescriptionForm.get('patient_dni').setValue(patient.dni+" "+patient.lastName+" "+patient.firstName);
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
         if(!res.length){
           this.openDialog("noPrescriptions");
         }else{
           this.dataSource = new ExampleDataSource(res);
+          console.log("Data source: ", this.dataSource.data[0].patient.last_name);
         }
       },
     );
