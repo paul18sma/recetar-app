@@ -6,6 +6,7 @@ import { ProfessionalsComponent } from '@professionals/professionals.component';
 import { ProfessionalFormComponent } from '@professionals/components/professional-form/professional-form.component';
 import { ProfessionalListComponent } from '@professionals/components/professional-list/professional-list.component';
 import { RoleProfessionalGuard } from '@auth/guards/role-professional.guard';
+import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 
 
 const routes: Routes = [
@@ -31,5 +32,6 @@ export class ProfessionalsRoutingModule { }
 export const routingComponents = [
   ProfessionalsComponent,
   ProfessionalFormComponent,
-  ProfessionalListComponent
+  ProfessionalListComponent,
+  ProfessionalDialogComponent
 ]
