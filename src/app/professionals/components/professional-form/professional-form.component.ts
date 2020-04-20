@@ -74,6 +74,8 @@ export class ProfessionalFormComponent implements OnInit {
               this.supplySpinner[index] = {show: false};
             },
           );
+        }else if(typeof(supply) === 'object' || (typeof(supply) === 'string' && supply.length == 0)){
+          this.storedSupplies = [];
         }else{
           this.supplySpinner[index] = {show: false};
         }
@@ -164,7 +166,6 @@ export class ProfessionalFormComponent implements OnInit {
   // Create patient if doesn't exist and create prescription
   onSubmitProfessionalForm(professionalForm: FormGroup, professionalNgForm: FormGroupDirective): void {
 
-    this.suppliesForm.markAsTouched();
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
       this.showSubmit = !this.showSubmit;
@@ -186,14 +187,16 @@ export class ProfessionalFormComponent implements OnInit {
           this.dni.nativeElement.focus();
         },
         err => {
-          err.error.map(err => {
-            // handle supplies error
-            this.suppliesForm.controls.map(control => {
-              if(control.get('supply').value == err.supply){
-                control.get('supply').setErrors({ invalid: err.message});
-              }
+          if(err.error.length > 0){
+            err.error.map(err => {
+              // handle supplies error
+              this.suppliesForm.controls.map(control => {
+                if(control.get('supply').value == err.supply){
+                  control.get('supply').setErrors({ invalid: err.message});
+                }
+              });
             });
-          });
+          }
           this.showSubmit = !this.showSubmit;
       });
     }
