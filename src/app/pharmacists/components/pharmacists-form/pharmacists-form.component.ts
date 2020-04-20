@@ -112,10 +112,15 @@ export class PharmacistsFormComponent implements OnInit {
   }
 
   getPatientByDni(term: string):void{
-    if(term.length > 2){
+    if(term.length > 7){
+      console.log("Buscó");
       this.apiPatients.getPatientByDni(term).subscribe(
         res => {
-          this.patient = res;
+          if(res){
+            this.patient = res;
+          }else{
+            this.openDialog("patientNotFound", undefined, term);
+          }
         },
       );
     }
