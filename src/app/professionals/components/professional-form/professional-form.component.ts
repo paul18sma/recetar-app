@@ -65,7 +65,6 @@ export class ProfessionalFormComponent implements OnInit {
     this.suppliesForm.controls.map((supplyControl, index) => {
       supplyControl.get('supply').valueChanges.subscribe((supply: string | {_id: string, name: string})  => {
         if(typeof(supply) === 'string' && supply.length > 3){
-          console.log(this.supplyRequest);
           if(this.supplyRequest !== null) this.supplyRequest.unsubscribe();
 
           this.supplySpinner[index] = {show: true};
@@ -82,7 +81,7 @@ export class ProfessionalFormComponent implements OnInit {
         if(index > 0) this.onSuppliesAddControlQuantityValidators(index, (
           ((typeof(supply) === 'string' && supply.length > 0) ||
           (typeof(supply) === 'object')) &&
-          (typeof(supply) !== 'undefined' || supply !== null))
+          (typeof(supply) !== 'undefined' && supply !== null))
         );
       });
     });
