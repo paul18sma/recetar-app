@@ -41,6 +41,16 @@
     </div>
   </div> <!-- End case noPrescriptionsDate -->
 
+  <div *ngSwitchCase="'patientNotFound'">
+    <h3 mat-dialog-title><mat-icon>error_outline</mat-icon>  Atención</h3>
+    <div mat-dialog-content>
+      <p>No se ha encontrado ningún paciente con DNI {{data.text}}</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End case noPrescriptionsDate -->
+
   <div *ngSwitchDefault>
     <h3 mat-dialog-title><mat-icon>error</mat-icon>  Error</h3>
     <div mat-dialog-content>

@@ -7,9 +7,11 @@ import { PatientsService } from '@root/app/services/patients.service';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { AuthService } from '@auth/services/auth.service';
 import { ProfessionalsService } from '@services/professionals.service';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Patient } from '@interfaces/patients';
 import {ThemePalette} from '@angular/material/core';
+import { Prescriptions } from '@interfaces/prescriptions';
+import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-professional-form',
@@ -42,7 +44,7 @@ export class ProfessionalFormComponent implements OnInit {
     private apiPrescriptions: PrescriptionsService,
     private authService: AuthService,
     private apiProfessionals: ProfessionalsService,
-    private _snackBar: MatSnackBar
+    public dialog: MatDialog
   ){}
 
   ngOnInit(): void {
@@ -183,7 +185,7 @@ export class ProfessionalFormComponent implements OnInit {
           });
 
           this.showSubmit = !this.showSubmit;
-          this.openSnackBar("La receta se ha creado correctamente.", "Cerrar");
+          this.openDialog("created");
           this.dni.nativeElement.focus();
         },
         err => {
@@ -200,6 +202,18 @@ export class ProfessionalFormComponent implements OnInit {
           this.showSubmit = !this.showSubmit;
       });
     }
+  }
+
+  // Show a dialog
+  openDialog(aDialogType: string, aPrescription?: Prescriptions, aText?: string): void {
+    const dialogRef = this.dialog.open(ProfessionalDialogComponent, {
+      width: '400px',
+      data: {dialogType: aDialogType, prescription: aPrescription, text: aText }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
   }
 
   get user(): AbstractControl{
@@ -255,11 +269,4 @@ export class ProfessionalFormComponent implements OnInit {
   deleteSupply(i) {
     this.suppliesForm.removeAt(i);
   }
-
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 2000,
-    });
-  }
-
 }
