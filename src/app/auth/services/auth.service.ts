@@ -62,7 +62,7 @@ export class AuthService {
       'refreshToken': this.getRefreshToken()
     }).pipe(
       tap((tokens: Tokens) => {
-        this.storeJwtToken(tokens.jwt);
+        this.storeTokens(tokens);
       })
     );
   }
