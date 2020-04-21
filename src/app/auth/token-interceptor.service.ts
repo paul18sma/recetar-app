@@ -22,8 +22,8 @@ export class TokenInterceptorService implements HttpInterceptor {
     return next.handle(request).pipe(catchError(error => {
       if (error instanceof HttpErrorResponse && error.status === 406) {
         return this.handle406Error(request, next);
-      } else if (error instanceof HttpErrorResponse && error.status === 401){
-        this.handle401Error(request, next);
+      } else if (error instanceof HttpErrorResponse && error.status === 417){
+        this.handle417Error(request, next);
       }
       else {
         return this.errorHandler(error);
@@ -70,7 +70,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   // user credentials handler
-  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+  private handle417Error(request: HttpRequest<any>, next: HttpHandler) {
     return this.authService.logout().subscribe(success => {
       if(success) this.router.navigate(['/auth/login']);
     });
