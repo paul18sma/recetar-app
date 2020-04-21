@@ -3,6 +3,7 @@ import { HttpRequest, HttpHandler, HttpEvent, HttpInterceptor, HttpErrorResponse
 import { AuthService } from '@auth/services/auth.service';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
+import { Router } from '@angular/router';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
@@ -10,7 +11,7 @@ export class TokenInterceptorService implements HttpInterceptor {
   private isRefreshing = false;
   private refreshTokenSubject: BehaviorSubject<any> = new BehaviorSubject<any>(null);
 
-  constructor(public authService: AuthService) { }
+  constructor(private authService: AuthService, private router: Router ) { }
 
   intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
 
@@ -19,8 +20,10 @@ export class TokenInterceptorService implements HttpInterceptor {
     }
 
     return next.handle(request).pipe(catchError(error => {
-      if (error instanceof HttpErrorResponse && error.status === 403) {
-        return this.handle403Error(request, next);
+      if (error instanceof HttpErrorResponse && error.status === 406) {
+        return this.handle406Error(request, next);
+      } else if (error instanceof HttpErrorResponse && error.status === 401){
+        this.handle401Error(request, next);
       }
       else {
         return this.errorHandler(error);
@@ -43,7 +46,8 @@ export class TokenInterceptorService implements HttpInterceptor {
     });
   }
 
-  private handle403Error(request: HttpRequest<any>, next: HttpHandler) {
+  // expired token handler
+  private handle406Error(request: HttpRequest<any>, next: HttpHandler) {
     if (!this.isRefreshing) {
       this.isRefreshing = true;
       this.refreshTokenSubject.next(null);
@@ -60,8 +64,16 @@ export class TokenInterceptorService implements HttpInterceptor {
         filter(token => token != null),
         take(1),
         switchMap(jwt => {
-          return next.handle(this.addToken(request, jwt));
-        }));
+        return next.handle(this.addToken(request, jwt));
+      }));
     }
   }
+
+  // user credentials handler
+  private handle401Error(request: HttpRequest<any>, next: HttpHandler) {
+    return this.authService.logout().subscribe(success => {
+      if(success) this.router.navigate(['/auth/login']);
+    });
+  }
+
 }
