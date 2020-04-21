@@ -155,8 +155,9 @@ export class ProfessionalFormComponent implements OnInit {
           this.dniShowSpinner = false;
         },
         );
+      }else{
+        this.dniShowSpinner = false;
       }
-     this.dniShowSpinner = false;
   }
 
   completePatientInputs(patient: Patient): void {
