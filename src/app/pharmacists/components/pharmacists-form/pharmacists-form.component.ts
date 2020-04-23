@@ -189,7 +189,7 @@ export class PharmacistsFormComponent implements OnInit {
 
   // Return true if was dispensed and is seeing who dispensed the prescription 
   canPrint(prescription: Prescriptions){
-    return (prescription.status === "Dispensada") && (prescription.dispensedBy === this.authService.getLoggedUserId())
+    return (prescription.status === "Dispensada") && (prescription.dispensedBy._id === this.authService.getLoggedUserId())
   }
 
   printPrescription(prescription: Prescriptions){
