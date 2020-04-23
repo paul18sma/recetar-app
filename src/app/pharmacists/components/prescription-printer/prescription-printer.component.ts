@@ -24,6 +24,7 @@ export class PrescriptionPrinterComponent implements OnInit {
 
   // Print a prescription as PDF
   async print(prescription: Prescriptions){
+    console.log("Prescription", prescription);
     const pdf: PdfMakeWrapper = new PdfMakeWrapper();
     pdf.info({
       title: "Receta digital "+prescription.professionalFullname,
@@ -56,7 +57,7 @@ export class PrescriptionPrinterComponent implements OnInit {
     pdf.add(pdf.ln(2));
     // Pharmacy
     pdf.add(new Columns([ new Txt("Dispensado por").bold().end, new Txt("CUIL").bold().end ]).end);
-    pdf.add(new Columns([ new Txt(""+prescription.user.businessName.toUpperCase()).end, new Txt(""+prescription.user.cuil).end ]).end);
+    pdf.add(new Columns([ new Txt(""+prescription.dispensedBy.businessName.toUpperCase()).end, new Txt(""+prescription.dispensedBy.cuil).end ]).end);
 
     pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);
 

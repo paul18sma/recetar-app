@@ -7,7 +7,7 @@ export class Prescriptions {
   user: User;
   professionalFullname: string;
   patient: Patient;
-  dispensedBy: string;
+  dispensedBy: User;
   supplies: Supply[];
   status: string;
   observation: string;
