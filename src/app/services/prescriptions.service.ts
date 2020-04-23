@@ -6,6 +6,7 @@ import { Observable, of, throwError } from 'rxjs';
 import { Prescriptions } from "../interfaces/prescriptions";
 import { AuthService } from '@auth/services/auth.service';
 import { Patient } from '@interfaces/patients';
+import { User } from '@interfaces/users';
 
 @Injectable({
   providedIn: 'root'
