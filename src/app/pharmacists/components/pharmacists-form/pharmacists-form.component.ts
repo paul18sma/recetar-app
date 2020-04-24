@@ -93,7 +93,6 @@ export class PharmacistsFormComponent implements OnInit {
             }
           );
         else{
-          console.log(this.patient);
           this.openDialog("selectPatient");
         }
       }
@@ -176,7 +175,6 @@ export class PharmacistsFormComponent implements OnInit {
           this.openDialog("noPrescriptions");
         }else{
           this.dataSource = new ExampleDataSource(res);
-          console.log("Data source: ", this.dataSource.data[0].patient.last_name);
         }
       },
     );

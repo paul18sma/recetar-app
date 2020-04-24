@@ -24,7 +24,6 @@ export class PrescriptionPrinterComponent implements OnInit {
 
   // Print a prescription as PDF
   async print(prescription: Prescriptions){
-    console.log("Prescription", prescription);
     const pdf: PdfMakeWrapper = new PdfMakeWrapper();
     pdf.info({
       title: "Receta digital "+prescription.professionalFullname,
@@ -45,7 +44,6 @@ export class PrescriptionPrinterComponent implements OnInit {
     pdf.add(new Canvas([ new Line(10, [500, 10]).end ]).end);
     // Supplies
     pdf.add(pdf.ln(1));
-    console.log("Supplies:", prescription.supplies);
     prescription.supplies.forEach(supply => {
       pdf.add(new Txt(""+supply.supply.name+", cantidad: "+supply.quantity).end); // Marca error pero funciona bien
       pdf.add(pdf.ln(1));
