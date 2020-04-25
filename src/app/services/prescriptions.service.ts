@@ -33,6 +33,10 @@ export class PrescriptionsService {
     return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${patientId}`);
   }
 
+  getByUserId(userId: string): Observable<Prescriptions[]> {
+    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/get-by-user-id/${userId}`);
+  }
+
   newPrescription(prescription: Prescriptions): Observable<Prescriptions> {
     return this.http.post<Prescriptions>(`${environment.API_END_POINT}/prescriptions`, prescription);
   }
