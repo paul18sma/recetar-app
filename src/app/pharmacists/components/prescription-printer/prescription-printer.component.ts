@@ -44,7 +44,6 @@ export class PrescriptionPrinterComponent implements OnInit {
     pdf.add(new Canvas([ new Line(10, [500, 10]).end ]).end);
     // Supplies
     pdf.add(pdf.ln(1));
-    console.log("Supplies:", prescription.supplies);
     prescription.supplies.forEach(supply => {
       pdf.add(new Txt(""+supply.supply.name+", cantidad: "+supply.quantity).end); // Marca error pero funciona bien
       pdf.add(pdf.ln(1));
@@ -56,7 +55,7 @@ export class PrescriptionPrinterComponent implements OnInit {
     pdf.add(pdf.ln(2));
     // Pharmacy
     pdf.add(new Columns([ new Txt("Dispensado por").bold().end, new Txt("CUIL").bold().end ]).end);
-    pdf.add(new Columns([ new Txt(""+prescription.user.businessName.toUpperCase()).end, new Txt(""+prescription.user.cuil).end ]).end);
+    pdf.add(new Columns([ new Txt(""+prescription.dispensedBy.businessName.toUpperCase()).end, new Txt(""+prescription.dispensedBy.cuil).end ]).end);
 
     pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);
 
