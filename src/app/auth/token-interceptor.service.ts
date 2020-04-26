@@ -24,6 +24,7 @@ export class TokenInterceptorService implements HttpInterceptor {
         return this.handle406Error(request, next);
       } else if (error instanceof HttpErrorResponse && error.status === 417){
         this.handle417Error(request, next);
+        return throwError(error.error.message);
       }
       else {
         return this.errorHandler(error);
