@@ -61,20 +61,6 @@ export class AuthService {
     );
   }
 
-  async logoutAsPromise(): Promise<boolean> {
-    const logoutResult: boolean = await this.http.post<any>(`${this.apiEndPoint}/auth/logout`, {
-      'refreshToken': this.getRefreshToken()
-    }).pipe(
-      tap(() => this.doLogoutUser()),
-      mapTo(true),
-      catchError(error => {
-        console.log(error.error);
-        return of(false);
-      })
-    ).toPromise();
-    return logoutResult;
-  }
-
   resetPassword(passwords: {oldPassword: string, newPassword: string}){
     return this.http.post<any>(`${this.apiEndPoint}/auth/reset-password`, passwords);
   }
