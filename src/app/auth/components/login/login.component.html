@@ -22,6 +22,14 @@
       </mat-error>
     </mat-form-field>
 
-    <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+    <div fxLayout="row" fxLayoutAlign="center">
+      <button mat-raised-button color="primary" type="submit" *ngIf="!showSubmit" fxFlex="100%">
+        Iniciar sesión
+      </button>
+
+      <mat-spinner [color]="spinnerColor" [diameter]="spinnerDiameter" *ngIf="showSubmit"></mat-spinner>
+    </div>
+
+
   </div>
 </form>
