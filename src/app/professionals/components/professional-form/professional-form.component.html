@@ -58,6 +58,10 @@
               <mat-error *ngIf="patientDni.errors?.minlength">
                 El dni debe contener {{patientDni.errors?.minlength.requiredLength}} digitos
               </mat-error>
+
+              <mat-error *ngIf="patientDni.errors?.pattern">
+                El dni debe contener solo números.
+              </mat-error>
             </mat-form-field>
 
             <!-- Lastname -->

@@ -99,7 +99,8 @@ export class ProfessionalFormComponent implements OnInit {
       patient: this.fBuilder.group({
         dni: ['', [
           Validators.required,
-          Validators.minLength(8)
+          Validators.minLength(8),
+          Validators.pattern("^[0-9]*$")
         ]],
         lastName: ['', [
           Validators.required
