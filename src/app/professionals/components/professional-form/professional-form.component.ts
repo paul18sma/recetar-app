@@ -153,10 +153,8 @@ export class ProfessionalFormComponent implements OnInit {
         res => {
           this.patientSearch = res;
           this.dniShowSpinner = false;
-        },
-        );
-      }
-     this.dniShowSpinner = false;
+      });
+    }
   }
 
   completePatientInputs(patient: Patient): void {
