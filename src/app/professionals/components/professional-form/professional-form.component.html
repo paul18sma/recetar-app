@@ -49,6 +49,8 @@
                 </mat-option>
               </mat-autocomplete>
 
+              <mat-hint align="end">{{dni.value.length}} / 8</mat-hint>
+
               <mat-error *ngIf="patientDni.errors?.required">
                 Debe ingresar el dni del paciente
               </mat-error>
