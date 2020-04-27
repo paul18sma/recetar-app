@@ -27,7 +27,7 @@ export class ProfessionalFormComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   options: string[] = [];
   storedSupplies: Supplies[] = [];
-  patientSearch: Patient = new Patient();
+  patientSearch: Patient;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
   readonly maxQSupplies: number = 2;
@@ -151,7 +151,15 @@ export class ProfessionalFormComponent implements OnInit {
       this.dniShowSpinner = true;
       this.apiPatients.getPatientByDni(dniValue).subscribe(
         res => {
-          this.patientSearch = res;
+          if(res !== null){
+            this.patientSearch = res;
+          }else if(this.patientSearch?._id){
+            // clean fields
+            this.patientSearch = { firstName: '', lastName: '', sex: ''};
+            this.patientLastName.setValue(this.patientSearch.lastName);
+            this.patientFirstName.setValue(this.patientSearch.firstName);
+            this.patientSex.setValue(this.patientSearch.sex);
+          }
           this.dniShowSpinner = false;
       });
     }
