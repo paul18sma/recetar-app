@@ -70,7 +70,7 @@ export class ProfessionalFormComponent implements OnInit {
           if(this.supplyRequest !== null) this.supplyRequest.unsubscribe();
 
           this.supplySpinner[index] = {show: true};
-          this.supplyRequest = this.suppliesService.getSupplyByTerm(supply).subscribe(
+          this.supplyRequest = this.suppliesService.getSupplyByTerm(encodeURIComponent(supply)).subscribe(
             res => {
               this.storedSupplies = res as Supplies[];
               this.supplySpinner[index] = {show: false};
