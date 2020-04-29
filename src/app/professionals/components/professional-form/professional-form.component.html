@@ -1,178 +1,181 @@
-<div class="container">
-  <mat-card>
-    <mat-card-title>
-      <h1>
-        <mat-icon>gesture</mat-icon> Registrar nueva receta
-      </h1>
-    </mat-card-title>
-    <mat-card-content>
-      <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalForm, professionalNgForm)">
-        <div class="sub-container"
-          fxLayout="column"
-            fxLayout.xs="column"
-            fxLayoutAlign="center"
-            fxLayoutGap="10px"
-            fxLayoutGap.xs="0">
+<div class="container" fxLayout="row" fxLayoutAlign="space-evenly start">
+  <mat-card class="new-prescription">
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <mat-card-title>
+        <h1>
+          <mat-icon>gesture</mat-icon> Registrar nueva receta
+        </h1>
+      </mat-card-title>
+      <mat-card-content>
+        <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalForm, professionalNgForm)">
+          <div class="sub-container"
+            fxLayout="column"
+              fxLayout.xs="column"
+              fxLayoutAlign="center"
+              fxLayoutGap="10px"
+              fxLayoutGap.xs="0">
 
-        <!-- Fecha de receta -->
-        <mat-form-field appearance="fill">
-          <mat-label>Fecha receta</mat-label>
-          <input matInput [matDatepicker]="picker1" [formControl]="date" autocomplete="off" required tabIndex="-1">
-          <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
-          <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
-
-          <mat-error *ngIf="date.errors?.required">
-            Debe ingresar una fecha válida
-          </mat-error>
-        </mat-form-field>
-
-        <div formGroupName="patient" class="patient-container" fxLayout="row" fxLayoutGap="10px">
-          <div>
-            <!-- Dni -->
-            <mat-form-field appearance="fill">
-              <mat-label>DNI paciente</mat-label>
-              <input type="text"
-                tabIndex="1"
-                #dni
-                placeholder="DNI"
-                aria-label="Number"
-                matInput
-                required
-                maxlength="8"
-                formControlName="dni"
-                [matAutocomplete]="auto">
-                <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
-
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch?._id" [value]="patientSearch.dni">
-                  {{patientSearch.lastName}} {{patientSearch.firstName}} DNI {{patientSearch.dni}}
-                </mat-option>
-              </mat-autocomplete>
-
-              <mat-error *ngIf="patientDni.errors?.required">
-                Debe ingresar el dni del paciente
-              </mat-error>
-
-              <mat-error *ngIf="patientDni.errors?.minlength">
-                El dni debe contener {{patientDni.errors?.minlength.requiredLength}} digitos
-              </mat-error>
-            </mat-form-field>
-
-            <!-- Lastname -->
-            <mat-form-field appearance="fill">
-              <mat-label>Apellido paciente</mat-label>
-              <input type="text"
-                tabIndex="3"
-                placeholder="Apellido"
-                matInput
-                required
-                formControlName="lastName">
-
-
-              <mat-error *ngIf="patientLastName.errors?.required">
-                Debe ingresar el apellido del paciente
-                </mat-error>
-            </mat-form-field>
-
-          </div>
-          <div>
-            <!-- sex -->
-            <mat-form-field appearance="fill">
-              <mat-label>Sexo</mat-label>
-              <mat-select formControlName="sex" required tabIndex="2">
-                <mat-option value="Femenino">Femenino</mat-option>
-                <mat-option value="Masculino">Masculino</mat-option>
-                <mat-option value="Otro">Otro</mat-option>
-              </mat-select>
-
-              <mat-error *ngIf="patientSex.errors?.required">
-                Debe seleccionar el tipo de sexo
-              </mat-error>
-            </mat-form-field>
-
-            <!-- Firstname -->
-            <mat-form-field appearance="fill">
-              <mat-label>Nombre paciente</mat-label>
-              <input type="text"
-              tabIndex="4"
-                placeholder="Nombre"
-                matInput
-                required
-                formControlName="firstName">
-
-              <mat-error *ngIf="patientFirstName.errors?.required">
-                Debe ingresar el nombre del paciente
-              </mat-error>
-            </mat-form-field>
-          </div>
-        </div>
-
-
-          <div formArrayName="supplies" class="nested-supplies">
-            <div class="custom-error-container">
-              <mat-error *ngIf="suppliesForm.errors?.minLengthFilled && suppliesForm.invalid && suppliesForm.touched">
-                Debe seleccionar almenos un medicamento
-              </mat-error>
-            </div>
-
-            <div *ngFor="let control of suppliesForm.controls; let i=index" [formGroupName]="i">
-              <div fxLayout="row" fxLayoutGap="10px">
-                <mat-form-field appearance="fill" fxFlex="80%">
-                  <mat-label>Medicamento</mat-label>
-                  <input type="text"
-                    tabIndex="5"
-                    placeholder="Medicamento"
-                    matInput
-                    formControlName="supply"
-                    [matAutocomplete]="supplyref">
-                    <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="supplySpinner[i].show"></mat-spinner>
-                  <mat-autocomplete #supplyref="matAutocomplete" [displayWith]="displayFn">
-                    <mat-option *ngFor="let sup of storedSupplies" [value]="sup">
-                      {{sup.name}}
-                    </mat-option>
-                  </mat-autocomplete>
-                  <mat-error *ngIf="control.get('supply').hasError('required')">
-                    Debe seleccionar un insumo
-                  </mat-error>
-                  <mat-error *ngIf="control.get('supply').hasError('invalid')">
-                    {{ control.get('supply').getError('invalid') }}
-                  </mat-error>
-                </mat-form-field>
-
-                <mat-form-field appearance="fill" fxFlex="20%">
-                  <mat-label>Cantidad</mat-label>
-                  <input tabIndex="6" type="number" matInput formControlName="quantity">
-                  <mat-error *ngIf="control.get('quantity').hasError('required')">
-                    Debe ingresar una cantidad
-                  </mat-error>
-
-                  <mat-error *ngIf="control.get('quantity').hasError('min')">
-                    Debe ingresar un mínimo de {{control.get('quantity').errors?.min.min}}
-                  </mat-error>
-                </mat-form-field>
-              </div>
-            </div>
-          </div>
-
-          <button mat-raised-button color="primary" type="button" (click)="addSupply()" *ngIf="suppliesForm.controls.length < maxQSupplies">
-            Agregar medicamento
-          </button>
-
+          <!-- Fecha de receta -->
           <mat-form-field appearance="fill">
-            <mat-label>Observaciones</mat-label>
-            <textarea tabIndex="7" matInput placeholder="Observaciones" formControlName="observation"></textarea>
+            <mat-label>Fecha receta</mat-label>
+            <input matInput [matDatepicker]="picker1" [formControl]="date" autocomplete="off" required tabIndex="-1">
+            <mat-datepicker-toggle matSuffix [for]="picker1"></mat-datepicker-toggle>
+            <mat-datepicker [startAt]="today" #picker1></mat-datepicker>
+
+            <mat-error *ngIf="date.errors?.required">
+              Debe ingresar una fecha válida
+            </mat-error>
           </mat-form-field>
 
-        </div>
+          <div formGroupName="patient" class="patient-container" fxLayout="row" fxLayoutGap="10px">
+            <div>
+              <!-- Dni -->
+              <mat-form-field appearance="fill">
+                <mat-label>DNI paciente</mat-label>
+                <input type="text"
+                  tabIndex="1"
+                  #dni
+                  placeholder="DNI"
+                  aria-label="Number"
+                  matInput
+                  required
+                  maxlength="8"
+                  formControlName="dni"
+                  [matAutocomplete]="auto">
+                  <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
 
-        <div fxLayout="row" fxLayoutAlign="center">
-          <button mat-raised-button color="primary" type="submit" *ngIf="!showSubmit" fxFlex="100%">
-            Crear
-          </button>
+                <mat-autocomplete #auto="matAutocomplete">
+                  <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch?._id" [value]="patientSearch.dni">
+                    {{patientSearch.lastName}} {{patientSearch.firstName}} DNI {{patientSearch.dni}}
+                  </mat-option>
+                </mat-autocomplete>
 
-          <mat-spinner [color]="spinnerColor" [diameter]="spinnerDiameter" *ngIf="showSubmit"></mat-spinner>
-        </div>
-      </form>
-    </mat-card-content>
+                <mat-error *ngIf="patientDni.errors?.required">
+                  Debe ingresar el dni del paciente
+                </mat-error>
+
+                <mat-error *ngIf="patientDni.errors?.minlength">
+                  El dni debe contener {{patientDni.errors?.minlength.requiredLength}} digitos
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Lastname -->
+              <mat-form-field appearance="fill">
+                <mat-label>Apellido paciente</mat-label>
+                <input type="text"
+                  tabIndex="3"
+                  placeholder="Apellido"
+                  matInput
+                  required
+                  formControlName="lastName">
+
+
+                <mat-error *ngIf="patientLastName.errors?.required">
+                  Debe ingresar el apellido del paciente
+                  </mat-error>
+              </mat-form-field>
+
+            </div>
+            <div>
+              <!-- sex -->
+              <mat-form-field appearance="fill">
+                <mat-label>Sexo</mat-label>
+                <mat-select formControlName="sex" required tabIndex="2">
+                  <mat-option value="Femenino">Femenino</mat-option>
+                  <mat-option value="Masculino">Masculino</mat-option>
+                  <mat-option value="Otro">Otro</mat-option>
+                </mat-select>
+
+                <mat-error *ngIf="patientSex.errors?.required">
+                  Debe seleccionar el tipo de sexo
+                </mat-error>
+              </mat-form-field>
+
+              <!-- Firstname -->
+              <mat-form-field appearance="fill">
+                <mat-label>Nombre paciente</mat-label>
+                <input type="text"
+                tabIndex="4"
+                  placeholder="Nombre"
+                  matInput
+                  required
+                  formControlName="firstName">
+
+                <mat-error *ngIf="patientFirstName.errors?.required">
+                  Debe ingresar el nombre del paciente
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+
+            <div formArrayName="supplies" class="nested-supplies">
+              <div class="custom-error-container">
+                <mat-error *ngIf="suppliesForm.errors?.minLengthFilled && suppliesForm.invalid && suppliesForm.touched">
+                  Debe seleccionar almenos un medicamento
+                </mat-error>
+              </div>
+
+              <div *ngFor="let control of suppliesForm.controls; let i=index" [formGroupName]="i">
+                <div fxLayout="row" fxLayoutGap="10px">
+                  <mat-form-field appearance="fill" fxFlex="80%">
+                    <mat-label>Medicamento</mat-label>
+                    <input type="text"
+                      tabIndex="5"
+                      placeholder="Medicamento"
+                      matInput
+                      formControlName="supply"
+                      [matAutocomplete]="supplyref">
+                      <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="supplySpinner[i].show"></mat-spinner>
+                    <mat-autocomplete #supplyref="matAutocomplete" [displayWith]="displayFn">
+                      <mat-option *ngFor="let sup of storedSupplies" [value]="sup">
+                        {{sup.name}}
+                      </mat-option>
+                    </mat-autocomplete>
+                    <mat-error *ngIf="control.get('supply').hasError('required')">
+                      Debe seleccionar un insumo
+                    </mat-error>
+                    <mat-error *ngIf="control.get('supply').hasError('invalid')">
+                      {{ control.get('supply').getError('invalid') }}
+                    </mat-error>
+                  </mat-form-field>
+
+                  <mat-form-field appearance="fill" fxFlex="20%">
+                    <mat-label>Cantidad</mat-label>
+                    <input tabIndex="6" type="number" matInput formControlName="quantity">
+                    <mat-error *ngIf="control.get('quantity').hasError('required')">
+                      Debe ingresar una cantidad
+                    </mat-error>
+
+                    <mat-error *ngIf="control.get('quantity').hasError('min')">
+                      Debe ingresar un mínimo de {{control.get('quantity').errors?.min.min}}
+                    </mat-error>
+                  </mat-form-field>
+                </div>
+              </div>
+            </div>
+
+            <button mat-raised-button color="primary" type="button" (click)="addSupply()" *ngIf="suppliesForm.controls.length < maxQSupplies">
+              Agregar medicamento
+            </button>
+
+            <mat-form-field appearance="fill">
+              <mat-label>Observaciones</mat-label>
+              <textarea tabIndex="7" matInput placeholder="Observaciones" formControlName="observation"></textarea>
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutAlign="center">
+            <button mat-raised-button color="primary" type="submit" *ngIf="!showSubmit" fxFlex="100%">
+              Crear
+            </button>
+
+            <mat-spinner [color]="spinnerColor" [diameter]="spinnerDiameter" *ngIf="showSubmit"></mat-spinner>
+          </div>
+        </form>
+      </mat-card-content>
+    </div>
   </mat-card>
+  <app-professional-list></app-professional-list>
 </div>
