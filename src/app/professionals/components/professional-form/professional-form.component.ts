@@ -190,6 +190,7 @@ export class ProfessionalFormComponent implements OnInit {
           this.showSubmit = !this.showSubmit;
           this.openDialog("created");
           this.dni.nativeElement.focus();
+          this.professionalList.addPrescription(res);
         },
         err => {
           if(err.error.length > 0){

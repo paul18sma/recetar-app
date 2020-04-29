@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { DataSource } from '@angular/cdk/table';
 import { Observable, of } from 'rxjs';
@@ -19,8 +19,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
     ]),
   ]
 })
-export class ProfessionalListComponent implements OnInit {
 
+export class ProfessionalListComponent implements OnInit {
   displayedColumns: string[] = ['user', 'date', 'status', 'supplies'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
@@ -42,11 +42,19 @@ export class ProfessionalListComponent implements OnInit {
         if(!res.length){
           
         }else{
-          console.log("Prescriptions: ", res[1].patient);
           this.dataSource = new ExampleDataSource(res);
         }
       },
     );
+  }
+
+  /**
+   * addPrescription
+   */
+  public addPrescription(prescription: Prescriptions) {
+    console.log("Datesource before add", this.dataSource);
+    this.dataSource.data.push(prescription);
+    console.log("Datasource after add", this.dataSource);
   }
 
 }
