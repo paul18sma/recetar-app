@@ -1,0 +1,78 @@
+
+  <mat-card class="prescriptions-table">
+    <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
+      <h1>
+        <mat-icon>gesture</mat-icon>
+        Recetas <span *ngIf="dataSource.data.length"> de {{dataSource.data[0].patient.lastName}}, {{dataSource.data[0].patient.firstName}} DNI {{dataSource.data[0].patient.dni}}</span>
+      </h1>
+      <div class="prescriptions-container mat-elevation-z8">
+        <mat-table #table [dataSource]="dataSource">
+
+          <!-- Professional -->
+          <ng-container matColumnDef="user">
+            <mat-header-cell *matHeaderCellDef> Profesional </mat-header-cell>
+            <mat-cell *matCellDef="let prescription"> {{prescription.professionalFullname}} </mat-cell>
+          </ng-container>
+
+          <!-- Date -->
+          <ng-container matColumnDef="date">
+            <mat-header-cell *matHeaderCellDef> Fecha </mat-header-cell>
+            <mat-cell *matCellDef="let prescription"> {{prescription.date | date :'dd/MM/y' }} </mat-cell>
+          </ng-container>
+
+          <!-- Status -->
+          <ng-container matColumnDef="status">
+            <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
+            <mat-cell *matCellDef="let prescription"> {{prescription.status}} </mat-cell>
+          </ng-container>
+
+          <!-- Supply count-->
+          <ng-container matColumnDef="supplies">
+            <mat-header-cell *matHeaderCellDef> Insumos </mat-header-cell>
+            <mat-cell *matCellDef="let prescription">
+              <mat-chip-list>
+                <mat-chip>{{prescription.supplies.length}}</mat-chip>
+              </mat-chip-list>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Acción -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+            <mat-cell *matCellDef="let prescription">
+              <div *ngIf="canPrint(prescription)">
+                <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
+                  <mat-icon >print</mat-icon>
+                </button>
+              </div>
+              <div *ngIf="prescription.status === 'Pendiente'">
+                <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar" matTooltipPosition="above"><mat-icon >done_outline</mat-icon></button>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <!-- Expanded Content Column - Supplies details-->
+          <ng-container matColumnDef="expandedDetail">
+            <mat-cell *matCellDef="let detail">
+              <div fxLayout="column" fxLayoutAlign="space-around start">
+                <div *ngFor="let supp of detail.element.supplies">
+                  {{ supp.supply.name }} <mat-chip>{{ supp.quantity }}</mat-chip>
+                </div>
+              </div>
+            </mat-cell>
+          </ng-container>
+
+          <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumns;"
+                  matRipple
+                  class="element-row border"
+                  [class.expanded]="expandedElement == row"
+                  (click)="expandedElement = row"></mat-row>
+          <mat-row *matRowDef="let row; columns: ['expandedDetail']; when: isExpansionDetailRow"
+                  [@detailExpand]="row.element == expandedElement ? 'expanded' : 'collapsed'"
+                  style="overflow: hidden">
+          </mat-row>
+        </mat-table>
+      </div>
+    </div>
+  </mat-card>

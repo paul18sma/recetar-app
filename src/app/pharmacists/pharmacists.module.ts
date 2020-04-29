@@ -24,10 +24,12 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { PrescriptionListComponent } from './components/prescription-list/prescription-list.component';
 
 @NgModule({
   declarations: [
     routingComponent,
+    PrescriptionListComponent,
   ],
   imports: [
     BrowserModule,

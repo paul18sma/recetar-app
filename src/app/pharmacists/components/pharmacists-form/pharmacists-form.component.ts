@@ -16,12 +16,8 @@ import { Professionals } from '@root/app/interfaces/professionals';
 // Material
 import { MatDialog } from '@angular/material/dialog';
 
-import { DataSource } from '@angular/cdk/collections';
-import { of } from 'rxjs';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { AuthService } from '@auth/services/auth.service';
 import { DialogComponent } from '@pharmacists/components/dialog/dialog.component';
-import { PrescriptionPrinterComponent } from '@pharmacists/components/prescription-printer/prescription-printer.component';
+
 import { DatePipe } from '@angular/common'
 
 
@@ -29,21 +25,11 @@ import { DatePipe } from '@angular/common'
   selector: 'app-pharmacists-form',
   templateUrl: './pharmacists-form.component.html',
   styleUrls: ['./pharmacists-form.component.sass'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-      state('expanded', style({ height: '*', visibility: 'visible' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
-  providers: [PrescriptionPrinterComponent]
 })
 export class PharmacistsFormComponent implements OnInit {
 
   title = 'preinscriptions-control';
   prescriptionForm: FormGroup;
-
-  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
   professional: Professionals;
@@ -52,20 +38,13 @@ export class PharmacistsFormComponent implements OnInit {
   prescription: Prescriptions;
   insurances: Insurances;
   filteredOptions: Observable<string[]>;
-  dataSource: any = [];
-  private dsData: any;
-
-  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
-  expandedElement: any;
 
   constructor(
     private fBuilder: FormBuilder,
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private apiInsurances: InsurancesService,
-    private authService: AuthService,
     public dialog: MatDialog,
-    private prescriptionPrinter: PrescriptionPrinterComponent,
     public datepipe: DatePipe
   ){}
 
@@ -85,10 +64,9 @@ export class PharmacistsFormComponent implements OnInit {
         if(this.patient)
           this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe(
             res => {
+              this.prescriptions = res;
               if(!res.length){
                 this.openDialog("noPrescriptionsDate", undefined, this.datepipe.transform(term, 'dd/MM/yyyy'));
-              }else{
-                this.dataSource = new ExampleDataSource(res);
               }
             }
           );
@@ -124,37 +102,6 @@ export class PharmacistsFormComponent implements OnInit {
     }
   }
 
-  // Dispense prescription, but if was, update table with the correct status.
-  dispense(prescription: Prescriptions){
-    this.apiPrescriptions.dispense(prescription).subscribe(
-      res => {
-        this.updateDataTable(res);
-        this.openDialog("dispensed", res, res.professionalFullname);
-      },
-      err => {
-        this.apiPrescriptions.getById(prescription._id).subscribe(
-          res => {
-            this.updateDataTable(res);
-            this.openDialog("", undefined, err.error);
-          }
-        );
-      }
-    );
-  }
-
-  // Update the row table with the prescription
-  private updateDataTable (prescription: Prescriptions) {
-    this.dsData = this.dataSource.data;
-    if (this.dsData.length > 0) {
-      for (let i = 0; i < this.dsData.length; i++ ) {
-        if (this.dsData[i]._id === prescription._id) {
-          this.dsData[i] = prescription; // Assign the new prescription
-          this.dataSource = new ExampleDataSource(this.dsData); // Create new dataSource
-        }
-      }
-    }
-  }
-
   // Show a dialog
   openDialog(aDialogType: string, aPrescription?: Prescriptions, aText?: string): void {
     const dialogRef = this.dialog.open(DialogComponent, {
@@ -173,9 +120,8 @@ export class PharmacistsFormComponent implements OnInit {
       res => {
         if(!res.length){
           this.openDialog("noPrescriptions");
-        }else{
-          this.dataSource = new ExampleDataSource(res);
         }
+        this.prescriptions = res;
       },
     );
     this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(
@@ -185,14 +131,6 @@ export class PharmacistsFormComponent implements OnInit {
     );
   }
 
-  // Return true if was dispensed and is seeing who dispensed the prescription 
-  canPrint(prescription: Prescriptions){
-    return (prescription.status === "Dispensada") && (prescription.dispensedBy._id === this.authService.getLoggedUserId())
-  }
-
-  printPrescription(prescription: Prescriptions){
-    this.prescriptionPrinter.print(prescription);
-  }
 
   get patient_dni(): AbstractControl{
     return this.prescriptionForm.get('patient_dni');
@@ -203,17 +141,4 @@ export class PharmacistsFormComponent implements OnInit {
   }
 }
 
-export class ExampleDataSource extends DataSource<any> {
 
-  constructor(private data: Prescriptions[]){
-    super();
-  }
-
-  connect(): Observable<Element[]> {
-    const rows: any = [];
-    this.data.forEach(element => rows.push(element, { detailRow: true, element }));
-    return of(rows);
-  }
-
-  disconnect() { }
-}
