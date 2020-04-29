@@ -1,4 +1,4 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { DataSource } from '@angular/cdk/table';
 import { Observable, of } from 'rxjs';
@@ -20,7 +20,9 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
   ]
 })
 
-export class ProfessionalListComponent implements OnInit {
+export class ProfessionalListComponent implements OnChanges, OnInit {
+  @Input() myPrescriptions: Prescriptions[];
+
   displayedColumns: string[] = ['user', 'date', 'status', 'supplies'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
@@ -36,17 +38,12 @@ export class ProfessionalListComponent implements OnInit {
     private authService: AuthService
   ) { }
 
-  ngOnInit(): void {
-    this.apiPrescriptions.getByUserId(this.authService.getLoggedUserId()).subscribe(
-      res => {
-        if(!res.length){
-          
-        }else{
-          this.dataSource = new ExampleDataSource(res);
-        }
-      },
-    );
+  ngOnChanges(changes: SimpleChanges){
+    console.log(changes, '<=========== listado');
+    this.dataSource = new ExampleDataSource(changes.myPrescriptions.currentValue);
   }
+
+  ngOnInit(): void {}
 
   /**
    * addPrescription
