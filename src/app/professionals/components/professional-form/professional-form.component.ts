@@ -12,13 +12,13 @@ import {ThemePalette} from '@angular/material/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { ProfessionalListComponent } from '@professionals/components/professional-list/professional-list.component';
+// import { ProfessionalListComponent } from '@professionals/components/professional-list/professional-list.component';
 
 @Component({
   selector: 'app-professional-form',
   templateUrl: './professional-form.component.html',
   styleUrls: ['./professional-form.component.sass'],
-  providers: [ProfessionalListComponent]
+  // providers: [ProfessionalListComponent]
 })
 export class ProfessionalFormComponent implements OnInit {
   @ViewChild('dni', {static: true}) dni:any;
@@ -38,6 +38,7 @@ export class ProfessionalFormComponent implements OnInit {
   showSubmit: boolean = false;
   dniShowSpinner: boolean = false;
   supplySpinner: { show: boolean}[] = [{show: false}, {show: false}];
+  myPrescriptions: Prescriptions[] = [];
 
   constructor(
     private suppliesService: SuppliesService,
@@ -47,7 +48,6 @@ export class ProfessionalFormComponent implements OnInit {
     private authService: AuthService,
     private apiProfessionals: ProfessionalsService,
     public dialog: MatDialog,
-    private professionalList: ProfessionalListComponent
   ){}
 
   ngOnInit(): void {
@@ -92,6 +92,18 @@ export class ProfessionalFormComponent implements OnInit {
         );
       });
     });
+
+    // get prescriptions
+    this.apiPrescriptions.getByUserId(this.authService.getLoggedUserId()).subscribe(
+      res => {
+        // if(!res.length){
+
+        // }else{
+          this.myPrescriptions = res;
+          // this.dataSource = new ExampleDataSource(res);
+        // }
+      },
+    );
   }
 
   initProfessionalForm(){
@@ -158,8 +170,9 @@ export class ProfessionalFormComponent implements OnInit {
           this.dniShowSpinner = false;
         },
         );
+      }else{
+        this.dniShowSpinner = false;
       }
-     this.dniShowSpinner = false;
   }
 
   completePatientInputs(patient: Patient): void {
@@ -190,7 +203,9 @@ export class ProfessionalFormComponent implements OnInit {
           this.showSubmit = !this.showSubmit;
           this.openDialog("created");
           this.dni.nativeElement.focus();
-          this.professionalList.addPrescription(res);
+          this.myPrescriptions = [...this.myPrescriptions, res];
+          console.log(res, this.myPrescriptions, 'in submit');
+          // this.professionalList.addPrescription(res);
         },
         err => {
           if(err.error.length > 0){
