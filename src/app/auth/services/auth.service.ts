@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { environment } from '@root/environments/environment';
 import { of, Observable, BehaviorSubject } from 'rxjs';
 import { catchError, mapTo, tap } from 'rxjs/operators';
 import decode from 'jwt-decode';
-
 // inteface
 import { Tokens } from '@auth/models/tokens';
 
@@ -20,14 +20,30 @@ export class AuthService {
   private businessName: BehaviorSubject<string>;
 
 
-  constructor(private http: HttpClient) {
-    this.loggedIn = new BehaviorSubject<boolean>(!!this.getJwtToken());
+  constructor(private http: HttpClient, private router: Router) {
+    this.loggedIn = new BehaviorSubject<boolean>(this.tokensExists());
     this.businessName = new BehaviorSubject<string>(this.getLoggedBusinessName());
+  }
+
+
+
+  async load(): Promise<void>{
+    if(this.tokensExists()){
+      const resp = await this.http.get<any>(`${this.apiEndPoint}/auth/jwt-login`).pipe(
+       tap(tokens => this.doLoginUser(tokens)),
+       mapTo(true),
+       catchError(async (error) => {
+         const success = await this.logout().toPromise();
+        if(success) this.router.navigate(['/auth/login']);
+         return of(false);
+       })
+       ).toPromise();
+    }
   }
 
   login(user: { username: string, password: string }): Observable<boolean | HttpErrorResponse> {
     return this.http.post<any>(`${this.apiEndPoint}/auth/login`, user).pipe(
-      tap(tokens => this.doLoginUser(user.username, tokens)),
+      tap(tokens => this.doLoginUser(tokens)),
       mapTo(true)
     );
   }
@@ -95,7 +111,6 @@ export class AuthService {
   isProfessionalRole(): boolean {
     const roles: string[] = this.getLoggedRole();
     return roles.some( (role: string) => role === 'professional');
-    // return this.getLoggedRole() === 'professional';
   }
 
   getLoggedRole(): string[]{
@@ -112,23 +127,23 @@ export class AuthService {
     return false;
   }
 
-  private doLoginUser(username: string, tokens: Tokens) {
+  private doLoginUser(tokens: Tokens) {
     this.storeTokens(tokens);
     this.businessName.next(this.getLoggedBusinessName());
-    this.loggedIn.next(!!this.getJwtToken());
+    this.loggedIn.next(this.tokensExists());
   }
 
   private doLogoutUser() {
     this.removeTokens();
-    this.loggedIn.next(!!this.getJwtToken());
+    this.loggedIn.next(this.tokensExists());
   }
 
   private getRefreshToken() {
     return localStorage.getItem(this.REFRESH_TOKEN);
   }
 
-  private storeJwtToken(jwt: string) {
-    localStorage.setItem(this.JWT_TOKEN, jwt);
+  private tokensExists(): boolean {
+    return (!!this.getJwtToken() && !!this.getRefreshToken());
   }
 
   private storeTokens(tokens: Tokens) {

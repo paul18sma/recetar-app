@@ -1,5 +1,5 @@
 import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule, APP_INITIALIZER } from '@angular/core';
 
 import { AppRoutingModule, routingComponents } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -8,6 +8,10 @@ import { HttpClientModule } from '@angular/common/http';
 import { PatientsService } from './services/patients.service';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ReactiveFormsModule } from '@angular/forms';
+
+// app_initializer auth
+import { AuthService } from '@auth/services/auth.service';
+import { servicesOnRun } from '@auth/token-initializer';
 // moduules
 import { AuthModule } from '@auth/auth.module';
 import { PharmacistsModule } from '@pharmacists/pharmacists.module';
@@ -44,6 +48,12 @@ import { DatePipe } from '@angular/common';
     MatMenuModule
   ],
   providers: [
+    {
+      provide: APP_INITIALIZER,
+      useFactory: servicesOnRun,
+      multi: true,
+      deps: [AuthService]
+    },
     PatientsService,
     DatePipe,
     {provide: MAT_DATE_LOCALE, useValue: 'es-AR'}

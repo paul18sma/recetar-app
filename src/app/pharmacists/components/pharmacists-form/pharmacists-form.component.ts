@@ -93,7 +93,6 @@ export class PharmacistsFormComponent implements OnInit {
             }
           );
         else{
-          console.log(this.patient);
           this.openDialog("selectPatient");
         }
       }
