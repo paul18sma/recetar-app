@@ -2,6 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators, AbstractControl, FormGroupDirective } from '@angular/forms';
 import { AuthService } from '@auth/services/auth.service';
 import { Router } from '@angular/router';
+import { DialogComponent } from '@auth/components/dialog/dialog.component';
+// Material
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-login',
@@ -14,7 +17,12 @@ export class LoginComponent implements OnInit {
   hide: boolean = true;
   error: string;
 
-  constructor(private fBuilder: FormBuilder, private authService: AuthService, private router: Router) { }
+  constructor(
+    private fBuilder: FormBuilder, 
+    private authService: AuthService, 
+    private router: Router,
+    public dialog: MatDialog
+  ) { }
 
   ngOnInit(): void {
     this.initLoginForm();
@@ -46,6 +54,21 @@ export class LoginComponent implements OnInit {
         this.error = err;
       }
     );
+  }
+
+  // Show a dialog
+  openDialog(): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '500px'
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  showInformation(): void{
+    this.openDialog();
   }
 
   get identifier(): AbstractControl{
