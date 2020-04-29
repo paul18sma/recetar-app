@@ -12,13 +12,11 @@ import {ThemePalette} from '@angular/material/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-// import { ProfessionalListComponent } from '@professionals/components/professional-list/professional-list.component';
 
 @Component({
   selector: 'app-professional-form',
   templateUrl: './professional-form.component.html',
   styleUrls: ['./professional-form.component.sass'],
-  // providers: [ProfessionalListComponent]
 })
 export class ProfessionalFormComponent implements OnInit {
   @ViewChild('dni', {static: true}) dni:any;
@@ -96,12 +94,11 @@ export class ProfessionalFormComponent implements OnInit {
     // get prescriptions
     this.apiPrescriptions.getByUserId(this.authService.getLoggedUserId()).subscribe(
       res => {
-        // if(!res.length){
-
-        // }else{
+        if(!res.length){
+          
+        }else{
           this.myPrescriptions = res;
-          // this.dataSource = new ExampleDataSource(res);
-        // }
+        }
       },
     );
   }
@@ -204,8 +201,6 @@ export class ProfessionalFormComponent implements OnInit {
           this.openDialog("created");
           this.dni.nativeElement.focus();
           this.myPrescriptions = [...this.myPrescriptions, res];
-          console.log(res, this.myPrescriptions, 'in submit');
-          // this.professionalList.addPrescription(res);
         },
         err => {
           if(err.error.length > 0){

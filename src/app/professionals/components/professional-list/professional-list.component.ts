@@ -2,9 +2,6 @@ import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/cor
 import { Prescriptions } from '@interfaces/prescriptions';
 import { DataSource } from '@angular/cdk/table';
 import { Observable, of } from 'rxjs';
-// Services
-import { PrescriptionsService } from '@services/prescriptions.service';
-import { AuthService } from '@auth/services/auth.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 
 @Component({
@@ -28,32 +25,18 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
   options: string[] = [];
   prescriptions: Prescriptions[] = [];
   dataSource: any = [];
-  private dsData: any;
-
+  
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   expandedElement: any;
 
   constructor(
-    private apiPrescriptions: PrescriptionsService,
-    private authService: AuthService
   ) { }
 
   ngOnChanges(changes: SimpleChanges){
-    console.log(changes, '<=========== listado');
     this.dataSource = new ExampleDataSource(changes.myPrescriptions.currentValue);
   }
 
   ngOnInit(): void {}
-
-  /**
-   * addPrescription
-   */
-  public addPrescription(prescription: Prescriptions) {
-    console.log("Datesource before add", this.dataSource);
-    this.dataSource.data.push(prescription);
-    console.log("Datasource after add", this.dataSource);
-  }
-
 }
 
 export class ExampleDataSource extends DataSource<any> {
