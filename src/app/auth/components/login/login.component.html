@@ -18,7 +18,7 @@
         tecnológicas para asegurar la continuidad de los tratamientos crónicos y
         agudos de los pacientes.
       </mat-card-content>
-      <mat-card-actions>  
+      <mat-card-actions>
         <a mat-raised-button href="https://drive.google.com/open?id=1GBPS_RdHIS8Kx3VWNpW6ZkMwdyFRPfDs" target="_blank">
           <mat-icon>remove_red_eye</mat-icon> Ver disposición
         </a>
@@ -50,8 +50,13 @@
               Contraseña es requerida
             </mat-error>
           </mat-form-field>
+          <div fxLayout="row" fxLayoutAlign="center">
+            <button mat-raised-button color="primary" type="submit" *ngIf="!showSubmit" fxFlex="100%">
+              Iniciar sesión
+            </button>
 
-          <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+            <mat-spinner [color]="spinnerColor" [diameter]="spinnerDiameter" *ngIf="showSubmit"></mat-spinner>
+          </div>
         </div>
       </form>
     </mat-card>
@@ -64,7 +69,7 @@
       <mat-card-content>
         Aquí encontrará videos paso a paso de cómo interactuar con la aplicación.
       </mat-card-content>
-      <mat-card-actions>  
+      <mat-card-actions>
         <a mat-raised-button href="https://youtu.be/2HdbJTn7kkM" target="_blank">
           <mat-icon>play_circle_outline</mat-icon> Médico
         </a>
