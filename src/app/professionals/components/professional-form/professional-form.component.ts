@@ -16,7 +16,7 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-professional-form',
   templateUrl: './professional-form.component.html',
-  styleUrls: ['./professional-form.component.sass']
+  styleUrls: ['./professional-form.component.sass'],
 })
 export class ProfessionalFormComponent implements OnInit {
   @ViewChild('dni', {static: true}) dni:any;
@@ -36,6 +36,7 @@ export class ProfessionalFormComponent implements OnInit {
   showSubmit: boolean = false;
   dniShowSpinner: boolean = false;
   supplySpinner: { show: boolean}[] = [{show: false}, {show: false}];
+  myPrescriptions: Prescriptions[] = [];
 
   constructor(
     private suppliesService: SuppliesService,
@@ -44,7 +45,7 @@ export class ProfessionalFormComponent implements OnInit {
     private apiPrescriptions: PrescriptionsService,
     private authService: AuthService,
     private apiProfessionals: ProfessionalsService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
   ){}
 
   ngOnInit(): void {
@@ -89,6 +90,17 @@ export class ProfessionalFormComponent implements OnInit {
         );
       });
     });
+
+    // get prescriptions
+    this.apiPrescriptions.getByUserId(this.authService.getLoggedUserId()).subscribe(
+      res => {
+        if(!res.length){
+          
+        }else{
+          this.myPrescriptions = res;
+        }
+      },
+    );
   }
 
   initProfessionalForm(){
@@ -155,8 +167,9 @@ export class ProfessionalFormComponent implements OnInit {
           this.dniShowSpinner = false;
         },
         );
+      }else{
+        this.dniShowSpinner = false;
       }
-     this.dniShowSpinner = false;
   }
 
   completePatientInputs(patient: Patient): void {
@@ -187,6 +200,7 @@ export class ProfessionalFormComponent implements OnInit {
           this.showSubmit = !this.showSubmit;
           this.openDialog("created");
           this.dni.nativeElement.focus();
+          this.myPrescriptions = [...this.myPrescriptions, res];
         },
         err => {
           if(err.error.length > 0){
