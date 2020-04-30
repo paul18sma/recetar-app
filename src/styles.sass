@@ -16,19 +16,24 @@ body
     @media (min-width: $xx-larger-devices) and (max-width: $xxx-larger-devices)
         min-width: calc(#{$xx-larger-devices} - 20px)
         max-width: calc(#{$xxx-larger-devices} - 20px)
+
     @media (min-width: $x-larger-devices) and (max-width: $xx-larger-devices)
         width: 90%
-        min-width: calc($x-larger-devices - 20px)
-        max-width: calc($xx-larger-devices - 20px)
+        min-width: calc(#{$x-larger-devices} - 20px)
+        max-width: calc(#{$xx-larger-devices} - 20px)
+
     @media (min-width: $larger-devices) and (max-width: $x-larger-devices)
         min-width: calc(#{$larger-devices} - 20px)
         max-width: calc(#{$x-larger-devices} - 20px)
+
     @media (min-width: $medium-devices) and (max-width: $larger-devices)
         min-width: calc(#{$medium-devices} - 20px)
         max-width: calc(#{$larger-devices} - 20px)
+
     @media (min-width: $small-devices) and (max-width: $medium-devices)
         min-width: calc(#{$small-devices} - 20px)
         max-width: calc(#{$medium-devices} - 20px)
+
     @media (min-width: $x-small-devices) and (max-width: $small-devices)
         width: calc( 100% - 10px)
         min-width: calc(#{$x-small-devices} - 20px)
