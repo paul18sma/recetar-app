@@ -1,23 +1,29 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
-import { Professionals } from '@root/app/interfaces/professionals';
-import { Patient } from '@interfaces/patients';
+
+// Services
 import { PatientsService } from '@services/patients.service';
 import { PrescriptionsService } from '@services/prescriptions.service';
-import { Prescriptions } from '@interfaces/prescriptions';
 import { InsurancesService } from '@services/insurance.service';
+
+// Interfaces
+import { Patient } from '@interfaces/patients';
+import { Prescriptions } from '@interfaces/prescriptions';
 import { Insurances } from '@interfaces/insurances';
-import { MatSnackBar } from '@angular/material/snack-bar';
+import { Professionals } from '@root/app/interfaces/professionals';
+
+// Material
+import { MatDialog } from '@angular/material/dialog';
+
 import { DataSource } from '@angular/cdk/collections';
 import { of } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
-import { PdfMakeWrapper, Txt, Canvas, Line, Img } from 'pdfmake-wrapper';
-import { DatePipe } from '@angular/common';
 import { AuthService } from '@auth/services/auth.service';
+import { DialogComponent } from '@pharmacists/components/dialog/dialog.component';
+import { PrescriptionPrinterComponent } from '@pharmacists/components/prescription-printer/prescription-printer.component';
+import { DatePipe } from '@angular/common'
 
-PdfMakeWrapper.setFonts(pdfFontsX);
 
 @Component({
   selector: 'app-pharmacists-form',
@@ -30,6 +36,7 @@ PdfMakeWrapper.setFonts(pdfFontsX);
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
+  providers: [PrescriptionPrinterComponent]
 })
 export class PharmacistsFormComponent implements OnInit {
 
@@ -56,78 +63,40 @@ export class PharmacistsFormComponent implements OnInit {
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private apiInsurances: InsurancesService,
-    private _snackBar: MatSnackBar,
     private authService: AuthService,
-    private datePipe: DatePipe
+    public dialog: MatDialog,
+    private prescriptionPrinter: PrescriptionPrinterComponent,
+    public datepipe: DatePipe
   ){}
 
   ngOnInit(): void{
     this.initFilterPrescriptionForm();
 
+    // Find patient by dni
     this.prescriptionForm.get('patient_dni').valueChanges.subscribe(
       term => {
         this.getPatientByDni(term);
       }
     )
 
+    // Get prescriptions by date and patient dni
     this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
       term => {
         if(this.patient)
           this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe(
             res => {
-              console.log("RES:", res);
-              this.dataSource = new ExampleDataSource(res);
-            },
+              if(!res.length){
+                this.openDialog("noPrescriptionsDate", undefined, this.datepipe.transform(term, 'dd/MM/yyyy'));
+              }else{
+                this.dataSource = new ExampleDataSource(res);
+              }
+            }
           );
         else{
-          this.openSnackBar("Seleccione un paciente.", "Cerrar");
+          this.openDialog("selectPatient");
         }
       }
     )
-  }
-
-  // Print a prescription as PDF
-  async printPrescription(prescription: Prescriptions){
-    const pdf: PdfMakeWrapper = new PdfMakeWrapper();
-    console.log(prescription);
-    pdf.info({
-      title: "Receta digital "+prescription.professionalFullname,
-      author: 'RecetAR'
-    });
-    
-    pdf.add(await new Img('assets/img/LogoPdf.jpg').fit([60, 60]).build());
-    pdf.add(new Txt('RECETA DIGITAL').bold().alignment('center').end);
-    pdf.add(pdf.ln(2));
-    pdf.add(new Txt(""+this.datePipe.transform(prescription.date, 'dd/MM/yyyy')).alignment('right').end);
-    pdf.add(new Txt("Profesional").bold().end);
-    pdf.add(new Txt(""+prescription.professionalFullname).end);
-    pdf.add(pdf.ln(1));
-    pdf.add(new Txt("Paciente").bold().end);
-    pdf.add(new Txt(""+prescription.patient.lastName.toUpperCase()+", "+prescription.patient.firstName.toUpperCase()).end);
-    pdf.add(
-      new Canvas([
-          new Line(10, [500, 10]).end
-      ]).end
-    );
-    pdf.add(pdf.ln(1));
-    console.log("Supplies:", prescription.supplies);
-    prescription.supplies.forEach(supply => {
-      console.log("Supply:", supply);
-
-      pdf.add(new Txt(""+supply.supply.name+", cantidad: "+supply.quantity).end); // Marca error pero funciona bien
-      pdf.add(pdf.ln(1));
-    });
-    pdf.add(
-      new Canvas([
-          new Line(10, [500, 10]).end
-      ]).end
-    );
-    pdf.add(pdf.ln(1));
-    pdf.add(new Txt("Observaciones").bold().end);
-    pdf.add(new Txt(""+prescription.observation).end);
-    pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);
-
-    pdf.create().open();
   }
 
   initFilterPrescriptionForm(){
@@ -142,27 +111,31 @@ export class PharmacistsFormComponent implements OnInit {
   }
 
   getPatientByDni(term: string):void{
-    if(term.length > 2){
+    if(term.length > 7){
       this.apiPatients.getPatientByDni(term).subscribe(
         res => {
-          this.patient = res;
+          if(res){
+            this.patient = res;
+          }else{
+            this.openDialog("patientNotFound", undefined, term);
+          }
         },
       );
     }
   }
 
-  // Dispense prescription, but if was, update table.
+  // Dispense prescription, but if was, update table with the correct status.
   dispense(prescription: Prescriptions){
     this.apiPrescriptions.dispense(prescription).subscribe(
       res => {
         this.updateDataTable(res);
-        this.openSnackBar("Le prescripción se dispensó correctamente.", "Cerrar");
+        this.openDialog("dispensed", res, res.professionalFullname);
       },
       err => {
         this.apiPrescriptions.getById(prescription._id).subscribe(
           res => {
             this.updateDataTable(res);
-            this.openSnackBar(err.error, "Cerrar");
+            this.openDialog("", undefined, err.error);
           }
         );
       }
@@ -182,19 +155,27 @@ export class PharmacistsFormComponent implements OnInit {
     }
   }
 
-  // Show a notification
-  openSnackBar(message: string, action: string) {
-    this._snackBar.open(message, action, {
-      duration: 5000
+  // Show a dialog
+  openDialog(aDialogType: string, aPrescription?: Prescriptions, aText?: string): void {
+    const dialogRef = this.dialog.open(DialogComponent, {
+      width: '400px',
+      data: {dialogType: aDialogType, prescription: aPrescription, text: aText }
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
     });
   }
 
   // Return prescriptions related to a patient
   searchPrescriptions(patient: Patient):void{
-    this.prescriptionForm.get('patient_dni').setValue(patient.dni+" "+patient.lastName+" "+patient.firstName);
     this.apiPrescriptions.getByPatientId(patient._id).subscribe(
       res => {
-        this.dataSource = new ExampleDataSource(res);
+        if(!res.length){
+          this.openDialog("noPrescriptions");
+        }else{
+          this.dataSource = new ExampleDataSource(res);
+        }
       },
     );
     this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(
@@ -206,7 +187,11 @@ export class PharmacistsFormComponent implements OnInit {
 
   // Return true if was dispensed and is seeing who dispensed the prescription 
   canPrint(prescription: Prescriptions){
-    return (prescription.status === "Dispensada") && (prescription.dispensedBy === this.authService.getLoggedUserId())
+    return (prescription.status === "Dispensada") && (prescription.dispensedBy._id === this.authService.getLoggedUserId())
+  }
+
+  printPrescription(prescription: Prescriptions){
+    this.prescriptionPrinter.print(prescription);
   }
 
   get patient_dni(): AbstractControl{

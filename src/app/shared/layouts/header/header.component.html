@@ -1,13 +1,16 @@
 <mat-toolbar *ngIf="isLoggedIn$ | async">
   <div fxLayout="row" fxLayoutAlign="space-between center" fxLayoutGap="20" class="container-header">
-
     <button mat-button>
       <img src="assets/img/LogoRecetar.png" class="icon-navbar">
       RecetAR
     </button>
 
     <div>
-      <button mat-button type="button" (click)="logout()">Salir</button>
+      <button mat-button [matMenuTriggerFor]="menu">{{businessName$ | async}}</button>
+      <mat-menu #menu="matMenu">
+        <a mat-menu-item [routerLink]="['/auth/reset-password']">Cambiar contraseña</a>
+        <button mat-menu-item (click)="logout()">Salir</button>
+      </mat-menu>
     </div>
 
   </div>

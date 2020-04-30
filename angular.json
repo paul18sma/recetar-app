@@ -61,7 +61,15 @@
                   "maximumError": "10kb"
                 }
               ]
-            }
+            },
+            "dev": {
+              "fileReplacements": [
+                  {
+                      "replace": "src/environments/environment.ts",
+                      "with": "src/environments/environment.dev.ts"
+                  }
+              ]
+          }
           }
         },
         "serve": {
@@ -72,6 +80,9 @@
           "configurations": {
             "production": {
               "browserTarget": "preinscriptions-control:build:production"
+            },
+            "dev": {
+              "browserTarget": "preinscriptions-control:build:dev"
             }
           }
         },

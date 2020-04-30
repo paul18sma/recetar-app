@@ -1,27 +1,80 @@
-<form [formGroup]="loginForm"  #loginNgForm="ngForm" (ngSubmit)="onSubmitEvent(loginForm, loginNgForm)" class="form-container">
-  <mat-error *ngIf="error">
-    {{ error }}
-  </mat-error>
-  <div fxLayout fxLayout="column" fxLayoutAlign="center" class="container" fxLayoutGap="20px">
-    <mat-form-field>
-      <input matInput placeholder="Usuario" formControlName="identifier" autocomplete="off">
-      <mat-error *ngIf="identifier.errors?.required ">
-        Usuario es requerido
-      </mat-error>
-    </mat-form-field>
-
-    <mat-form-field>
-      <mat-label>Contraseña</mat-label>
-      <input  matInput formControlName="password" [type]="hide ? 'password' : 'text'" autocomplete="off">
-      <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
-        <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
-      </button>
-
-      <mat-error *ngIf="password.errors?.required">
-        Contraseña es requerida
-      </mat-error>
-    </mat-form-field>
-
-    <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+<div fxLayout="column" fxLayoutAlign="space-evenly center" class="container logo">
+  <img src="assets/img/LogoRecetar.png" class="icon-login">
+  <h1 class="title-login">RecetAR</h1>
+</div>
+<div fxLayout="row" fxLayoutAlign="space-evenly start" class="container">
+  <div fxFlex="20">
+    <mat-card>
+      <mat-card-title>
+        <h2>Bienvenido a RecetAR</h2>
+      </mat-card-title>
+      <mat-card-content>
+        En el marco de la emergencia sanitaria que atraviesa el país por
+        la pandemia provocada por el Coronavirus COVID-19, y atento al Decreto
+        del poder ejecutivo nacional N.o 297/20, medida de aislamiento social,
+        preventivo y obligatorio, han sido afectadas las formas habituales de
+        interrelación entre los pacientes, médicos y establecimientos
+        farmacéuticos, haciendo necesaria la utilización de herramientas
+        tecnológicas para asegurar la continuidad de los tratamientos crónicos y
+        agudos de los pacientes.
+      </mat-card-content>
+      <mat-card-actions>  
+        <a mat-raised-button href="https://drive.google.com/open?id=1GBPS_RdHIS8Kx3VWNpW6ZkMwdyFRPfDs" target="_blank">
+          <mat-icon>remove_red_eye</mat-icon> Ver disposición
+        </a>
+        <a mat-raised-button (click)="showInformation()" target="_blank">
+          <mat-icon>info</mat-icon> Leer importante
+        </a>
+      </mat-card-actions>
+    </mat-card>
   </div>
-</form>
+  <div fxFlex="24.5" class="center">
+    <mat-card>
+      <form [formGroup]="loginForm"  #loginNgForm="ngForm" (ngSubmit)="onSubmitEvent(loginForm, loginNgForm)" class="form-container">
+        <mat-error *ngIf="error">
+          {{ error }}
+        </mat-error>
+        <div fxLayout fxLayout="column" fxLayoutAlign="center" class="container" fxLayoutGap="20px">
+          <mat-form-field>
+            <input matInput placeholder="Usuario" formControlName="identifier" autocomplete="off">
+            <mat-error *ngIf="identifier.errors?.required ">
+              Usuario es requerido
+            </mat-error>
+          </mat-form-field>
+
+          <mat-form-field>
+            <mat-label>Contraseña</mat-label>
+            <input  matInput formControlName="password" [type]="hide ? 'password' : 'text'" autocomplete="off">
+            <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
+              <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
+            </button>
+
+            <mat-error *ngIf="password.errors?.required">
+              Contraseña es requerida
+            </mat-error>
+          </mat-form-field>
+
+          <button mat-raised-button color="primary" type="submit">Iniciar sesión</button>
+        </div>
+      </form>
+    </mat-card>
+  </div>
+  <div fxFlex="20">
+    <mat-card>
+      <mat-card-title>
+        <h2>Tutoriales</h2>
+      </mat-card-title>
+      <mat-card-content>
+        Aquí encontrará videos paso a paso de cómo interactuar con la aplicación.
+      </mat-card-content>
+      <mat-card-actions>  
+        <a mat-raised-button href="https://youtu.be/2HdbJTn7kkM" target="_blank">
+          <mat-icon>play_circle_outline</mat-icon> Médico
+        </a>
+        <a mat-raised-button href="https://youtu.be/_GPze_5QlEo" target="_blank">
+          <mat-icon>play_circle_outline</mat-icon> Farmacéutico
+        </a>
+      </mat-card-actions>
+    </mat-card>
+  </div>
+</div>

@@ -1,8 +1,7 @@
 export class User {
   _id: string;
   enrollment: string;
-  username: string;
-  email: string;
   businessName: string;
+  email: string;
   cuil: string;
 }

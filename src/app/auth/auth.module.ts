@@ -14,12 +14,14 @@ import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { DialogComponent } from './components/dialog/dialog.component';
 
 
 
 @NgModule({
   declarations: [
-    routingComponents
+    routingComponents,
   ],
   imports: [
     CommonModule,
@@ -32,7 +34,8 @@ import { MatCardModule } from '@angular/material/card';
     MatInputModule,
     MatIconModule,
     MatButtonModule,
-    MatCardModule
+    MatCardModule,
+    MatProgressSpinnerModule
   ],
   providers: [
     AuthService,
