@@ -26,12 +26,14 @@ import { MatMenuModule } from '@angular/material/menu';
 import { HeaderComponent } from '@shared/layouts/header/header.component';
 import { MAT_DATE_LOCALE } from '@angular/material/core';
 import { DatePipe } from '@angular/common';
+import { FooterComponent } from './shared/layouts/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     routingComponents,
-    HeaderComponent
+    HeaderComponent,
+    FooterComponent
   ],
   imports: [
     BrowserModule,
