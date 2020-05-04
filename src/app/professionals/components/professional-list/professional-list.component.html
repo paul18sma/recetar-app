@@ -1,4 +1,4 @@
-<mat-card class="prescriptions">
+<mat-card class="professional-list">
   <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
     <h1>
       <mat-icon>list_alt</mat-icon>
@@ -42,6 +42,21 @@
               <div *ngFor="let supp of detail.element.supplies">
                 {{ supp.supply.name }} <mat-chip>{{ supp.quantity }}</mat-chip>
               </div>
+              <div *ngIf="detail.element.observation">
+                Observaciones: {{detail.element.observation}}
+              </div>
+            </div>
+          </mat-cell>
+        </ng-container>
+
+        <!-- Acción -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+          <mat-cell *matCellDef="let prescription">
+            <div *ngIf="canPrint(prescription)">
+              <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
+                <mat-icon >print</mat-icon>
+              </button>
             </div>
           </mat-cell>
         </ng-container>
