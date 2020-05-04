@@ -7,7 +7,7 @@ import { ProfessionalFormComponent } from '@professionals/components/professiona
 import { ProfessionalListComponent } from '@professionals/components/professional-list/professional-list.component';
 import { RoleProfessionalGuard } from '@auth/guards/role-professional.guard';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
-
+import { PrescriptionPrinterComponent } from "@professionals/components/prescription-printer/prescription-printer.component";
 
 const routes: Routes = [
   {
@@ -33,5 +33,6 @@ export const routingComponents = [
   ProfessionalsComponent,
   ProfessionalFormComponent,
   ProfessionalListComponent,
-  ProfessionalDialogComponent
+  ProfessionalDialogComponent,
+  PrescriptionPrinterComponent
 ]
