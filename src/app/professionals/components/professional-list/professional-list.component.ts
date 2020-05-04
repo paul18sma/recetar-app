@@ -38,7 +38,6 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
   ) { }
 
   ngOnChanges(changes: SimpleChanges){
-    console.log("My prescriptions: ", changes.myPrescriptions);
     this.dataSource = new ExampleDataSource(changes.myPrescriptions.currentValue);
   }
 
