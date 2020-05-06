@@ -1,8 +1,10 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges, ɵChangeDetectorStatus } from '@angular/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { DataSource } from '@angular/cdk/table';
 import { Observable, of } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { AuthService } from '@auth/services/auth.service';
+import { PrescriptionPrinterComponent } from '@professionals/components/prescription-printer/prescription-printer.component';
 
 @Component({
   selector: 'app-professional-list',
@@ -14,13 +16,14 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
       state('expanded', style({ height: '*', visibility: 'visible' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
-  ]
+  ],
+  providers: [PrescriptionPrinterComponent]
 })
 
 export class ProfessionalListComponent implements OnChanges, OnInit {
   @Input() myPrescriptions: Prescriptions[];
 
-  displayedColumns: string[] = ['user', 'date', 'status', 'supplies'];
+  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
   prescriptions: Prescriptions[] = [];
@@ -30,10 +33,21 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
   expandedElement: any;
 
   constructor(
+    private authService: AuthService,
+    private prescriptionPrinter: PrescriptionPrinterComponent,
   ) { }
 
   ngOnChanges(changes: SimpleChanges){
+    console.log("My prescriptions: ", changes.myPrescriptions);
     this.dataSource = new ExampleDataSource(changes.myPrescriptions.currentValue);
+  }
+
+  canPrint(prescription: Prescriptions){
+    return (prescription.user._id === this.authService.getLoggedUserId())
+  }
+  
+  printPrescription(prescription: Prescriptions){
+    this.prescriptionPrinter.print(prescription);
   }
 
   ngOnInit(): void {}

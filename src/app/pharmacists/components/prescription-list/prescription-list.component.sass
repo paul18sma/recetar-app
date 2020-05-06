@@ -1,0 +1,42 @@
+.prescriptions
+  width: 49%
+
+.prescriptions-container
+  display: flex
+  flex-direction: column
+  max-height: 500px
+  min-width: 300px
+
+.element-row:not(.expanded)
+  cursor: pointer
+
+.hidden-print
+  visibility: hidden
+
+
+.mat-table
+  overflow: auto
+  max-height: 500px
+
+
+.element-row
+  position: relative
+
+
+.element-row:not(.expanded)
+  cursor: pointer
+
+
+.element-row:not(.expanded):hover
+  background: #f5f5f5
+
+.element-row.expanded
+  border-bottom-color: transparent
+
+.cdk-column-expandedDetail
+  border-left-style: solid
+  border-color:#c9c9ca
+  border-width: 1px
+  margin-left: 24px
+  outline: 1px
+  outline-offset: -2px

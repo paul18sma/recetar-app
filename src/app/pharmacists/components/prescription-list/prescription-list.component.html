@@ -1,16 +1,18 @@
-<mat-card class="professional-list">
-  <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
-    <h1>
-      <mat-icon>list_alt</mat-icon>
-      Mis recetas
-    </h1>
+<mat-card fxLayout="column" fxLayoutAlign="space-between">
+  <mat-card-title>
+    <h2>
+      <mat-icon>gesture</mat-icon>
+      Recetas <span *ngIf="dataSource.data.length"> de {{dataSource.data[0].patient.lastName}}, {{dataSource.data[0].patient.firstName}} DNI {{dataSource.data[0].patient.dni}}</span>
+    </h2>
+  </mat-card-title>
+  <mat-card-content>
     <div class="prescriptions-container mat-elevation-z8">
       <mat-table #table [dataSource]="dataSource">
 
         <!-- Professional -->
         <ng-container matColumnDef="user">
-          <mat-header-cell *matHeaderCellDef> Paciente </mat-header-cell>
-          <mat-cell *matCellDef="let prescription"> {{prescription.patient.lastName}}, {{prescription.patient.firstName}} </mat-cell>
+          <mat-header-cell *matHeaderCellDef> Profesional </mat-header-cell>
+          <mat-cell *matCellDef="let prescription"> {{prescription.professionalFullname}} </mat-cell>
         </ng-container>
 
         <!-- Date -->
@@ -35,6 +37,21 @@
           </mat-cell>
         </ng-container>
 
+        <!-- Acción -->
+        <ng-container matColumnDef="action">
+          <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
+          <mat-cell *matCellDef="let prescription">
+            <div *ngIf="canPrint(prescription)">
+              <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
+                <mat-icon >print</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="prescription.status === 'Pendiente'">
+              <button mat-button color="primary" (click)="dispense(prescription)" matTooltip="Dispensar" matTooltipPosition="above"><mat-icon >done_outline</mat-icon></button>
+            </div>
+          </mat-cell>
+        </ng-container>
+
         <!-- Expanded Content Column - Supplies details-->
         <ng-container matColumnDef="expandedDetail">
           <mat-cell *matCellDef="let detail">
@@ -45,18 +62,6 @@
               <div *ngIf="detail.element.observation">
                 Observaciones: {{detail.element.observation}}
               </div>
-            </div>
-          </mat-cell>
-        </ng-container>
-
-        <!-- Acción -->
-        <ng-container matColumnDef="action">
-          <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
-          <mat-cell *matCellDef="let prescription">
-            <div *ngIf="canPrint(prescription)">
-              <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
-                <mat-icon >print</mat-icon>
-              </button>
             </div>
           </mat-cell>
         </ng-container>
@@ -73,5 +78,5 @@
         </mat-row>
       </mat-table>
     </div>
-  </div>
+  </mat-card-content>
 </mat-card>
