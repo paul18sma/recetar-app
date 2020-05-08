@@ -1,0 +1,1555 @@
+[33mcommit 70b3fa98cd8becf4ce24d67c572103f63afb5b91[m[33m ([m[1;36mHEAD -> [m[1;32mmaster[m[33m, [m[1;31morigin/bashud[m[33m, [m[1;32mbashud[m[33m)[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed May 6 22:05:43 2020 -0300
+
+    style: improve responsive in professional side
+
+[33mcommit 97fcdef38af3e909dc2f5299bd4e3c8c320edba9[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed May 6 22:04:14 2020 -0300
+
+    style: fit logos to responsive width
+
+[33mcommit 82e4e24ee12b30c7123e38d3a7a5f6f492698176[m
+Merge: bce0f52 f76ffa5
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed May 6 10:00:00 2020 -0300
+
+    Merge branch 'master' into bashud
+
+[33mcommit bce0f5244e5feaf2a38e55f8fd15e322cb8d7a96[m
+Merge: 4b79fe4 cc87496
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed May 6 09:59:52 2020 -0300
+
+    Merge branch 'bashud' of https://github.com/andes/recetar-app into bashud
+
+[33mcommit f76ffa5a0639e3b3ab7151af80e322362191b8b6[m[33m ([m[1;31morigin/master[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;31mandes/master[m[33m)[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 19:09:18 2020 -0300
+
+    feat: add footer component
+
+[33mcommit 7cb58f0d66d14714554e319adf28ca5118272693[m[33m ([m[1;31mheroku/master[m[33m)[m
+Merge: c5ac729 ae0d6bb
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 18:19:22 2020 -0300
+
+    Merge branch 'master' of https://github.com/andes/recetar-app
+
+[33mcommit c5ac729bee5ccf57c36f901b6be494ad980167f1[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 18:18:52 2020 -0300
+
+    feat: add official logos
+
+[33mcommit ae0d6bb6a692a4e83f4300e9fc93033739614557[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon May 4 16:51:20 2020 -0300
+
+    fix: removes space between value and 'px'
+
+[33mcommit 9e094601f98ed8dc21f10086b7c89622d9e24fe2[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 14:56:10 2020 -0300
+
+    remove console log
+
+[33mcommit 088621d2622ed2df5750825db352c4021ef8770f[m
+Merge: cc87496 a3df3c6
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 14:35:59 2020 -0300
+
+    Merge branch 'master' of https://git.heroku.com/prescription-validator
+
+[33mcommit cc87496d18cd9db4bc6770f0acb3134d5fecf60c[m[33m ([m[1;31mandes/bashud[m[33m)[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 14:32:13 2020 -0300
+
+    feat: add responsive to pharmacist index
+
+[33mcommit 27234d7d2c9e9f951cb29a6945f7e382f71e19a9[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 12:53:12 2020 -0300
+
+    feat: add pint to prescriptions
+
+[33mcommit b8f06a0442893f8654cc5b70ec04c8e034392617[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 12:52:35 2020 -0300
+
+    feat: add professional observation to pharmacist side
+
+[33mcommit d8e5426ecf2a822d070666c9d2c5c6da694b3bd5[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 12:51:58 2020 -0300
+
+    feat: add prescription printer component to professional routes
+
+[33mcommit a41d0d30499787e8de2847fe38e53260f7b34359[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Mon May 4 12:51:05 2020 -0300
+
+    feat: add prescription component
+
+[33mcommit a3df3c69071f3389cd46f7f3df8264dfa032c7a5[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 19:28:13 2020 -0300
+
+    fix: dialog title align
+
+[33mcommit 2c2d090d97df4e1a9a24831ad8248b3c03218a8a[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 18:46:28 2020 -0300
+
+    fix: adds a max-height to dialog
+
+[33mcommit 7a2f1efdf5c837787aebb2458b99171cff132c73[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 18:45:14 2020 -0300
+
+    adds margin bottom to login cards-container
+
+[33mcommit 58ada01d1105416f9c47c4f8479a7ec0970f9578[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 18:41:00 2020 -0300
+
+    removes unused imports
+
+[33mcommit dce7a693b2ff1448d122753de34311b9cbc51459[m
+Merge: 3e6e395 a82547b
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 11:59:30 2020 -0300
+
+    Merge branch 'master' of https://github.com/andes/recetar-app
+
+[33mcommit 3e6e395e33688408dfb9b7cb979d555aeff99860[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 11:48:47 2020 -0300
+
+    fix variable syntax
+
+[33mcommit a82547bf3fc5ba41bfd7372060d6ce755afdcef6[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 30 08:40:23 2020 -0300
+
+    feat: improve text
+
+[33mcommit 4b79fe46faf15b3a2d825690a07a8093a7d1397a[m
+Merge: a8700bf 4715fa7
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 30 08:11:33 2020 -0300
+
+    merge
+
+[33mcommit a8700bf7b10d52a0aa3d3a721ac59a0689ab62df[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 30 08:11:04 2020 -0300
+
+    user
+
+[33mcommit e103f6a0488e29305d62730750c3eb1addfbec2a[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 01:29:28 2020 -0300
+
+    adds and configures _variables sass file
+
+[33mcommit 94e87dba03e4a9e5de9e0b634f522141cc37f9c8[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 30 01:28:19 2020 -0300
+
+    solve conflicts login form styles
+
+[33mcommit 135f41c0446d2c4f2a8f1455d97a3094b9925930[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 18:33:29 2020 -0300
+
+    feat: change words with x to seem inclusive
+
+[33mcommit a23814ab1bdf91fee6537532bab6b5fc2ffc4841[m
+Merge: c6d60a4 0c44787
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 17:53:05 2020 -0300
+
+    merge with bashud
+
+[33mcommit 0c44787dd674f5c6c959c88edf9bc8344990aa4a[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 17:52:31 2020 -0300
+
+    fix: reset pass width inputs
+
+[33mcommit 9fb2fa4f4fe2ac9d922724b34fabed729218f35e[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 17:51:55 2020 -0300
+
+    fix: login width inputs
+
+[33mcommit c6d60a4ee6fe1ff49efaed9fcd220f2dc032749a[m
+Merge: 8587d69 4715fa7
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 17:37:33 2020 -0300
+
+    Merge with bashud
+
+[33mcommit 4715fa71edcad6e5946571fc0be6059bc4d5e682[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 16:26:06 2020 -0300
+
+    feat: add information in a dialog to login
+
+[33mcommit 0e00553139fbcf94e1bd2b426bd055ba7c7dac49[m
+Merge: 95168ec b4c1b78
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 16:17:46 2020 -0300
+
+    Merge branch 'links' into bashud
+
+[33mcommit 95168ece3702b232a9e6defd1c92639496c05863[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 16:17:28 2020 -0300
+
+    Add dialog
+
+[33mcommit 8587d69adc45485d9a296b4418e47432e9c86ef1[m
+Merge: ce34eaa 725875c
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 29 11:09:41 2020 -0300
+
+    Merge pull request #20 from paul18sma/paul
+    
+    Styles
+
+[33mcommit 725875c48eb63b2742b6a06dd3dffb287e98ec35[m[33m ([m[1;31morigin/paul[m[33m, [m[1;32mpaul[m[33m)[m
+Merge: ce34eaa f3ef31a
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 29 01:17:35 2020 -0300
+
+    merge styles
+
+[33mcommit ce34eaa3539ddcca78d93375e0faa988515589c9[m
+Merge: bebb5e8 b4c1b78
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 00:19:56 2020 -0300
+
+    Merge branch 'links'
+
+[33mcommit bebb5e8b6afa02e9a49028931a06f6844a8654c5[m
+Merge: 3f03760 d585021
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 00:19:41 2020 -0300
+
+    Merge branch 'bashud'
+
+[33mcommit d585021f38966ea0bfeaf7dd1dcdb8a7a7d173ac[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Wed Apr 29 00:16:59 2020 -0300
+
+    remove comments
+
+[33mcommit 180a559af6d51f0b601505893925fc1d4ea32311[m
+Merge: 3cf1697 3169a70
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Tue Apr 28 23:49:01 2020 -0300
+
+    Merge branch 'bashud' of https://github.com/andes/recetar-app into bashud
+
+[33mcommit 3cf1697d84b3f5f92e184e8cafd3fc23e0fb7fa3[m
+Merge: 7fdd7bd 30baf6c
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Tue Apr 28 23:46:32 2020 -0300
+
+    Merge branch 'master' of https://github.com/paul18sma/recetar-app into bashud
+
+[33mcommit 3169a70ab985519425951da2891268e24c4b5809[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 28 23:40:37 2020 -0300
+
+    implement onchages professional-lits
+
+[33mcommit 2ca53fe5d3a997f47b54401612e5812d7bad5713[m
+Merge: 595bea5 7fdd7bd
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 28 22:48:52 2020 -0300
+
+    professionals form
+
+[33mcommit 7fdd7bd4f955cbb0d6358774d7837d6975bf3105[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Tue Apr 28 22:47:59 2020 -0300
+
+    trying to push a new prescription
+
+[33mcommit f3ef31ab3a4fbd9b3944b1e5111252aa1a990799[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 28 01:49:54 2020 -0300
+
+    improves: separete supplies table to pharmacist-form component
+
+[33mcommit b4c1b78dc394b9d64a610c7b0be19dff02ec1429[m[33m ([m[1;31morigin/links[m[33m, [m[1;31mandes/links[m[33m, [m[1;32mlinks[m[33m)[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Tue Apr 28 00:39:51 2020 -0300
+
+    feat: format change password
+
+[33mcommit 1e2dee712f9881f3ec2ac1fe179b95925bd5dfe6[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Tue Apr 28 00:26:23 2020 -0300
+
+    feat: add links of interest to login
+
+[33mcommit a269d7da14547937a866182fb34b855c0539a8e6[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 28 00:22:37 2020 -0300
+
+    adds 'back' button on reset password form
+
+[33mcommit 7e9c31f39ef30efe5d99be93eaf93ef9d0931180[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 27 23:23:42 2020 -0300
+
+    adds encodeURIComponent to supplies search
+
+[33mcommit 6164f4b6dfa451ae7134a97ad779c6b7092660a9[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 27 20:45:54 2020 -0300
+
+    adds dni field validation, only accept numbers
+
+[33mcommit e5eae511d3e136ae54e8e3e88f6935d138517629[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 27 17:32:22 2020 -0300
+
+    changes patients class to interface, and dni clean control
+
+[33mcommit 3f037609a64619b68a433e756c2261a11cd27184[m
+Merge: cbc3470 30baf6c
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 27 15:30:58 2020 -0300
+
+    Merge pull request #17 from andes/feat
+    
+    Feat: authentication
+
+[33mcommit 0996bcd43079eab333fdc844af254452415c4837[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 27 14:35:49 2020 -0300
+
+    fix: max-width on failure message
+
+[33mcommit 75e7813b35728ecbb0cb9ea48b9c87318b60ab40[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 27 14:35:17 2020 -0300
+
+    adds loading on loing form and adds a valid control before send the form
+
+[33mcommit bd526c2cecb5578d129180a0053ea5dc2a163a3e[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 27 12:18:39 2020 -0300
+
+    adds hint of value length in dni filed
+
+[33mcommit be8c9befa8d8d586028638f9839a6ea9fe1222ac[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 27 12:13:05 2020 -0300
+
+    fix loading in DNI field in professionals form
+
+[33mcommit 30baf6c3cef4fa269456a1c4353d42c92fd14967[m[33m ([m[1;31mandes/feat[m[33m, [m[1;32mfeat[m[33m)[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 26 01:53:06 2020 -0300
+
+    removes unused logout function
+
+[33mcommit b183a320df2f970a76c859fc3d76ab4d6dd7393d[m
+Merge: 46740e3 cbc3470
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 26 01:20:05 2020 -0300
+
+    athemtication and sessions features
+
+[33mcommit 46740e35b4f27ddfcd29d54baeedb6167e465e6d[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 26 01:17:05 2020 -0300
+
+    feature: adds app initializer, for check jwt validity. If jwt or refresh tokens, are missing on the browser, redirects to login form. But if both exits, call api service for check jwt validity. If it response with 417 http code, trigger logout and redirects to login form
+
+[33mcommit 595bea5d1c47c0a44280fee3d3e8814484fa1cb3[m
+Merge: dc2c203 cbc3470
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 25 15:05:43 2020 -0300
+
+    Merge branch 'master' of https://github.com/andes/recetar-app into bashud
+
+[33mcommit c9f211c3bc3269901b5f53acb56fa98064b1645e[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sat Apr 25 13:21:20 2020 -0300
+
+    Add professional list
+
+[33mcommit cbc34704ec822af5b3ff221f4f059c2c7920fb26[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Fri Apr 24 13:37:05 2020 -0300
+
+    Hide console logs
+
+[33mcommit 47cbdc68803868e17e9a3e7598fdf385a5a47ff5[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Fri Apr 24 12:19:43 2020 -0300
+
+    Pass prescription id and user id as param to api
+
+[33mcommit dc2c203e25c081458cea8900d5b2b2dac2e903a0[m
+Merge: 3f51d54 bf2f288
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 23 12:54:52 2020 -0300
+
+    Merge branch 'bashud' of https://github.com/andes/recetar-app into bashud
+
+[33mcommit bf2f288017e678b1d3a4a7ef611bd0b94c4c9653[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Thu Apr 23 12:32:39 2020 -0300
+
+    DispensedBy as User
+
+[33mcommit a2902cfe15fe01a307d458517826069577373d42[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Thu Apr 23 12:32:12 2020 -0300
+
+    Show dispensedBy fields in pdf.
+
+[33mcommit a80ee1b1c7cd43e254cb6e858611bcee351d731c[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Thu Apr 23 12:31:28 2020 -0300
+
+    Change dispensedBy to User
+
+[33mcommit 3f51d541b15b8ddb61ef9403b53d409aa739cd35[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 21 00:22:15 2020 -0300
+
+    fix: dni loading field didn't display on searching
+
+[33mcommit 1d3f153c2fd203c4632d544b2ba26eff6124fa67[m[33m ([m[1;31mandes/hotfix[m[33m, [m[1;32mhotfix[m[33m)[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 20 23:02:43 2020 -0300
+
+    changes 401 http code to 417 code, for trigger logout
+
+[33mcommit 929fd83e74c4c6806804ace8b0d6de00ee9e6a67[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 20 22:46:30 2020 -0300
+
+    improve: refresh token handler changes call in 406 code error, and adds 401 http code handle wuth logout action
+
+[33mcommit 71459084e47bd177aa6b1c32caebac5c5a0a2428[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 20 22:42:40 2020 -0300
+
+    changes: on refresh token store both token [jwt, new refreshToke]
+
+[33mcommit 0e826b3e9f6fb891ad4613c74ca4cdca2ff5649b[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 23:52:08 2020 -0300
+
+    adds dev environment
+
+[33mcommit 11e503c4390d80f11fe84f1063223e542b5cc6d3[m
+Merge: 3ec7176 0f07d54
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 23:12:39 2020 -0300
+
+    Merge branch 'master' of https://github.com/andes/recetar-app into paul
+
+[33mcommit 3ec7176e656f40ca1979af442b661a3652687d49[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 23:11:36 2020 -0300
+
+    fix: clean supplies auto completes after select a supply or leave the input as empty
+
+[33mcommit 0f07d54d43dba987b679f83c08b6f45d7f4967af[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 22:46:52 2020 -0300
+
+    Show dialog after create. Remove snackbar
+
+[33mcommit 3381496cd130fd1f1a425ab31e8eae9f1e700e4c[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 22:46:30 2020 -0300
+
+    Add professional dialog component
+
+[33mcommit ebff24b2fd14268790a4a240e90624aa2d883056[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 22:46:03 2020 -0300
+
+    Add professional dialog route
+
+[33mcommit 2400be2fd1132acecaa2579aca103880ec8d4192[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 22:06:59 2020 -0300
+
+    Fix dialog patient not found. Fix select patient on date filter
+
+[33mcommit 6b391cef03ff49d0176047be11cc70a577de5044[m
+Merge: 731b217 864abb7
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 21:37:44 2020 -0300
+
+    Merge branch 'master' of https://github.com/andes/recetar-app
+
+[33mcommit 731b217eeff28d63d4502681481541646956e487[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 21:36:10 2020 -0300
+
+    Add dialog to patient not found
+
+[33mcommit 864abb78f9c8480129b8a367078f83c1235d43f6[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 21:33:33 2020 -0300
+
+    fix: on the second submit of prescription  validates the second quantity if it closest supply is empty
+
+[33mcommit 66098ed1a79ed2245d190fcb322fd7c76038ce3c[m
+Merge: 7a01f04 2373ccf
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 19:58:32 2020 -0300
+
+    merge bashud and paul branches
+
+[33mcommit 2373ccfeb11594ba2f7a61650fb3689034b08120[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 19:57:12 2020 -0300
+
+    Format date in dialog
+
+[33mcommit 7a01f049ed1f362bee068535645825beb85780f6[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 19:45:10 2020 -0300
+
+    refactor supplies arrayForm validations
+
+[33mcommit 9c6471f3edf263cfb61fd6555da25a33eab9a545[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 19:33:14 2020 -0300
+
+    Add print and dialog components
+
+[33mcommit 9cfa7194e549816584e47e2b5ce3ac477b1e9c0e[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 19:32:37 2020 -0300
+
+    Move prescription print. Remove snackbar. Add dialogs.
+
+[33mcommit 3c2610fe2851f38831a3a1aa5061876a7e443c4f[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 19:31:56 2020 -0300
+
+    Add dialog and prescription print components
+
+[33mcommit 529b4b2bff4cff4a2189e5f892b529d24254960c[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 19:30:42 2020 -0300
+
+    Create multiple dialogs to handle events
+
+[33mcommit 5e91fed186fe885868d65fa8f9faf4fa67cb8a22[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 19:29:58 2020 -0300
+
+    Move prescription print to component
+
+[33mcommit 487c4c1aa0e1d355ead31497530ddddb5fbeef1c[m
+Author: eugesma@gmail.com <eugesma@gmail.com>
+Date:   Sun Apr 19 19:29:19 2020 -0300
+
+    Add dialogs
+
+[33mcommit 333a73d847436f928fed44278af003d576176f18[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 13:08:08 2020 -0300
+
+    changes required validator to custom validation on supplies count
+
+[33mcommit ffe2c041f77b0f65feb745a5ecebb429277c41a0[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 13:06:07 2020 -0300
+
+    adds supplies errors count display and styles
+
+[33mcommit e2a977a17462eacd1d0558f769188d9beee93594[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 19 13:04:14 2020 -0300
+
+    adds utils and utils alias path
+
+[33mcommit 11582ea0133ccb4dbe9c88be7bb0ed5108188c54[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Fri Apr 17 23:03:16 2020 -0300
+
+    Add pipe async to businessName
+
+[33mcommit a0eec0864c8a187b0ba504b0d0c0efee3198b968[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Fri Apr 17 22:35:30 2020 -0300
+
+    Add business name to navbar
+
+[33mcommit 429e305862bbed3bdac59f7bb5255a8882bd567f[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 16 23:17:29 2020 -0300
+
+    spinder submit centered, and changes spinners color
+
+[33mcommit d8353d627d25eafaa6ae2495608d568b4cdfe7d5[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 16 22:41:57 2020 -0300
+
+    Add pharmacy info to pdf
+
+[33mcommit a54ad8256c3df355ba5a3f62d734a0fe2b0e8fc5[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 16 21:34:47 2020 -0300
+
+    Show more professional and patient info
+
+[33mcommit 5f5118c260bdf79533a021bdb049eca91f5feae7[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 16 21:34:20 2020 -0300
+
+    Change to User interface
+
+[33mcommit e48a77bdf6305e2c0d27b478633dcc77ae79df80[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 16 21:33:46 2020 -0300
+
+    Change user_id tu user
+
+[33mcommit 07ae4e00716ba91ecb34d854ec5ff81bd1cf09f3[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 16 21:32:37 2020 -0300
+
+    Add user interface
+
+[33mcommit 81d3ceeb247f0ea386ade9948031d6a0bb5e29e8[m
+Merge: de2b9c9 274e244
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 16 20:36:18 2020 -0300
+
+    Merge branch 'master' into bashud
+
+[33mcommit 274e2447060fcce516142ce7420607298973d64e[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 15 02:25:16 2020 -0300
+
+    Add snackbar and hide spinner
+
+[33mcommit de2b9c957a35fbfd7b3abc4445d33b4e77bddb7e[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 15 01:29:18 2020 -0300
+
+    adding list
+
+[33mcommit 59b0c766389b25207b02c9618bde48f75d090f9a[m[33m ([m[1;31mandes/paul[m[33m)[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 15 00:56:16 2020 -0300
+
+    changes loading state on submit reset password form
+
+[33mcommit 1f3cc4c7471ec390865a85d2c484dc609a2bc12b[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 15 00:45:21 2020 -0300
+
+    imports spinner material module
+
+[33mcommit 2de86934d4547f33537d174e3b9b0a9f3e7a015c[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 15 00:44:55 2020 -0300
+
+    adds reset password service
+
+[33mcommit 5d48983554b8f422316870cfb1300bf06aa674ec[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 15 00:43:45 2020 -0300
+
+    adds reset password form
+
+[33mcommit 92e025bf792e86713aec923d134758b4bc847d39[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 14 23:58:49 2020 -0300
+
+    fix: refresh token code in httpInterceptor
+
+[33mcommit 2475f4efc7c766cf72949628aad3f9d95273f2bb[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 14 22:18:29 2020 -0300
+
+    replaces 'salir' button with menu dropdown button, and adds 'Cambiar contraseña' link
+
+[33mcommit 176b22d08ccdc7a75c4227a108138a552452ba1e[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 14 22:16:37 2020 -0300
+
+    adds reset password component
+
+[33mcommit 779b92cad63db320de7880862b3c849e26d47319[m
+Merge: c7b2e4a 5eaead8
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 13 22:20:52 2020 -0300
+
+    Merge branch 'paul'
+
+[33mcommit 5eaead8a47d97e3f6165e3229161931f8285c5e0[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 13 20:29:11 2020 -0300
+
+    changes: support array of roles
+
+[33mcommit c7b2e4a5a6d701a0a0f5bfd4f15a8332b2637126[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 12 21:54:00 2020 -0300
+
+    Update prescription and validate if was dispensed.
+
+[33mcommit 5c41be50484047ef067e4a5cba9838a26588f7c5[m
+Merge: d6f30ec 6286861
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 12 20:31:01 2020 -0300
+
+    Merge branch 'bashud'
+
+[33mcommit d6f30ec9509fa02b4e9c0be90fad9483b34d33ec[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 12 20:29:39 2020 -0300
+
+    Add prescription validation to dispensed
+
+[33mcommit 6286861a46297ec07bc7a49e4b8ddcdc4282d939[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 9 12:41:35 2020 -0300
+
+    Improve tab, input orders and initial focus of professional form
+
+[33mcommit 4e0041b7f1a5b7845ef55acb8d20c1adbd3745bf[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 9 12:17:34 2020 -0300
+
+    Change api end point variable
+
+[33mcommit fb1d6297c944e2e6b2dfb6856674eb40df7d137d[m
+Merge: 983f0c3 983fe09
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 9 00:37:14 2020 -0300
+
+    Merge branch 'master' of https://github.com/paul18sma/prescription-validator
+
+[33mcommit 983f0c360142b82411e11d3b06e9c0fbd6afc950[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 9 00:37:05 2020 -0300
+
+    Add observation to pdf
+
+[33mcommit 983fe09869be28403e3964aa68d58a8f727eda3f[m
+Merge: a3019d0 8764076
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 9 00:22:10 2020 -0300
+
+    improves in professionals form: loadgin into dni and supplies inputs, loading on sending data, form design, and erros messages
+
+[33mcommit a3019d00dbf0da9c955cb90aa0d6d3b6fe9ba387[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 9 00:05:47 2020 -0300
+
+    method name correction
+
+[33mcommit e24ca35306566fa525a07c427422e751e6b02875[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 8 23:51:03 2020 -0300
+
+    adds cancel http request on supplies search
+
+[33mcommit 87640762894a68460be75adbf85144abaaa04ac5[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 8 22:55:35 2020 -0300
+
+    Add logo to pdf
+
+[33mcommit ce06e0e5c24b8141b074a42272900455da3e6807[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 8 22:13:55 2020 -0300
+
+    adds loaging spinners in retrieve data
+
+[33mcommit 4460c7672c3cfaf4ec5657e15677f18ff3c073d5[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 8 20:21:34 2020 -0300
+
+    Show supplies and quantity in pdf
+
+[33mcommit 818188c83b7e4ebee8d71fe0ec71d6ade1e67fc7[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 8 20:10:47 2020 -0300
+
+    new professional form design, adds supply quantity input and obeservation to prescriptions
+
+[33mcommit 833830a11cc768e1625ea6c78f43f61a56c67f4b[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 8 16:18:24 2020 -0300
+
+    Add supply quantity
+
+[33mcommit 2bd1bb15cd5eb3d7475a536e76a39d5c3018ff5f[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 8 13:28:33 2020 -0300
+
+    Add quantity to prescriptions
+
+[33mcommit 96b06418e41957892fb63facf27a9ee99a41de4c[m
+Merge: b108a1a a7a7df9
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 8 02:04:35 2020 -0300
+
+    Merge branch 'master' of https://github.com/paul18sma/prescription-validator
+
+[33mcommit b108a1a4ad2b2b19c188ceb66ef2f017cec6a68d[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 8 02:04:29 2020 -0300
+
+    Add filter by date
+
+[33mcommit a7a7df945dbd68b358c501650964b21d9c76a4c2[m
+Merge: ed3e2a8 d1d76b3
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 8 01:38:13 2020 -0300
+
+    Adds professional form refactor and supplies validations
+
+[33mcommit ed3e2a886908be8145ee7718b7f4858677a94c82[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 8 01:37:45 2020 -0300
+
+    adds patient-container class, and reset form after succes prescription save
+
+[33mcommit fe3c96232a2ad1b2afec84c7154307bbcb1b78d1[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 8 00:37:09 2020 -0300
+
+    improves: source code and adds supplies validation
+
+[33mcommit b3e4b9cf52a68341e8ba33af656f8996b8014aa5[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 8 00:33:52 2020 -0300
+
+    removes pipe method from newPrescription service method
+
+[33mcommit b283c754b74bd3965dd6a0e51d131e12580202dd[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 7 23:17:29 2020 -0300
+
+    adds 422 http code error hanlde
+
+[33mcommit 7490ad1bd590bffead4f82bcbeb694a6f05101a8[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 7 23:00:07 2020 -0300
+
+    improve code
+
+[33mcommit d1d76b378f1605229f80fb9b83c254f9467cad6a[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Tue Apr 7 22:23:20 2020 -0300
+
+    Hide print button
+
+[33mcommit d0f3fc1050ddbcb77d50e97718c1473e9f1f5100[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Tue Apr 7 21:40:54 2020 -0300
+
+    Add print to prescription
+
+[33mcommit f3b307e7a7a81578b1dce5170e4fff3aebc296a5[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Tue Apr 7 16:51:32 2020 -0300
+
+    Fix
+
+[33mcommit f71f1bf7ddaf4acaf6730618f5c5b73d5ff7673b[m
+Merge: 87e5b50 2d75fd9
+Author: BasHud <eugesma@gmail.com>
+Date:   Tue Apr 7 11:20:47 2020 -0300
+
+    Merge
+
+[33mcommit 87e5b50c6a0632e9c5f454e5d691c56452f09258[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Tue Apr 7 11:19:45 2020 -0300
+
+    Change patient interface to class
+
+[33mcommit 2d75fd9ba012a9c8fd77be62b4fd37bd0972c09f[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Tue Apr 7 01:04:21 2020 -0300
+
+    fix Patients interface import
+
+[33mcommit 1a99e640724a04e2c7e560eff756c9333157e656[m
+Merge: fdab535 9b781c6
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 23:31:00 2020 -0300
+
+    Merge with paul
+
+[33mcommit fdab5356b6246d856df69058e3901886e58b8428[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 23:24:08 2020 -0300
+
+    Change prescription interface
+
+[33mcommit 9b781c684191d166973fd731345ee59f6c7f5dbd[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 6 22:03:01 2020 -0300
+
+    displays supplies on pharmacists form
+
+[33mcommit c2896b74a02bd321441302ad48f4369589da9dfd[m
+Merge: aa79aeb 1b51abd
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 21:30:32 2020 -0300
+
+    Merge branch 'master' into bashud
+
+[33mcommit aa79aeb0e9e48d283a87aba2b2c976447870dc32[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 21:30:16 2020 -0300
+
+    Adding patient object id
+
+[33mcommit 6026efdc1b67222cafe4c8a8e5220552ec5e7772[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 19:49:38 2020 -0300
+
+    Hide prints
+
+[33mcommit 01466b61cfe63a08f09fcd8732c527a88c5958f9[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 19:49:18 2020 -0300
+
+    Add print prescription
+
+[33mcommit 1b51abdc630db3e1d6de635fbe8d52e206268429[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 13:41:47 2020 -0300
+
+    Clear form and send message after submit professional form
+
+[33mcommit 08606bf12858d458ff3dda82abed8b7cb6746414[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 12:07:14 2020 -0300
+
+    Add default current date
+
+[33mcommit bff052a4521e58a5f6982fe175bfe3e822251a08[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 11:56:04 2020 -0300
+
+    Change favicon and title
+
+[33mcommit fe71ac7400024fcc3425bbe7ba8c27f30a1ee685[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 04:57:27 2020 -0300
+
+    Fix patient id
+
+[33mcommit f3a32b9b2ab77d9a6142f5c77a4ccfe28dc38ef0[m
+Merge: 1e7ecf1 fd5d4ed
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 04:36:46 2020 -0300
+
+    Fix patientId
+
+[33mcommit 1e7ecf10aae654159df19751f9d6ebf49b844803[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 6 04:22:10 2020 -0300
+
+    removes debug code
+
+[33mcommit fd5d4ed2a92153f8a539cea7580936241ad02ddf[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 04:22:08 2020 -0300
+
+    Set locale
+
+[33mcommit 226626940eaf3b0580e1049d24a55f0ce1ff5911[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 6 04:18:50 2020 -0300
+
+    adds supplies add button and nested formControl
+
+[33mcommit 681b5f73879e4eb02796f380af5d9e7736d649bb[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 02:07:25 2020 -0300
+
+    Improve pharmacist index. Fix enter login
+
+[33mcommit 43a6f4d7413899dc5758543a983b7f2202dea2cc[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 00:59:22 2020 -0300
+
+    Add snackbar to action dispense
+
+[33mcommit fb014df6bde66beee5ee3dfba21c4a4820ccf1e5[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 6 00:40:09 2020 -0300
+
+    removes unused env key
+
+[33mcommit c6bc488afd446a16f07fa70ceb0f89786d8739db[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 6 00:39:47 2020 -0300
+
+    changes id to _id in supplies interfa and use it in supplies.services
+
+[33mcommit ceb192c18d93f9e6916a4444ccc06631b0c784a0[m
+Merge: 9985fcd c18bf36
+Author: paul <paul.18.sma@gmail.com>
+Date:   Mon Apr 6 00:34:50 2020 -0300
+
+    fix supplies select
+
+[33mcommit c18bf36618042ed910d2e86dee1a7734bf1b6fc6[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Mon Apr 6 00:33:52 2020 -0300
+
+    Change 404 layout. Fix supply selector
+
+[33mcommit 9985fcd932269709e03eddd5d76f056169173707[m
+Merge: 7d9beb1 de1142a
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 23:57:26 2020 -0300
+
+    adds routes protection
+
+[33mcommit 7d9beb19e31b9bcb56e817eb4e5a567598b58490[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 23:56:47 2020 -0300
+
+    adds redirection and page restriction according users role
+
+[33mcommit de1142a5fe5ffa5e61287e226cf878b2710fc4de[m
+Merge: e685e8e 37201a9
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 23:36:52 2020 -0300
+
+    Merge branch 'bashud'
+
+[33mcommit 37201a9847db76f9d329099fdf525dfc34a0e473[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 23:36:23 2020 -0300
+
+    Fix button dispense
+
+[33mcommit 391b651f47b5354ae58550b4f408322ff8902941[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 23:22:13 2020 -0300
+
+    Add dispense
+
+[33mcommit e685e8e3e37b463b80722efc9a8adbb1bb82b781[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 22:42:24 2020 -0300
+
+    adds drugs service call
+
+[33mcommit 340797fbf2e1b590f69aafab8c9a58c8f4f8301b[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 21:29:12 2020 -0300
+
+    Add inssurance
+
+[33mcommit 1819926c9c18aec4d04688abc66264a6ef3dbb13[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 19:56:10 2020 -0300
+
+    Add professional fullname to prescriptions
+
+[33mcommit 583aa1e1f96f745d9b302dfa288b0adddce5d99e[m
+Merge: 6f726a3 15ff9f4
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 18:57:50 2020 -0300
+
+    Merge branch 'paul' of https://github.com/paul18sma/prescription-validator into bashud
+
+[33mcommit 6f726a35746ff91269d6de6a60381ea9dde10cb3[m
+Merge: f4cfd28 e0152ee
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 18:57:08 2020 -0300
+
+    Add dispense button
+
+[33mcommit 15ff9f4bb0749015e8f72c22949fa3331edf07ff[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 18:56:00 2020 -0300
+
+    get username from the token
+
+[33mcommit f4cfd2823e4d8863e2607f88fc6362eb9e506bf5[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 16:57:15 2020 -0300
+
+    Add search prescriptions
+
+[33mcommit e0152eedc06d478ead148ac88f9781acf0dcddae[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 16:36:34 2020 -0300
+
+    adds 3 columns in pharmacists form
+
+[33mcommit a5a8cf16183ca80df63d58c09db53d0e73073615[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 15:57:01 2020 -0300
+
+    new prescriptions withaout supplies
+
+[33mcommit 6985c51446a557633581e911460f2a9382080a9a[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 15:08:15 2020 -0300
+
+    adds method to get current user identefication
+
+[33mcommit fbb275bfc91e59983d8a6fca69461c61cd45b259[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 15:07:17 2020 -0300
+
+    adds jwt-decode package
+
+[33mcommit 93afd105eb4d4baace3d1e6aff3634bf89aef191[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 14:54:00 2020 -0300
+
+    Add icon
+
+[33mcommit 1341498eb5d92c819e9f9a981b83138396a9fed5[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 13:20:35 2020 -0300
+
+    Add prescriptions service and interface
+
+[33mcommit 7ef5cf68a1048f87607c6259a7e3fc90aacc08c7[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 12:44:03 2020 -0300
+
+    fix:merge imports components
+
+[33mcommit 3da6cefe3f1d2477c1f3a9a068d4710df72bff5f[m
+Merge: 318dbd6 b608fb1
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 12:28:05 2020 -0300
+
+    Merge
+
+[33mcommit 318dbd61554af2d200fb359eb3ee80c98521d0e3[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sun Apr 5 12:23:25 2020 -0300
+
+    Add patient search
+
+[33mcommit b608fb16d29dba3f316fb824bb731a353a4e09e5[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 01:57:54 2020 -0300
+
+    adds isLoggedIn variable, to hide /show toolbar
+
+[33mcommit 2102f196f7150398cce49029503ba6d9f3d3588c[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 01:57:10 2020 -0300
+
+    fix formControlName dni
+
+[33mcommit 7427172c6b6e1de85517446302d8c141221508a7[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 01:56:05 2020 -0300
+
+    removes unused mat-toolbar importes
+
+[33mcommit 218f8c8080731b5cb3293544b111060a7cee361d[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 01:54:46 2020 -0300
+
+    removes unused imports
+
+[33mcommit 41773b0e8064ef8101e58053e03793bca49ee14a[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 01:54:06 2020 -0300
+
+    changes isLoggedIn as observable
+
+[33mcommit 69cd15b6800fa9dd9790841560b06f7e9260a295[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 01:53:33 2020 -0300
+
+    updates guards
+
+[33mcommit 59d72c515e58c71a5c1f30d62d154919455d1b24[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 00:54:36 2020 -0300
+
+    update header import
+
+[33mcommit a2554cc845cad449e0b7da5bbe6ec200e340b442[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sun Apr 5 00:53:13 2020 -0300
+
+    removes unused params
+
+[33mcommit 3f2c20eacb60e07dbc044c8eda9df17de9e4d28a[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 19:47:56 2020 -0300
+
+    adds shared path alias
+
+[33mcommit f8dbeef57cd7c63cab721889182241ad692b4ac8[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 19:47:20 2020 -0300
+
+    updates shared import path
+
+[33mcommit 2e60befeec4904b1295a4d679ca36e6d4da51c8d[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 19:39:57 2020 -0300
+
+    changes components directory name to shared
+
+[33mcommit d47e28ea1f247573b339a25030ad6e71d7e1a10c[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 19:24:23 2020 -0300
+
+    improve app structure, adds professionals module and pharmacists module
+
+[33mcommit 7e915b79c2f758788783a199ed8bf74855e780dd[m
+Merge: 83a5677 5f4f79f
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 17:11:40 2020 -0300
+
+    adds heade toolbar
+
+[33mcommit 83a567783eb74fc1665378c38b1be704f62987a1[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 17:09:27 2020 -0300
+
+    adds logout method in auth services
+
+[33mcommit 2c185a4dca524449c389456f6648ceb7b4824406[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 17:09:06 2020 -0300
+
+    adds components alias
+
+[33mcommit 1bfe6072fe4efa4aaeabb22acbdf4619a36e626a[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Sat Apr 4 17:08:06 2020 -0300
+
+    adds toolbar
+
+[33mcommit 5f4f79fb775a5964c181feb81c4dc56ac8f6606c[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sat Apr 4 16:52:26 2020 -0300
+
+    Change professional form
+
+[33mcommit f07347b75c57a6e82837d617467cd3537b7cd8a8[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Sat Apr 4 13:05:43 2020 -0300
+
+    Add professional form
+
+[33mcommit 717ec36fadd67490e43a5cfe049075daa01e8f2e[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Fri Apr 3 15:26:36 2020 -0300
+
+    Add icon and translate login
+
+[33mcommit e5134c778e6e343177ddb081c912cb84b3848c0f[m
+Merge: fc203ba e36a744
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:38:42 2020 -0300
+
+    Adds redirections
+
+[33mcommit e36a744b3579f28a70e84cef6d876b05270b9fec[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Fri Apr 3 01:36:55 2020 -0300
+
+    add search professional by last name and first name
+
+[33mcommit fc203baea8bb7b78a879cfb297d4656ad8b01a1a[m
+Merge: 7d246f7 10b8fbc
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:32:36 2020 -0300
+
+      - After successfully login, redirect to prescriptions form
+      - If logged and try to access login page, redirect to prescriptions form
+      - index path ('') redirect to prescriptions form
+      - if any route doesn`t match, redirect to 404 page
+
+[33mcommit 7d246f7684766fef762d1bcee24ec8f01e5a010e[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:32:14 2020 -0300
+
+    adds redirect to prescription form after successfully login
+
+[33mcommit bcce1f99092dc99352f5ae6cd3266b0dbb202fe2[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:30:52 2020 -0300
+
+    adds 404 component
+
+[33mcommit 4b20c8ae45cccc4a18b617764a2409708d9661f2[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:30:31 2020 -0300
+
+    adds catch 404 page to redirect a 404 component
+
+[33mcommit a4c44cd62f0737d6978d2bc4703813d041e857ce[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:28:58 2020 -0300
+
+    changes authModule position import before appRoutingModule
+
+[33mcommit 888c33cd9e2420774c9b1b4fe37f4e501541cfeb[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:27:44 2020 -0300
+
+    changes auth-routing class name
+
+[33mcommit 0e68728582379f2afa728d4a6a8faa266e790fdd[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Fri Apr 3 01:26:03 2020 -0300
+
+    adds auth and signed in guards
+
+[33mcommit 10b8fbc708b0a8743f758da0f9629e24c3bb7955[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Fri Apr 3 01:04:21 2020 -0300
+
+    Search professional and complete inputs
+
+[33mcommit 60a7f83eea0fc151638f451f9c6d71555edb6f95[m
+Merge: 701d9c0 44283fd
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 22:06:22 2020 -0300
+
+    Merge branch 'master' into bashud
+
+[33mcommit 44283fdff3e686ca084cdd6a95cae0abdd49cf73[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 21:13:38 2020 -0300
+
+    Define heroku postbuild
+
+[33mcommit 72c844d61e074646775579424dcd691fb852335e[m
+Merge: e4a937d 13db046
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 21:05:21 2020 -0300
+
+    changes envaironment definition
+
+[33mcommit e4a937de81b04578142484f028ea797d3ac40a58[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 21:04:51 2020 -0300
+
+    define envaironment by envaironment variable
+
+[33mcommit 701d9c0f01ec309cb8f4e51bed0327399b3c714c[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 20:43:56 2020 -0300
+
+    Change professional fields
+
+[33mcommit 13db0461784623ddd37a5848f35a05c777acd09c[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 20:29:04 2020 -0300
+
+    Move styles
+
+[33mcommit 5e47576d49a1119aa69e429af8f413aabfe5ad3c[m
+Merge: ea01047 7b95fd2
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 20:21:07 2020 -0300
+
+    Merge branch 'master' of https://github.com/paul18sma/prescription-validator
+
+[33mcommit ea01047ba03a105058a0030ddb2f715fbdb3c401[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 20:21:00 2020 -0300
+
+    Change professional attributes
+
+[33mcommit 7b95fd2040609f6aa975514727efad302a9f0282[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 20:11:23 2020 -0300
+
+    changes prod api_end_point
+
+[33mcommit 43c87cf29a021005a1aad4869921262f91ac939c[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 19:47:26 2020 -0300
+
+    adds auth module
+
+[33mcommit 9b0fb2d2c814eeaf9c65795ed33fcfa7c7b40d32[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 19:47:11 2020 -0300
+
+    moves prescrition form validator to components directory
+
+[33mcommit 8db9c631518658910dc3aad02a43a437fea399be[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 19:46:27 2020 -0300
+
+    adds services and interfaes path alias
+
+[33mcommit 10ef6de869778be3723a5b7bde69517718c6bcfc[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 19:45:51 2020 -0300
+
+    moves prescription form
+
+[33mcommit 7228711e22382cbe09ff93c0f63e017abb5c1915[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 15:49:40 2020 -0300
+
+    Add professional Andes api
+
+[33mcommit ff17faf2247533229c4f814cd2e9c5f9de5686ee[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 02:48:22 2020 -0300
+
+    adds snomed search by term in select
+
+[33mcommit a08dc81ce645680716232eab6d9903ffd5052134[m
+Merge: 6c38894 9b16ab0
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 01:02:55 2020 -0300
+
+    update with select live search
+
+[33mcommit 6c388943a81dd572e0d8316004a276b80cfc3b03[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Thu Apr 2 01:02:46 2020 -0300
+
+    adds select live search
+
+[33mcommit 9b16ab0aff2e5b4d739a34f53af948c7e6e3dd4d[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 01:00:59 2020 -0300
+
+    Adapt snomed online api
+
+[33mcommit 2ce466dd9bdf396720e74f1184ba686d6d2191d3[m
+Merge: c136c69 5b107f1
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 00:22:45 2020 -0300
+
+    Merge branch 'master' of https://github.com/paul18sma/prescription-validator
+
+[33mcommit c136c6929756a1d4b7c6306709b599b33de97ed8[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 00:22:11 2020 -0300
+
+    add get pattient insurance
+
+[33mcommit 5b107f1fbae913eb212e3bc8ea211971a01b82a7[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 00:07:11 2020 -0300
+
+    Update README.md
+
+[33mcommit 3b9ab295c8e744c26a8ec7733a5c0b083883b469[m
+Merge: 5c3b996 b0321e2
+Author: BasHud <eugesma@gmail.com>
+Date:   Thu Apr 2 00:06:04 2020 -0300
+
+    Merge bashud with master
+
+[33mcommit b0321e27b2951daf1c0bd6d56386a6d667651233[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 1 23:55:59 2020 -0300
+
+    Add drug interface
+
+[33mcommit 5c3b9965488fffdcdbb05483e66fa2ae85c2cc69[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 23:39:04 2020 -0300
+
+    adds background color, and changes titles
+
+[33mcommit 2f0944d4f8141270497269b61bf59514630b3768[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 23:16:00 2020 -0300
+
+    adds validations fields
+
+[33mcommit fc173c8f42d2726274d8137f51ee05017d91b3d5[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 22:51:25 2020 -0300
+
+    adds prescription validator form
+
+[33mcommit 7e7adbf100e895a65e8862e01c2deb4750ee7c89[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 22:50:55 2020 -0300
+
+    adds material and flex-layout
+
+[33mcommit a25fbcf95f1cff14f3688b1fe303d398b8b45a93[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 1 21:55:02 2020 -0300
+
+    Add medic servide and interface
+
+[33mcommit f62f0ead0726db532496104f9dc03965f154af08[m
+Author: BasHud <eugesma@gmail.com>
+Date:   Wed Apr 1 21:49:31 2020 -0300
+
+    Add patient serfice and interface
+
+[33mcommit 2fff58b604db604eafe92e40b94200567ef5756e[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 19:44:33 2020 -0300
+
+    adds get patient from dni
+
+[33mcommit cb07286259b92c010e2bd4ec0d4603951103bb60[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 19:09:04 2020 -0300
+
+    adds patients services
+
+[33mcommit 7d09a6eca67b6b1683e242c689e0b0fef23e4932[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 18:38:32 2020 -0300
+
+    changes app name
+
+[33mcommit 3490086282f869f5b4d9bded154de5115b97db10[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 18:32:05 2020 -0300
+
+    changes npm start command
+
+[33mcommit 9ed01d307a96c8adc76db60bf55233d600860aea[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 18:22:29 2020 -0300
+
+    Express script
+
+[33mcommit 407c22868d9c7ef6aa90a483cd0010d453b74577[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 18:21:18 2020 -0300
+
+    install express
+
+[33mcommit e08db2e6deec8a4e4e24731f95905d27f5ac11a3[m
+Author: paul <paul.18.sma@gmail.com>
+Date:   Wed Apr 1 17:35:05 2020 -0300
+
+    initial commit
