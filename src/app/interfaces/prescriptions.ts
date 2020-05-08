@@ -23,4 +23,4 @@ export class Prescriptions {
   observation?: string;
   createdAt?: Date;
   updatedAt?: Date;
-  }
+}
