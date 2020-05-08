@@ -6,7 +6,6 @@ import Supplies from '@interfaces/supplies';
 import { PatientsService } from '@root/app/services/patients.service';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { AuthService } from '@auth/services/auth.service';
-import { ProfessionalsService } from '@services/professionals.service';
 import { Patient } from '@interfaces/patients';
 import {ThemePalette} from '@angular/material/core';
 import { Prescriptions } from '@interfaces/prescriptions';
@@ -44,19 +43,13 @@ export class ProfessionalFormComponent implements OnInit {
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private authService: AuthService,
-    private apiProfessionals: ProfessionalsService,
     public dialog: MatDialog,
   ){}
 
   ngOnInit(): void {
     this.initProfessionalForm();
 
-    // get professionals
-    this.apiProfessionals.getProfessionalByDni(this.authService.getLoggedUsername()).subscribe(
-      res => {
-        this.professionalFullname.setValue(res[0].last_name+", "+res[0].first_name);
-      },
-    );
+
     // on DNI changes
     this.patientDni.valueChanges.subscribe(
       dniValue => {
@@ -94,11 +87,7 @@ export class ProfessionalFormComponent implements OnInit {
     // get prescriptions
     this.apiPrescriptions.getByUserId(this.authService.getLoggedUserId()).subscribe(
       res => {
-        if(!res.length){
-
-        }else{
-          this.myPrescriptions = res;
-        }
+        this.myPrescriptions = res;
       },
     );
   }
@@ -106,8 +95,7 @@ export class ProfessionalFormComponent implements OnInit {
   initProfessionalForm(){
     this.today = new Date((new Date()));
     this.professionalForm = this.fBuilder.group({
-      user: [this.authService.getLoggedUserId()],
-      professionalFullname: [''],
+      professional: [this.authService.getLoggedUserId()],
       patient: this.fBuilder.group({
         dni: ['', [
           Validators.required,
@@ -195,14 +183,12 @@ export class ProfessionalFormComponent implements OnInit {
       this.apiPrescriptions.newPrescription(newPrescription).subscribe(
         res => {
           // get defualt value before reset
-          const user = this.user.value;
+          const professional = this.professional.value;
           const date = this.today;
-          const professionalFullname = this.professionalFullname.value;
           professionalNgForm.resetForm();
           professionalForm.reset({
-            user: user,
+            professional: professional,
             date: date,
-            professionalFullname: professionalFullname
           });
 
           this.showSubmit = !this.showSubmit;
@@ -238,16 +224,12 @@ export class ProfessionalFormComponent implements OnInit {
     });
   }
 
-  get user(): AbstractControl{
-    return this.professionalForm.get('user');
+  get professional(): AbstractControl{
+    return this.professionalForm.get('professional');
   }
 
   get date(): AbstractControl{
     return this.professionalForm.get('date');
-  }
-
-  get professionalFullname(): AbstractControl{
-    return this.professionalForm.get('professionalFullname');
   }
 
   get suppliesForm(): FormArray{

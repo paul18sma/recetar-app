@@ -28,7 +28,7 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
   options: string[] = [];
   prescriptions: Prescriptions[] = [];
   dataSource: any = [];
-  
+
   isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
   expandedElement: any;
 
@@ -42,9 +42,9 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
   }
 
   canPrint(prescription: Prescriptions){
-    return (prescription.user._id === this.authService.getLoggedUserId())
+    return (prescription.professional.userId === this.authService.getLoggedUserId())
   }
-  
+
   printPrescription(prescription: Prescriptions){
     this.prescriptionPrinter.print(prescription);
   }
