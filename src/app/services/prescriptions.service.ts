@@ -21,8 +21,8 @@ export class PrescriptionsService {
     return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${id}`);
   }
 
-  dispense(prescription: Prescriptions): Observable<Prescriptions> {
-    var params = {'prescriptionId': prescription._id, 'userId': this.authService.getLoggedUserId() };
+  dispense(prescriptionId: string): Observable<Prescriptions> {
+    var params = {'prescriptionId': prescriptionId, 'userId': this.authService.getLoggedUserId() };
     return this.http.patch<Prescriptions>(`${environment.API_END_POINT}/prescriptions/dispense/${params.prescriptionId}&${params.userId}`, params);
   }
 
@@ -34,14 +34,6 @@ export class PrescriptionsService {
     return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/find/${params.patient_dni}&${date}`);
   }
 
-  getByPatientAndDate(patientId: string, date: Date): Observable<Prescriptions[]> {
-    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/get-by-patient-and-date/${patientId}&${date}`);
-  }
-
-  getByPatientId(patientId: string): Observable<Prescriptions[]> {
-    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/get-by-patient-id/${patientId}`);
-  }
-
   getByUserId(userId: string): Observable<Prescriptions[]> {
     return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/get-by-user-id/${userId}`);
   }
@@ -49,16 +41,4 @@ export class PrescriptionsService {
   newPrescription(prescription: Prescriptions): Observable<Prescriptions> {
     return this.http.post<Prescriptions>(`${environment.API_END_POINT}/prescriptions`, prescription);
   }
-
-  private handleError<T> (operation = 'operation', result?: T) {
-    return (error: any): Observable<T> => {
-
-      // TODO: send the error to remote logging infrastructure
-      console.error(error); // log to console instead
-
-      // Let the app keep running by returning an empty result.
-      return of(result as T);
-    };
-  }
-
 }
