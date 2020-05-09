@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { Prescriptions } from "../interfaces/prescriptions";
 import { AuthService } from '@auth/services/auth.service';
+import * as moment from 'moment';
 
 @Injectable({
   providedIn: 'root'
@@ -23,6 +24,14 @@ export class PrescriptionsService {
   dispense(prescription: Prescriptions): Observable<Prescriptions> {
     var params = {'prescriptionId': prescription._id, 'userId': this.authService.getLoggedUserId() };
     return this.http.patch<Prescriptions>(`${environment.API_END_POINT}/prescriptions/dispense/${params.prescriptionId}&${params.userId}`, params);
+  }
+
+  getFromDniAndDate(params: {patient_dni: string, dateFilter: Date | null}): Observable<Prescriptions[]>{
+    let date = '';
+    if(params.dateFilter){
+      date = moment(params.dateFilter, 'DD/MM/YYYY').format('YYYY-MM-DD');
+    }
+    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/find/${params.patient_dni}&${date}`);
   }
 
   getByPatientAndDate(patientId: string, date: Date): Observable<Prescriptions[]> {

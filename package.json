@@ -26,6 +26,7 @@
     "angular-animations": "0.0.10",
     "express": "^4.17.1",
     "jwt-decode": "^2.2.0",
+    "moment": "^2.25.3",
     "pdfmake": "^0.1.65",
     "pdfmake-unicode": "0.0.1",
     "pdfmake-wrapper": "^2.0.0",
