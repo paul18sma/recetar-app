@@ -228,6 +228,7 @@ export class ProfessionalFormComponent implements OnInit {
         this.myPrescriptions.forEach( (item, index) => {
           if(item._id === res._id) this.myPrescriptions.splice(index,1);
         });
+        this.myPrescriptions = [...this.myPrescriptions];
       },
       err => {
         this.openDialog("error-dispensed")
