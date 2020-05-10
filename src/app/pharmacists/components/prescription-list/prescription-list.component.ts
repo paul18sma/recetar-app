@@ -48,7 +48,7 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
 
   // Dispense prescription, but if was, update table with the correct status.
   dispense(prescription: Prescriptions){
-    this.prescriptionService.dispense(prescription).subscribe(
+    this.prescriptionService.dispense(prescription._id).subscribe(
       res => {
         this.updateDataTable(res);
         this.openDialog("dispensed", res, res.professional.businessName);
@@ -79,7 +79,7 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
 
   // Return true if was dispensed and is seeing who dispensed the prescription
   canPrint(prescription: Prescriptions){
-    return (prescription.status === "Dispensada") && (prescription.dispensedBy.userId === this.authService.getLoggedUserId())
+    return (prescription.status === "Dispensada") && (prescription.dispensedBy?.userId === this.authService.getLoggedUserId());
   }
 
   printPrescription(prescription: Prescriptions){
@@ -109,7 +109,7 @@ export class ExampleDataSource extends DataSource<any> {
 
   connect(): Observable<Element[]> {
     const rows: any = [];
-    this.data.forEach(element => rows.push(element, { detailRow: true, element }));
+    this.data.forEach((element: Prescriptions) => rows.push(element, { detailRow: true, element }));
     return of(rows);
   }
 
