@@ -23,14 +23,12 @@
   </div> <!-- End case noPrescriptions -->
 
   <div *ngSwitchCase="'error-dispensed'">
-    <h3 mat-dialog-title><mat-icon>delete</mat-icon> Desea eliminar la receta?</h3>
+    <h3 mat-dialog-title><mat-icon>error_outline</mat-icon>  Atención</h3>
     <div mat-dialog-content>
-      <p>Receta de {{data.prescription.patient.lastName}}, {{data.prescription.patient.firstName}}</p>
-      <p>Una vez eliminada no se podrá recuperar</p>
+      <p>La receta ya se ha dispensado y no es posible eliminarla</p>
     </div>
-    <div mat-dialog-actions fxLayoutAlign="space-around" align="end">
-      <button mat-button (click)="onNoClick()" cdkFocusInitial>Cancelar</button>
-      <button mat-raised-button color="warn" (click)="deletePrescription(data.prescription)">Confirmar</button>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
     </div>
   </div> <!-- End case noPrescriptions -->
 
