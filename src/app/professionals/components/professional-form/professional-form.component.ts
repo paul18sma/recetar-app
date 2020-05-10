@@ -11,6 +11,7 @@ import {ThemePalette} from '@angular/material/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { InteractionService } from '@professionals/interaction.service';
 
 @Component({
   selector: 'app-professional-form',
@@ -43,12 +44,20 @@ export class ProfessionalFormComponent implements OnInit {
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private authService: AuthService,
-    public dialog: MatDialog
+    public dialog: MatDialog,
+    private _interactionService: InteractionService
   ){}
 
   ngOnInit(): void {
     this.initProfessionalForm();
-
+    
+    // On confirm delete prescription
+    this._interactionService.deletePrescription$
+      .subscribe(
+        prescription => {
+          this.deletePrescription(prescription);
+        }
+      );
 
     // on DNI changes
     this.patientDni.valueChanges.subscribe(
@@ -213,11 +222,12 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   deletePrescription(prescription: Prescriptions){
-    console.log("Prescriptions: ",prescription);
+    console.log("Prescriptions: ", prescription);
     this.apiPrescriptions.deletePrescription(prescription._id).subscribe(
       res => {
-        console.log("Res: ", res);
-        this.myPrescriptions = [...this.myPrescriptions, res];
+        this.myPrescriptions.forEach( (item, index) => {
+          if(item._id === res._id) this.myPrescriptions.splice(index,1);
+        });
       },
       err => {
         this.openDialog("error-dispensed")
