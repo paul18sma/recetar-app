@@ -50,6 +50,10 @@ export class PrescriptionsService {
     return this.http.post<Prescriptions>(`${environment.API_END_POINT}/prescriptions`, prescription);
   }
 
+  deletePrescription(prescriptionId: string): Observable<Prescriptions> {
+    return this.http.delete<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${prescriptionId}`)
+  }
+
   private handleError<T> (operation = 'operation', result?: T) {
     return (error: any): Observable<T> => {
 
