@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PdfMakeWrapper, Txt, Canvas, Line, Img, Table, Columns } from 'pdfmake-wrapper';
-import * as pdfFontsX from 'pdfmake-unicode/dist/pdfmake-unicode.js';
+import { PdfMakeWrapper, Txt, Canvas, Line, Img, Columns } from 'pdfmake-wrapper';
 import { DatePipe } from '@angular/common';
 import { Prescriptions } from '@interfaces/prescriptions';
 
@@ -22,7 +21,7 @@ export class PrescriptionPrinterComponent implements OnInit {
   async print(prescription: Prescriptions){
     const pdf: PdfMakeWrapper = new PdfMakeWrapper();
     pdf.info({
-      title: "Receta digital "+prescription.professionalFullname,
+      title: "Receta digital "+prescription.professional.businessName,
       author: 'RecetAR'
     });
     // Header
@@ -32,7 +31,7 @@ export class PrescriptionPrinterComponent implements OnInit {
     pdf.add(new Txt(""+this.datePipe.transform(prescription.date, 'dd/MM/yyyy')).alignment('right').end);
     // Professional
     pdf.add(new Columns([ new Txt("Profesional").bold().end, new Txt("Matrícula").bold().end ]).end);
-    pdf.add(new Columns([ new Txt(""+prescription.professionalFullname).end, new Txt(""+prescription.user.enrollment).end ]).end);
+    pdf.add(new Columns([ new Txt(""+prescription.professional.businessName).end, new Txt(""+prescription.professional.enrollment).end ]).end);
     pdf.add(pdf.ln(2));
     // Patient
     pdf.add(new Columns([ new Txt("Paciente").bold().end, new Txt("DNI").bold().end ]).end);

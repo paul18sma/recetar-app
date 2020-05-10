@@ -51,7 +51,7 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
     this.prescriptionService.dispense(prescription).subscribe(
       res => {
         this.updateDataTable(res);
-        this.openDialog("dispensed", res, res.professionalFullname);
+        this.openDialog("dispensed", res, res.professional.businessName);
       },
       err => {
         this.prescriptionService.getById(prescription._id).subscribe(
@@ -79,7 +79,7 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
 
   // Return true if was dispensed and is seeing who dispensed the prescription
   canPrint(prescription: Prescriptions){
-    return (prescription.status === "Dispensada") && (prescription.dispensedBy._id === this.authService.getLoggedUserId())
+    return (prescription.status === "Dispensada") && (prescription.dispensedBy.userId === this.authService.getLoggedUserId())
   }
 
   printPrescription(prescription: Prescriptions){

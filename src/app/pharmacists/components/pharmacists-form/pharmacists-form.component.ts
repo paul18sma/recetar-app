@@ -51,30 +51,35 @@ export class PharmacistsFormComponent implements OnInit {
   ngOnInit(): void{
     this.initFilterPrescriptionForm();
 
-    // Find patient by dni
-    this.prescriptionForm.get('patient_dni').valueChanges.subscribe(
-      term => {
-        this.getPatientByDni(term);
-      }
-    )
+    this.prescriptionForm.valueChanges.subscribe(
+      values => {
+        if(typeof(values.patient_dni) !== 'undefined' && values.patient_dni.length === 8){
 
-    // Get prescriptions by date and patient dni
-    this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
-      term => {
-        if(this.patient)
-          this.apiPrescriptions.getByPatientAndDate(this.patient._id, term).subscribe(
+
+          this.apiPrescriptions.getFromDniAndDate(values).subscribe(
             res => {
+              console.log(res, 'from res');
               this.prescriptions = res;
-              if(!res.length){
-                this.openDialog("noPrescriptionsDate", undefined, this.datepipe.transform(term, 'dd/MM/yyyy'));
-              }
             }
           );
-        else{
-          this.openDialog("selectPatient");
+        } else{
+          // this.openDialog("selectPatient");
         }
       }
     )
+    // Find patient by dni
+    // this.prescriptionForm.get('patient_dni').valueChanges.subscribe(
+    //   term => {
+    //     this.getPatientByDni(term);
+    //   }
+    // )
+
+    // Get prescriptions by date and patient dni
+    // this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
+    //   term => {
+
+    //   }
+    // )
   }
 
   initFilterPrescriptionForm(){
