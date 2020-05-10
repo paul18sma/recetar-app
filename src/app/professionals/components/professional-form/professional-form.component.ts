@@ -43,7 +43,7 @@ export class ProfessionalFormComponent implements OnInit {
     private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private authService: AuthService,
-    public dialog: MatDialog,
+    public dialog: MatDialog
   ){}
 
   ngOnInit(): void {
@@ -210,6 +210,19 @@ export class ProfessionalFormComponent implements OnInit {
           this.showSubmit = !this.showSubmit;
       });
     }
+  }
+
+  deletePrescription(prescription: Prescriptions){
+    console.log("Prescriptions: ",prescription);
+    this.apiPrescriptions.deletePrescription(prescription._id).subscribe(
+      res => {
+        console.log("Res: ", res);
+        this.myPrescriptions = [...this.myPrescriptions, res];
+      },
+      err => {
+        this.openDialog("error-dispensed")
+      }
+    );
   }
 
   // Show a dialog

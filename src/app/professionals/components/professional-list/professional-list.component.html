@@ -1,4 +1,4 @@
-<mat-card fxLayout="column" fxLayoutAlign="space-between" class="responsive_table">
+<mat-card fxLayout="column" fxLayoutAlign="space-between">
   <mat-card-title>
     <h2><mat-icon>list_alt</mat-icon> Mis recetas</h2>
   </mat-card-title>
@@ -53,8 +53,13 @@
           <mat-header-cell *matHeaderCellDef> Acción </mat-header-cell>
           <mat-cell *matCellDef="let prescription">
             <div *ngIf="canPrint(prescription)">
-              <button mat-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltipPosition="above">
+              <button mat-icon-button matTooltip="Imprimir" (click)="printPrescription(prescription)" matTooltip="Imprimir" matTooltipPosition="above">
                 <mat-icon >print</mat-icon>
+              </button>
+            </div>
+            <div *ngIf="canDelete(prescription)">
+              <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="deleteDialogPrescription(prescription)" matTooltip="Eliminar" matTooltipPosition="above">
+                <mat-icon >delete</mat-icon>
               </button>
             </div>
           </mat-cell>
