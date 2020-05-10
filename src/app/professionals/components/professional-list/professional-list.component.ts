@@ -24,7 +24,6 @@ import { MatDialog } from '@angular/material/dialog';
 })
 
 export class ProfessionalListComponent implements OnChanges, OnInit {
-  @Output() deletePrescriptionEvent = new EventEmitter<Prescriptions>();
   @Input() myPrescriptions: Prescriptions[];
 
   displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
@@ -39,13 +38,11 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
   constructor(
     private authService: AuthService,
     private prescriptionPrinter: PrescriptionPrinterComponent,
-    public dialog: MatDialog,
-    private apiPrescription: PrescriptionsService
+    public dialog: MatDialog
   ) { }
 
   ngOnChanges(changes: SimpleChanges){
     this.dataSource = new ExampleDataSource(changes.myPrescriptions.currentValue);
-    console.log("Datasource: ", this.dataSource);
   }
 
   canPrint(prescription: Prescriptions){
@@ -62,10 +59,6 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
 
   deleteDialogPrescription(prescription: Prescriptions){
     this.openDialog("delete", prescription);
-  }
-
-  deletePrescription(prescription: Prescriptions){
-    this.deletePrescriptionEvent.emit(prescription);
   }
 
   ngOnInit(): void {}
