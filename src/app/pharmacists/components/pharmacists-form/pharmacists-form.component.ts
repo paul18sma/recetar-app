@@ -15,6 +15,7 @@ import { Professionals } from '@root/app/interfaces/professionals';
 // Material
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from '@pharmacists/components/dialog/dialog.component';
+import { ThemePalette } from '@angular/material/core';
 
 
 @Component({
@@ -27,7 +28,7 @@ export class PharmacistsFormComponent implements OnInit {
 
   @ViewChild('picker1') picker1;
 
-  title = 'preinscriptions-control';
+  title = 'Farmacia: ';
   prescriptionForm: FormGroup;
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
@@ -38,6 +39,11 @@ export class PharmacistsFormComponent implements OnInit {
   insurances: Insurances;
   filteredOptions: Observable<string[]>;
   lastDniConsult: string;
+  readonly spinnerColor: ThemePalette = 'primary';
+  dniShowSpinner: boolean = false;
+  dateShowSpinner: boolean = false;
+  private lastDni: string;
+  private lastDate: string;
 
   constructor(
     private fBuilder: FormBuilder,
@@ -54,8 +60,17 @@ export class PharmacistsFormComponent implements OnInit {
         const digestDate = typeof(values.dateFilter) !== 'undefined' && values.dateFilter != null && values.dateFilter !== '' ? values.dateFilter.format('YYYY-MM-DD') : '';
 
         if(typeof(values.patient_dni) !== 'undefined' && values.patient_dni.length === 8){
+
+          this.dniShowSpinner = this.lastDni != values.patient_dni;
+          this.dateShowSpinner = this.lastDate != digestDate;
+
           this.apiPrescriptions.getFromDniAndDate({patient_dni: values.patient_dni, dateFilter: digestDate}).subscribe(
             res => {
+              this.lastDni = values.patient_dni;
+              this.lastDate = digestDate;
+
+              this.dniShowSpinner = false;
+              this.dateShowSpinner = false;
               this.prescriptions = res;
               if(!this.prescriptions.length){
                 this.openDialog("noPrescriptions");

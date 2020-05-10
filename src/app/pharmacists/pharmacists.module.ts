@@ -24,6 +24,7 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PrescriptionListComponent } from './components/prescription-list/prescription-list.component';
 
 @NgModule({
@@ -53,7 +54,8 @@ import { PrescriptionListComponent } from './components/prescription-list/prescr
     MatTooltipModule,
     MatChipsModule,
     MatSnackBarModule,
-    MatDialogModule
+    MatDialogModule,
+    MatProgressSpinnerModule
   ]
 })
 export class PharmacistsModule { }
