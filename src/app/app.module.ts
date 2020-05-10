@@ -22,11 +22,13 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatMenuModule } from '@angular/material/menu';
+import {MAT_MOMENT_DATE_FORMATS, MomentDateAdapter} from '@angular/material-moment-adapter';
+import {DateAdapter, MAT_DATE_FORMATS, MAT_DATE_LOCALE} from '@angular/material/core';
+
 // component
 import { HeaderComponent } from '@shared/layouts/header/header.component';
-import { MAT_DATE_LOCALE } from '@angular/material/core';
-import { DatePipe } from '@angular/common';
 import { FooterComponent } from './shared/layouts/footer/footer.component';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -58,7 +60,9 @@ import { FooterComponent } from './shared/layouts/footer/footer.component';
     },
     PatientsService,
     DatePipe,
-    {provide: MAT_DATE_LOCALE, useValue: 'es-AR'}
+    {provide: MAT_DATE_LOCALE, useValue: 'es-AR'},
+    {provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE]},
+    {provide: MAT_DATE_FORMATS, useValue: MAT_MOMENT_DATE_FORMATS},
   ],
   bootstrap: [AppComponent]
 })

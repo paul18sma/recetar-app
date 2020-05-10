@@ -1,9 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormGroup, AbstractControl, Validators } from '@angular/forms';
 import { Observable } from 'rxjs';
 
 // Services
-import { PatientsService } from '@services/patients.service';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { InsurancesService } from '@services/insurance.service';
 
@@ -15,20 +14,21 @@ import { Professionals } from '@root/app/interfaces/professionals';
 
 // Material
 import { MatDialog } from '@angular/material/dialog';
-
 import { DialogComponent } from '@pharmacists/components/dialog/dialog.component';
-
-import { DatePipe } from '@angular/common'
+import { ThemePalette } from '@angular/material/core';
 
 
 @Component({
   selector: 'app-pharmacists-form',
   templateUrl: './pharmacists-form.component.html',
   styleUrls: ['./pharmacists-form.component.sass'],
+
 })
 export class PharmacistsFormComponent implements OnInit {
 
-  title = 'preinscriptions-control';
+  @ViewChild('picker1') picker1;
+
+  title = 'Farmacia: ';
   prescriptionForm: FormGroup;
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
@@ -38,14 +38,18 @@ export class PharmacistsFormComponent implements OnInit {
   prescription: Prescriptions;
   insurances: Insurances;
   filteredOptions: Observable<string[]>;
+  lastDniConsult: string;
+  readonly spinnerColor: ThemePalette = 'primary';
+  dniShowSpinner: boolean = false;
+  dateShowSpinner: boolean = false;
+  private lastDni: string;
+  private lastDate: string;
 
   constructor(
     private fBuilder: FormBuilder,
-    private apiPatients: PatientsService,
     private apiPrescriptions: PrescriptionsService,
     private apiInsurances: InsurancesService,
     public dialog: MatDialog,
-    public datepipe: DatePipe
   ){}
 
   ngOnInit(): void{
@@ -53,33 +57,38 @@ export class PharmacistsFormComponent implements OnInit {
 
     this.prescriptionForm.valueChanges.subscribe(
       values => {
+        const digestDate = typeof(values.dateFilter) !== 'undefined' && values.dateFilter != null && values.dateFilter !== '' ? values.dateFilter.format('YYYY-MM-DD') : '';
+
         if(typeof(values.patient_dni) !== 'undefined' && values.patient_dni.length === 8){
 
+          this.dniShowSpinner = this.lastDni != values.patient_dni;
+          this.dateShowSpinner = this.lastDate != digestDate;
 
-          this.apiPrescriptions.getFromDniAndDate(values).subscribe(
+          this.apiPrescriptions.getFromDniAndDate({patient_dni: values.patient_dni, dateFilter: digestDate}).subscribe(
             res => {
-              console.log(res, 'from res');
+              this.lastDni = values.patient_dni;
+              this.lastDate = digestDate;
+
+              this.dniShowSpinner = false;
+              this.dateShowSpinner = false;
               this.prescriptions = res;
+              if(!this.prescriptions.length){
+                this.openDialog("noPrescriptions");
+              }
             }
           );
-        } else{
-          // this.openDialog("selectPatient");
+
+          if(values.patient_dni !== this.lastDniConsult){
+            this.lastDniConsult = values.patient_dni;
+            this.apiInsurances.getInsuranceByPatientDni(values.patient_dni).subscribe(
+              res => {
+                this.insurances = res;
+            });
+          }
+
         }
       }
     )
-    // Find patient by dni
-    // this.prescriptionForm.get('patient_dni').valueChanges.subscribe(
-    //   term => {
-    //     this.getPatientByDni(term);
-    //   }
-    // )
-
-    // Get prescriptions by date and patient dni
-    // this.prescriptionForm.get('dateFilter').valueChanges.subscribe(
-    //   term => {
-
-    //   }
-    // )
   }
 
   initFilterPrescriptionForm(){
@@ -93,18 +102,9 @@ export class PharmacistsFormComponent implements OnInit {
     });
   }
 
-  getPatientByDni(term: string):void{
-    if(term.length > 7){
-      this.apiPatients.getPatientByDni(term).subscribe(
-        res => {
-          if(res){
-            this.patient = res;
-          }else{
-            this.openDialog("patientNotFound", undefined, term);
-          }
-        },
-      );
-    }
+  // clear dapicker input
+  cleanDateEvent(){
+    this.dateFilter.setValue('');
   }
 
   // Show a dialog
@@ -117,23 +117,6 @@ export class PharmacistsFormComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');
     });
-  }
-
-  // Return prescriptions related to a patient
-  searchPrescriptions(patient: Patient):void{
-    this.apiPrescriptions.getByPatientId(patient._id).subscribe(
-      res => {
-        if(!res.length){
-          this.openDialog("noPrescriptions");
-        }
-        this.prescriptions = res;
-      },
-    );
-    this.apiInsurances.getInsuranceByPatientDni(patient.dni).subscribe(
-      res => {
-        this.insurances = res;
-      },
-    );
   }
 
 
