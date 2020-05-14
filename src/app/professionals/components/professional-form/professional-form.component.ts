@@ -30,13 +30,15 @@ export class ProfessionalFormComponent implements OnInit {
   patientSearch: Patient;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
+  professionalData: any;
   readonly maxQSupplies: number = 2;
   readonly spinnerColor: ThemePalette = 'primary';
   readonly spinnerDiameter: number = 30;
-  showSubmit: boolean = false;
+  isSubmit: boolean = false;
   dniShowSpinner: boolean = false;
   supplySpinner: { show: boolean}[] = [{show: false}, {show: false}];
   myPrescriptions: Prescriptions[] = [];
+  isEdit: boolean = false;
 
   constructor(
     private suppliesService: SuppliesService,
@@ -50,7 +52,7 @@ export class ProfessionalFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initProfessionalForm();
-    
+
     // On confirm delete prescription
     this._interactionService.deletePrescription$
       .subscribe(
@@ -103,8 +105,10 @@ export class ProfessionalFormComponent implements OnInit {
 
   initProfessionalForm(){
     this.today = new Date((new Date()));
+    this.professionalData = this.authService.getLoggedUserId();
     this.professionalForm = this.fBuilder.group({
-      professional: [this.authService.getLoggedUserId()],
+      _id: [''],
+      professional: [this.professionalData],
       patient: this.fBuilder.group({
         dni: ['', [
           Validators.required,
@@ -188,37 +192,59 @@ export class ProfessionalFormComponent implements OnInit {
 
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
-      this.showSubmit = !this.showSubmit;
-      this.apiPrescriptions.newPrescription(newPrescription).subscribe(
-        res => {
-          // get defualt value before reset
-          const professional = this.professional.value;
-          const date = this.today;
-          professionalNgForm.resetForm();
-          professionalForm.reset({
-            professional: professional,
-            date: date,
+      this.isSubmit = true;
+      if(!this.isEdit){
+        // create
+        this.apiPrescriptions.newPrescription(newPrescription).subscribe(
+          res => {
+            this.formReset(professionalNgForm);
+            this.myPrescriptions = [...this.myPrescriptions, res];
+          },
+          err => {
+            this.handleSupplyError(err);
           });
 
-          this.showSubmit = !this.showSubmit;
-          this.openDialog("created");
-          this.dni.nativeElement.focus();
-          this.myPrescriptions = [...this.myPrescriptions, res];
-        },
-        err => {
-          if(err.error.length > 0){
-            err.error.map(err => {
-              // handle supplies error
-              this.suppliesForm.controls.map(control => {
-                if(control.get('supply').value == err.supply){
-                  control.get('supply').setErrors({ invalid: err.message});
-                }
-              });
+      } else {
+        // edit
+        this.apiPrescriptions.editPrescription(newPrescription).subscribe(
+          res => {
+            this.formReset(professionalNgForm);
+            const prescription: Prescriptions = res;
+            this.myPrescriptions.forEach( (item, index) => {
+              if(item._id === prescription._id) {
+                this.myPrescriptions[index] = prescription;
+              }
             });
+            this.myPrescriptions = [...this.myPrescriptions]; // trick to catch the value change
+          },
+          err => {
+            this.handleSupplyError(err);
+        });
+      }
+    }
+  }
+
+  private handleSupplyError(err){
+    if(err.error.length > 0){
+      err.error.map(err => {
+        // handle supplies error
+        this.suppliesForm.controls.map(control => {
+          if(control.get('supply').value == err.supply){
+            control.get('supply').setErrors({ invalid: err.message});
           }
-          this.showSubmit = !this.showSubmit;
+        });
       });
     }
+    this.isSubmit = false;
+    this.isEdit = false;
+  }
+
+  private formReset(professionalNgForm: FormGroupDirective){
+    professionalNgForm.resetForm();
+    this.clearForm();
+    this.isSubmit = false;
+    this.openDialog("created");
+    this.dni.nativeElement.focus();
   }
 
   deletePrescription(prescription: Prescriptions){
@@ -296,5 +322,38 @@ export class ProfessionalFormComponent implements OnInit {
 
   deleteSupply(i) {
     this.suppliesForm.removeAt(i);
+  }
+
+  // set form with prescriptions values and disabled npt editable fields
+  editPrescription(e){
+    this.professionalForm.reset({
+      _id: e._id,
+      date: e.date,
+      observation: e.observation,
+      patient: {
+        dni: {value: e.patient.dni, disabled: true},
+        sex: {value: e.patient.sex, disabled: true},
+        lastName: {value: e.patient.lastName, disabled: true},
+        firstName: {value: e.patient.firstName, disabled: true}
+      },
+      supplies: e.supplies
+    });
+    this.isEdit = true;
+  }
+
+  // reset the form as intial values
+  clearForm(){
+    this.professionalForm.reset({
+      _id: '',
+      professional: this.professionalData,
+      date: this.today,
+      patient: {
+        dni: {value: '', disabled: false},
+        sex: {value: '', disabled: false},
+        lastName: {value: '', disabled: false},
+        firstName: {value: '', disabled: false}
+      },
+    });
+    this.isEdit = false;
   }
 }
