@@ -241,9 +241,9 @@ export class ProfessionalFormComponent implements OnInit {
 
   private formReset(professionalNgForm: FormGroupDirective){
     professionalNgForm.resetForm();
+    this.isEdit ? this.openDialog("updated") : this.openDialog("created");
     this.clearForm();
     this.isSubmit = false;
-    this.openDialog("created");
     this.dni.nativeElement.focus();
   }
 

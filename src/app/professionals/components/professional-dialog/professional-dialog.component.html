@@ -10,6 +10,16 @@
     </div>
   </div> <!-- End case noPrescriptions -->
 
+  <div *ngSwitchCase="'updated'">
+    <h3 mat-dialog-title><mat-icon>check</mat-icon>  Modificado</h3>
+    <div mat-dialog-content>
+      <p>La receta se ha modificado correctamente!</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End case noPrescriptions -->
+
   <div *ngSwitchCase="'delete'">
     <h3 mat-dialog-title><mat-icon>delete</mat-icon> Desea eliminar la receta?</h3>
     <div mat-dialog-content>
