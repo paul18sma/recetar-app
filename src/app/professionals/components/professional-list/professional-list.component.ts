@@ -1,11 +1,10 @@
-import { Component, OnInit, Input, OnChanges, SimpleChanges, ɵChangeDetectorStatus, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, OnChanges, SimpleChanges,EventEmitter, Output } from '@angular/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { DataSource } from '@angular/cdk/table';
 import { Observable, of } from 'rxjs';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { AuthService } from '@auth/services/auth.service';
 import { PrescriptionPrinterComponent } from '@professionals/components/prescription-printer/prescription-printer.component';
-import { PrescriptionsService } from '@services/prescriptions.service';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 
@@ -25,6 +24,7 @@ import { MatDialog } from '@angular/material/dialog';
 
 export class ProfessionalListComponent implements OnChanges, OnInit {
   @Input() myPrescriptions: Prescriptions[];
+  @Output() editPrescriptionEvent = new EventEmitter();
 
   displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
@@ -53,12 +53,20 @@ export class ProfessionalListComponent implements OnChanges, OnInit {
     return prescription.status === "Pendiente"
   }
 
+  canEdit(prescription: Prescriptions){
+    return prescription.status === "Pendiente"
+  }
+
   printPrescription(prescription: Prescriptions){
     this.prescriptionPrinter.print(prescription);
   }
 
   deleteDialogPrescription(prescription: Prescriptions){
     this.openDialog("delete", prescription);
+  }
+
+  edit(prescription: Prescriptions){
+    this.editPrescriptionEvent.emit(prescription);
   }
 
   ngOnInit(): void {}

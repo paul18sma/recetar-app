@@ -57,6 +57,13 @@
                 <mat-icon >print</mat-icon>
               </button>
             </div>
+
+            <div *ngIf="canEdit(prescription)">
+              <button mat-icon-button matTooltip="Editar" (click)="edit(prescription)" matTooltip="Editar" matTooltipPosition="above">
+                <mat-icon >edit</mat-icon>
+              </button>
+            </div>
+
             <div *ngIf="canDelete(prescription)">
               <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="deleteDialogPrescription(prescription)" matTooltip="Eliminar" matTooltipPosition="above">
                 <mat-icon >delete</mat-icon>
