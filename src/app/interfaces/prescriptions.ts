@@ -20,6 +20,7 @@ export class Prescriptions {
   status: string;
   date: Date;
 
+  diagnostic?: string;
   observation?: string;
   createdAt?: Date;
   updatedAt?: Date;

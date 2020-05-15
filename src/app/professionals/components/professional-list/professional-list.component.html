@@ -41,8 +41,11 @@
               <div *ngFor="let supp of detail.element.supplies">
                 {{ supp.supply.name }} <mat-chip>{{ supp.quantity }}</mat-chip>
               </div>
-              <div *ngIf="detail.element.observation">
-                Observaciones: {{detail.element.observation}}
+              <div class="description" *ngIf="detail.element.diagnostic">
+                <span class="title">Diagnóstico:</span> {{detail.element.diagnostic}}
+              </div>
+              <div class="description" *ngIf="detail.element.observation">
+                <span class="title">Observaciones:</span> {{detail.element.observation}}
               </div>
             </div>
           </mat-cell>

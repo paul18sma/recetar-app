@@ -128,6 +128,7 @@ export class ProfessionalFormComponent implements OnInit {
       date: [this.today, [
         Validators.required
       ]],
+      diagnostic: [''],
       observation: [''],
       supplies: this.fBuilder.array([
         this.fBuilder.group({
@@ -248,7 +249,6 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   deletePrescription(prescription: Prescriptions){
-    console.log("Prescriptions: ", prescription);
     this.apiPrescriptions.deletePrescription(prescription._id).subscribe(
       res => {
         this.myPrescriptions.forEach( (item, index) => {
@@ -329,6 +329,7 @@ export class ProfessionalFormComponent implements OnInit {
     this.professionalForm.reset({
       _id: e._id,
       date: e.date,
+      diagnostic: e.diagnostic,
       observation: e.observation,
       patient: {
         dni: {value: e.patient.dni, disabled: true},
