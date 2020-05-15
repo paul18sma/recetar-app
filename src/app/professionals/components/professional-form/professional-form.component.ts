@@ -189,7 +189,7 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   // Create patient if doesn't exist and create prescription
-  onSubmitProfessionalForm(professionalForm: FormGroup, professionalNgForm: FormGroupDirective): void {
+  onSubmitProfessionalForm(professionalNgForm: FormGroupDirective): void {
 
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
@@ -240,9 +240,9 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   private formReset(professionalNgForm: FormGroupDirective){
-    professionalNgForm.resetForm();
+
     this.isEdit ? this.openDialog("updated") : this.openDialog("created");
-    this.clearForm();
+    this.clearForm(professionalNgForm);
     this.isSubmit = false;
     this.dni.nativeElement.focus();
   }
@@ -342,7 +342,8 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   // reset the form as intial values
-  clearForm(){
+  clearForm(professionalNgForm: FormGroupDirective){
+    professionalNgForm.resetForm();
     this.professionalForm.reset({
       _id: '',
       professional: this.professionalData,

@@ -12,7 +12,7 @@
           </mat-card-title>
 
           <mat-card-content>
-            <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalForm, professionalNgForm)">
+            <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalNgForm)">
               <div class="sub-container"
                 fxLayout="column"
                   fxLayout.xs="column"
@@ -183,7 +183,7 @@
 
               <div fxLayout="row" fxLayoutAlign="center">
                 <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px" *ngIf="!isSubmit" fxFlex="100%">
-                  <button mat-raised-button type="button" *ngIf="isEdit" fxFlex="100%" (click)="clearForm()">
+                  <button mat-raised-button type="button" *ngIf="isEdit" fxFlex="100%" (click)="clearForm(professionalNgForm)">
                     Cancelar
                   </button>
 
