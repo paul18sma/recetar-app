@@ -237,7 +237,6 @@ export class ProfessionalFormComponent implements OnInit {
       });
     }
     this.isSubmit = false;
-    this.isEdit = false;
   }
 
   private formReset(professionalNgForm: FormGroupDirective){
