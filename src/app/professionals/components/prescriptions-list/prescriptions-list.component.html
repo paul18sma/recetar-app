@@ -1,0 +1,103 @@
+<mat-card fxLayout="column" fxLayoutAlign="space-between">
+  <mat-card-title>
+    <h2><mat-icon>list_alt</mat-icon> Mis recetas</h2>
+  </mat-card-title>
+  <mat-card-content>
+
+    <mat-form-field>
+      <input matInput (keyup)="applyFilter($event.target.value)" placeholder="Filtrar por paciente o fecha">
+    </mat-form-field>
+
+    <div class="example-container mat-elevation-z8">
+      <div class="example-table-container">
+        <table mat-table [dataSource]="dataSource" matSort multiTemplateDataRows>
+
+          <!-- Paciente Column -->
+          <ng-container matColumnDef="patient">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Paciente </th>
+            <td mat-cell *matCellDef="let element" class='m-card-title' test data-label='Paciente'> {{ element.patient.lastName.toUpperCase() }}, {{ element.patient.firstName.toUpperCase() }}</td>
+          </ng-container>
+
+          <!-- Fecha Column -->
+          <ng-container matColumnDef="prescription_date">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha emitida </th>
+            <td mat-cell *matCellDef="let element" class='m-card-sub-title' data-label='Fecha emitida'> {{element.date | date : 'dd/MM/yyyy' }} </td>
+          </ng-container>
+
+          <!-- Estado Column -->
+          <ng-container matColumnDef="status">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
+            <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Estado'> {{ element.status }} </td>
+          </ng-container>
+
+          <!-- Insumos Column -->
+          <!-- <ng-container matColumnDef="modified">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> Last modified </th>
+            <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Last modified on'> {{element.modified}} </td>
+          </ng-container> -->
+
+          <!-- Accion Column -->
+          <ng-container matColumnDef="star">
+            <th mat-header-cell *matHeaderCellDef> </th>
+            <td mat-cell *matCellDef="let element" (click)="$event.stopPropagation()">
+              <button mat-icon-button [matMenuTriggerFor]="menu" class="menu-collapse">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item>
+                  <mat-icon>open_in_new</mat-icon>
+                  <span>Open risk plan</span>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>undo</mat-icon>
+                  <span>Reset questionnairre</span>
+                </button>
+                <button mat-menu-item disabled>
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete questionnairre</span>
+                </button>
+              </mat-menu>
+
+              <div fxLayout="row">
+                <button mat-menu-item>
+                  <mat-icon>open_in_new</mat-icon>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>undo</mat-icon>
+                </button>
+                <button mat-menu-item>
+                  <mat-icon>delete</mat-icon>
+                </button>
+              </div>
+            </td>
+          </ng-container>
+
+          <!-- Expanded Content Column - The detail row is made up of this one column that spans across all columns -->
+          <ng-container matColumnDef="expandedDetail">
+            <td mat-cell *matCellDef="let element" [attr.colspan]="displayedColumns.length">
+              <div class="example-element-detail" [@detailExpand]="element._id == expandedElement?._id ? 'expanded' : 'collapsed'">
+              <div class="example-element-diagram">
+                <div class="example-element-position" *ngIf="element.diagnostic"> Diagnóstico: {{element.diagnostic}} </div>
+                <div class="example-element-position" *ngIf="element.observation"> Observaciones: {{element.observation}} </div>
+              </div>
+            </div>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns; sticky: true"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            class="example-element-row"
+            [class.example-expanded-row]="expandedElement === row"
+            (click)="expandedElement = expandedElement === row ? null : row">
+          </tr>
+          <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+
+        </table>
+      </div>
+      <mat-paginator [pageSizeOptions]="[5, 10, 20, 30]"></mat-paginator>
+    </div>
+
+
+  </mat-card-content>
+</mat-card>
+
