@@ -21,10 +21,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
+import {MatPaginatorModule} from '@angular/material/paginator';
+import {MatSortModule} from '@angular/material/sort';
+
+import { PrescriptionsListComponent } from './components/prescriptions-list/prescriptions-list.component';
 
 @NgModule({
   declarations: [
     routingComponents,
+    PrescriptionsListComponent,
   ],
   imports: [
     CommonModule,
@@ -45,7 +50,9 @@ import { MatChipsModule } from '@angular/material/chips';
     MatIconModule,
     MatProgressSpinnerModule,
     MatTableModule,
-    MatChipsModule
+    MatChipsModule,
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class ProfessionalsModule { }
