@@ -27,13 +27,13 @@
           <!-- Estado Column -->
           <ng-container matColumnDef="status">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> Estado </th>
-            <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Estado'> {{ element.status }} </td>
+            <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Estado:'> {{ element.status }} </td>
           </ng-container>
 
           <!-- Insumos Column -->
           <ng-container matColumnDef="supply_count">
             <th mat-header-cell *matHeaderCellDef> Insumos </th>
-            <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Insumos'> {{element.supplies.length}} </td>
+            <td mat-cell *matCellDef="let element" class='has_label_on_mobile' data-label='Insumos:'> {{element.supplies.length}} </td>
           </ng-container>
 
           <!-- Accion Column -->
@@ -58,7 +58,7 @@
                 </button>
               </mat-menu>
 
-              <div fxLayout="row">
+              <div fxLayout="row" class="action-buttons">
                 <button mat-menu-item type="button" *ngIf="canPrint(element)" (click)="printPrescription(element)">
                   <mat-icon>print</mat-icon>
                 </button>

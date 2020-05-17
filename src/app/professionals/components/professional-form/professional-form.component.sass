@@ -7,48 +7,66 @@
 
 .cards-container
 
-    @media (min-width: $x-small-devices) and (max-width: $small-devices)
-        flex-direction: column!important
-        .prescription-panel
-            order: 1
-        .my-prescriptions-panel
-            order: 2
+  .prescription-panel
+    .first-block
+      mat-form-field
+        width: 100%
+    .st-bk-patient, .nd-bk-patient
+      width: calc((100% - 10px) / 2)
 
-    .prescription-panel, .my-prescriptions-panel
-        width: calc(100% / 2)
-        mat-card
-            box-sizing: content-box!important
+  @media (min-width: $larger-devices) and (max-width: $xx-larger-devices)
+    .prescription-panel
+      width: 35%!important
+    .my-prescriptions-panel
+      width: 65%!important
+  @media (min-width: $small-devices) and (max-width: $larger-devices)
+    flex-direction: column!important
 
-            @media (min-width: $x-small-devices) and (max-width: $larger-devices)
-                height: auto
-            mat-card-title, mat-card-content
-                margin: 0!important
-                .login-action
-                    margin-top: 20px
-                    @media (min-width: $larger-devices) and (max-width: $x-larger-devices)
-                        margin-top: 40px
+    .prescription-panel
+      width: 100%!important
+      margin-bottom: 20px
+      .first-block
+        display: flex
+        mat-form-field
+          width: calc((100% - 10px) / 5)
+          margin-right: 10px
+        .patient-container
+          width: calc(100% - ((100% - 10px) / 5))
+          .st-bk-patient, .nd-bk-patient
+            display: flex
+            mat-form-field
+              width: calc((100% - 20px) / 2)
 
-                @media (min-width: $larger-devices) and (max-width: $xx-larger-devices)
-                    .login-error
-                        margin-bottom: -15px!important
+  @media (min-width: $x-small-devices) and (max-width: $small-devices)
+    flex-direction: column!important
+    .prescription-panel
+      max-width: 100%
+      width: 100%
+      margin-bottom: 20px
+      .first-block
+        display: flex
+        flex-direction: column
+        mat-form-field
+          width: 100%
+          margin-left: 0px
+        .patient-container
+          flex-direction: column!important
+          width: 100%
+          .st-bk-patient, .nd-bk-patient
+            flex-direction: column
+            width: 100%!important
+            mat-form-field
+              width: 100%!important
 
-            mat-card-actions
-                padding: 0!important
-                margin: 0!important
-                @media (min-width: $x-small-devices) and (max-width: $larger-devices)
-                    flex-direction: column!important
-                    a.btn-link
-                        max-width: 100%!important
-                        margin: 10px 0!important
 
-        @media (min-width: $medium-devices) and (max-width: $larger-devices)
-            width: 600px
-        @media (min-width: $small-devices) and (max-width: $medium-devices)
-            width: 450px
-        @media (min-width: $x-small-devices) and (max-width: $small-devices)
-            width: 480px
-            max-width: calc(100% - 10px)
-            margin: 10px auto!important
+    // .my-prescriptions-panel
+    //   width: 100%!important
+    // .prescription-panel, .my-prescriptions-panel
+    //     width: calc(100% / 2)
+
+    //     mat-card
+    //         box-sizing: content-box!important
+
 
 .mat-form-field, button
   margin: 5px 0
@@ -65,9 +83,9 @@
 .custom-error-container
   position: relative
 
-.mat-table
-  overflow: auto
-  max-height: 500px
+// .mat-table
+//   overflow: auto
+//   max-height: 500px
 
 
 .element-row

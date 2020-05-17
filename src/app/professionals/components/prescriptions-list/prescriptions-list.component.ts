@@ -10,7 +10,6 @@ import { AuthService } from '@auth/services/auth.service';
 import { PrescriptionPrinterComponent } from '@professionals/components/prescription-printer/prescription-printer.component';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
-import { rotateAnimation } from 'angular-animations';
 
 @Component({
   selector: 'app-prescriptions-list',

@@ -18,9 +18,6 @@ table
   .title-cell
     width: 250px
 
-  // .actions-cell
-  //   width: 150px
-
   .element-row td
     border-bottom-width: 0
 
@@ -74,7 +71,7 @@ table
       padding: 0px 5px
       margin-right: 0px
       mat-icon
-        padding: 0px 5px
+        padding: 0px
         margin-right: 0px
   td.mat-column-action
     width: 100px
@@ -104,13 +101,27 @@ table
 .mat-paginator
   margin-top: 24px
 
-@media screen and (max-width: 960px)
+@media (min-width: $x-small-devices) and (max-width: $small-devices)
   .mat-elevation-z8
     background: transparent
     box-shadow: none
+    margin: 0px -16px
 
   .mat-header-row
     display: none
+
+  td.mat-column-supply_count
+    text-align: start!important
+  td.mat-column-action
+    .menu-collapse
+      display: block!important
+      position: absolute
+      top: 0
+      right: 10px
+      width: auto
+      margin: 0
+    .action-buttons
+      display: none!important
 
 
   tbody
@@ -130,13 +141,14 @@ table
       height: auto
       position: relative
       clear: both
-      box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12)
+      // box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12)
       background-color: #fff
       border-radius: 3px
       + .mat-row
         margin-top: 24px
 
-
+    .detail-row
+      box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12)
 
     .mat-cell
       display: block
