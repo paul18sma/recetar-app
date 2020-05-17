@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
@@ -98,7 +98,7 @@ export class ProfessionalFormComponent implements OnInit {
     // get prescriptions
     this.apiPrescriptions.getByUserId(this.authService.getLoggedUserId()).subscribe(
       res => {
-        this.myPrescriptions = res;
+        // this.myPrescriptions = res;
       },
     );
   }
@@ -197,9 +197,8 @@ export class ProfessionalFormComponent implements OnInit {
       if(!this.isEdit){
         // create
         this.apiPrescriptions.newPrescription(newPrescription).subscribe(
-          res => {
-            this.formReset(professionalNgForm);
-            this.myPrescriptions = [...this.myPrescriptions, res];
+          success => {
+            if(success) this.formReset(professionalNgForm);
           },
           err => {
             this.handleSupplyError(err);
@@ -208,15 +207,8 @@ export class ProfessionalFormComponent implements OnInit {
       } else {
         // edit
         this.apiPrescriptions.editPrescription(newPrescription).subscribe(
-          res => {
-            this.formReset(professionalNgForm);
-            const prescription: Prescriptions = res;
-            this.myPrescriptions.forEach( (item, index) => {
-              if(item._id === prescription._id) {
-                this.myPrescriptions[index] = prescription;
-              }
-            });
-            this.myPrescriptions = [...this.myPrescriptions]; // trick to catch the value change
+          success => {
+            if(success) this.formReset(professionalNgForm);
           },
           err => {
             this.handleSupplyError(err);
@@ -249,11 +241,8 @@ export class ProfessionalFormComponent implements OnInit {
 
   deletePrescription(prescription: Prescriptions){
     this.apiPrescriptions.deletePrescription(prescription._id).subscribe(
-      res => {
-        this.myPrescriptions.forEach( (item, index) => {
-          if(item._id === res._id) this.myPrescriptions.splice(index,1);
-        });
-        this.myPrescriptions = [...this.myPrescriptions];
+      success => {
+        if(success) console.log('removed');
       },
       err => {
         this.openDialog("error-dispensed")
