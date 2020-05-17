@@ -4,41 +4,87 @@
 table
   width: 100%
 
-  tr.example-detail-row
+  tr.detail-row
     height: 0
 
 
-  tr.example-element-row:not(.example-expanded-row):hover
+  tr.element-row:not(.expanded-row):hover
     background: whitesmoke
 
 
-  tr.example-element-row:not(.example-expanded-row):active
+  tr.element-row:not(.expanded-row):active
     background: #efefef
 
+  .title-cell
+    width: 250px
 
-  .example-element-row td
+  // .actions-cell
+  //   width: 150px
+
+  .element-row td
     border-bottom-width: 0
 
 
-  .example-element-detail
+  .element-detail
     overflow: hidden
-    display: flex
+    padding: 0px 5px
+    border-left: 1px solid #ccc
+
+    .element-diagram
+      padding: 8px
+      font-weight: lighter
+
+      .supplies-list
+        margin: 5px 0px
+        .supply-description
+          display: flex
+          border-bottom: 1px solid #ccc
+          justify-content: space-between
+          align-items: center
+          padding-bottom: 2px
+          margin-top: 5px
+
+          span
+            margin-right: 20px
+          mat-chip
+            padding: 5px
+            width: 20px
+            border-radius: 50%
+            text-align: center
+
+      .element-description
+        margin: 5px 0px
+        .description-title
+          font-weight: bold
 
 
-  .example-element-diagram
-    min-width: 80px
-    border: 2px solid black
-    padding: 8px
-    font-weight: lighter
-    margin: 8px 0
-    height: 104px
+
 
   .mat-row
     &:hover
       background-color: #e9f3ff
-  td.mat-column-star
-    width: 20px
+  th.mat-column-supply_count, td.mat-column-supply_count, td.mat-column-arrow
+    text-align: center
+  th.mat-column-action
+    text-align: center
+  td.mat-column-arrow
+    width: 45px
+    button
+      width: auto
+      padding: 0px 5px
+      margin-right: 0px
+      mat-icon
+        padding: 0px 5px
+        margin-right: 0px
+  td.mat-column-action
+    width: 100px
     padding-right: 8px !important
+    button
+      width: auto
+      padding: 0px 5px
+      mat-icon
+        padding: 0px 5px
+        margin-right: 0px
 
 
     .menu-collapse
