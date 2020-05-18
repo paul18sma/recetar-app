@@ -37,6 +37,7 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
   displayedColumns: string[] = ['patient', 'prescription_date', 'status', 'supply_count', 'action', 'arrow'];
   dataSource = new MatTableDataSource<Prescriptions>([]);
   expandedElement: Prescriptions | null;
+  loadingPrescriptions: boolean;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -50,6 +51,7 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
 
 
   ngOnInit() {
+    this.loadingPrescriptions = true;
     this.prescriptionService.prescriptions.subscribe((prescriptions: Prescriptions[]) => {
       this.dataSource = new MatTableDataSource<Prescriptions>(prescriptions);
       // sort after populate dataSource
@@ -62,8 +64,8 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
       };
       this.dataSource.sort = this.sort;
       this.dataSource.paginator = this.paginator;
+      this.loadingPrescriptions = false;
     });
-
   }
 
   ngAfterContentInit(){
