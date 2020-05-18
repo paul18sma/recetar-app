@@ -7,7 +7,7 @@
         <div fxFlex="100" fxLayout="column" fxLayoutAlign="start">
           <mat-card-title>
             <h2 fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
-              <mat-icon>gesture</mat-icon> <span>Registrar nueva receta</span>
+              <mat-icon>{{ isEdit ? "edit" : "gesture" }}</mat-icon> <span>{{ isEdit ? "Editar receta" : "Registrar nueva receta" }}</span>
             </h2>
           </mat-card-title>
 
