@@ -25,6 +25,11 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
       state('right', style({ left: '-100vw' })),
       transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
+    trigger('stepLink', [
+      state('left', style({ left: '0px' })),
+      state('right', style({ left: '50%' })),
+      transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
   ],
 })
 export class ProfessionalFormComponent implements OnInit {

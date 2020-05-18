@@ -1,7 +1,10 @@
 
-  <div fxLayout="row" fxLayoutGap="15px" [style]="{width: '100%'}">
-    <button mat-raised-button fxFlex="50%" (click)="showForm()">Nueva receta</button>
-    <button mat-raised-button fxFlex="50%" (click)="showList()">Mis recetas</button>
+  <div class="custom-tab-link-bar">
+    <button mat-flat-button (click)="showForm()">Nueva receta</button>
+    <button mat-flat-button (click)="showList()">Mis recetas</button>
+  </div>
+  <div class="link-bar-indicator-container">
+    <div class="indicator" [@stepLink]="isFormShown ? 'left' : 'right'"></div>
   </div>
 
 <div class="pf-container">
