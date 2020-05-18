@@ -23,8 +23,8 @@ export class PrescriptionsService {
   //   return this.http.get(`${environment.API_END_POINT}/prescriptions`);
   // }
 
-  getById(id: string): Observable<Prescriptions[]>{
-    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/${id}`);
+  getById(id: string): Observable<Prescriptions>{
+    return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${id}`);
   }
 
   dispense(prescriptionId: string): Observable<Prescriptions> {
