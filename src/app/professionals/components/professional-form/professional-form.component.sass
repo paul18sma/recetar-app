@@ -7,8 +7,10 @@
 
 .custom-tab-link-bar
   width: 100%
-  display: flex
   justify-content: space-between
+  display: none
+  @media (min-width: $x-small-devices) and (max-width: $small-devices)
+    display: flex
   button
     width: calc(100% / 2)
     margin: 0px!important
@@ -20,6 +22,10 @@
   background-color: #fff
   padding-bottom: 10px
   position: relative
+  display: none
+  @media (min-width: $x-small-devices) and (max-width: $small-devices)
+    display: block
+
   .indicator
     width: 50%
     height: 3px
