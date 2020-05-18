@@ -119,7 +119,7 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
     this.prescriptionPrinter.print(prescription);
   }
 
-  edit(prescription: Prescriptions){
+  editPrescription(prescription: Prescriptions){
     this.editPrescriptionEvent.emit(prescription);
   }
 
