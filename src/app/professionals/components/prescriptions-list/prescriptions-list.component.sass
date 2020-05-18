@@ -114,14 +114,24 @@ table
     text-align: start!important
   td.mat-column-action
     .menu-collapse
-      display: block!important
+      display: flex!important
       position: absolute
       top: 0
       right: 10px
       width: auto
       margin: 0
+      height: 44px!important
+      mat-icon
+        padding: 0!important
     .action-buttons
       display: none!important
+  td.mat-column-arrow
+    button
+      position: absolute
+      top: 0
+      right: 44px
+      height: 44px!important
+      display: flex
 
 
   tbody
@@ -149,6 +159,12 @@ table
 
     .detail-row
       box-shadow: 0 2px 1px -1px rgba(0,0,0,.2), 0 1px 1px 0 rgba(0,0,0,.14), 0 1px 3px 0 rgba(0,0,0,.12)
+      margin-top: 0px!important
+      td.mat-column-expandedDetail
+        margin: 0px!important
+        padding: 0px 10px!important
+        mat-chip
+          width: 30px!important
 
     .mat-cell
       display: block
