@@ -12,11 +12,20 @@ import { Prescriptions } from '@interfaces/prescriptions';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InteractionService } from '@professionals/interaction.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 
 @Component({
   selector: 'app-professional-form',
   templateUrl: './professional-form.component.html',
   styleUrls: ['./professional-form.component.sass'],
+  animations: [
+    trigger('step', [
+      state('left', style({ left: '0px' })),
+      state('right', style({ left: '-100vw' })),
+      transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ProfessionalFormComponent implements OnInit {
   @ViewChild('dni', {static: true}) dni:any;
@@ -39,6 +48,12 @@ export class ProfessionalFormComponent implements OnInit {
   supplySpinner: { show: boolean}[] = [{show: false}, {show: false}];
   myPrescriptions: Prescriptions[] = [];
   isEdit: boolean = false;
+  isFormShown: boolean = true;
+  devices: any = {
+    mobile: false,
+    tablet: false,
+    desktop: false
+  }
 
   constructor(
     private suppliesService: SuppliesService,
@@ -328,6 +343,7 @@ export class ProfessionalFormComponent implements OnInit {
       supplies: e.supplies
     });
     this.isEdit = true;
+    this.isFormShown = true;
   }
 
   // reset the form as intial values
@@ -345,5 +361,13 @@ export class ProfessionalFormComponent implements OnInit {
       },
     });
     this.isEdit = false;
+  }
+
+  showForm(): void{
+    this.isFormShown = true;
+  }
+
+  showList(): void{
+    this.isFormShown = false;
   }
 }

@@ -1,6 +1,11 @@
 
-  <div fxLayout="row" fxLayoutAlign="space-evenly start" fxLayoutGap="20px" class="cards-container" fxFill>
+  <div fxLayout="row" fxLayoutGap="15px" [style]="{width: '100%'}">
+    <button mat-raised-button fxFlex="50%" (click)="showForm()">Nueva receta</button>
+    <button mat-raised-button fxFlex="50%" (click)="showList()">Mis recetas</button>
+  </div>
 
+<div class="pf-container">
+  <div fxLayout="row" fxLayoutAlign="space-evenly start" fxLayoutGap="20px" class="cards-container" fxFill [@step]="isFormShown ? 'left' : 'right'">
     <!-- panel "Formulario receta" -->
     <div class="prescription-panel">
       <mat-card fxLayout="column" fxLayoutAlign="space-between" class="new-prescription">
@@ -206,3 +211,4 @@
     </div>
 
   </div>
+</div>
