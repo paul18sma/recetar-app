@@ -41,8 +41,11 @@
               <div *ngFor="let supp of detail.element.supplies">
                 {{ supp.supply.name }} <mat-chip>{{ supp.quantity }}</mat-chip>
               </div>
-              <div *ngIf="detail.element.observation">
-                Observaciones: {{detail.element.observation}}
+              <div class="description" *ngIf="detail.element.diagnostic">
+                <span class="title">Diagnóstico:</span> {{detail.element.diagnostic}}
+              </div>
+              <div class="description" *ngIf="detail.element.observation">
+                <span class="title">Observaciones:</span> {{detail.element.observation}}
               </div>
             </div>
           </mat-cell>
@@ -57,6 +60,13 @@
                 <mat-icon >print</mat-icon>
               </button>
             </div>
+
+            <div *ngIf="canEdit(prescription)">
+              <button mat-icon-button matTooltip="Editar" (click)="edit(prescription)" matTooltip="Editar" matTooltipPosition="above">
+                <mat-icon >edit</mat-icon>
+              </button>
+            </div>
+
             <div *ngIf="canDelete(prescription)">
               <button mat-icon-button color="warn" matTooltip="Eliminar" (click)="deleteDialogPrescription(prescription)" matTooltip="Eliminar" matTooltipPosition="above">
                 <mat-icon >delete</mat-icon>

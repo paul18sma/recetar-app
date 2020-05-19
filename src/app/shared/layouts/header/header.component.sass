@@ -1,3 +1,12 @@
+@import 'styles/_variables'
+
+:host
+  display: block
+  height: $header-height
+
+  @media (min-width: $x-small-devices) and (max-width: $small-devices)
+    height: auto
+
 mat-toolbar
   background: #4c4c4c
   color: #ffffff

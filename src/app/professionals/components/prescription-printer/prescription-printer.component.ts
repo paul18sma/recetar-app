@@ -44,9 +44,16 @@ export class PrescriptionPrinterComponent implements OnInit {
       pdf.add(pdf.ln(1));
     });
     pdf.add(new Canvas([ new Line(10, [500, 10]).end]).end);
-    pdf.add(pdf.ln(1));
-    pdf.add(new Txt("Observaciones").bold().end);
-    pdf.add(new Txt(""+prescription.observation).end);
+    if(prescription.diagnostic){
+      pdf.add(pdf.ln(1));
+      pdf.add(new Txt("Diagnóstico").bold().end);
+      pdf.add(new Txt(""+prescription.diagnostic).end);
+    }
+    if(prescription.observation){
+      pdf.add(pdf.ln(1));
+      pdf.add(new Txt("Observaciones").bold().end);
+      pdf.add(new Txt(""+prescription.observation).end);
+    }
     pdf.add(pdf.ln(2));
 
     pdf.footer(new Txt("Esta receta se registró en recetar.andes.gob.ar").italics().alignment('center').end);

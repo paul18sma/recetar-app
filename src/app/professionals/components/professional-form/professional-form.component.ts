@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective, FormControl } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
@@ -12,11 +12,25 @@ import { Prescriptions } from '@interfaces/prescriptions';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InteractionService } from '@professionals/interaction.service';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+
 
 @Component({
   selector: 'app-professional-form',
   templateUrl: './professional-form.component.html',
   styleUrls: ['./professional-form.component.sass'],
+  animations: [
+    trigger('step', [
+      state('left', style({ left: '0px' })),
+      state('right', style({ left: '-100vw' })),
+      transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+    trigger('stepLink', [
+      state('left', style({ left: '0px' })),
+      state('right', style({ left: '50%' })),
+      transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class ProfessionalFormComponent implements OnInit {
   @ViewChild('dni', {static: true}) dni:any;
@@ -30,13 +44,21 @@ export class ProfessionalFormComponent implements OnInit {
   patientSearch: Patient;
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
+  professionalData: any;
   readonly maxQSupplies: number = 2;
   readonly spinnerColor: ThemePalette = 'primary';
   readonly spinnerDiameter: number = 30;
-  showSubmit: boolean = false;
+  isSubmit: boolean = false;
   dniShowSpinner: boolean = false;
   supplySpinner: { show: boolean}[] = [{show: false}, {show: false}];
   myPrescriptions: Prescriptions[] = [];
+  isEdit: boolean = false;
+  isFormShown: boolean = true;
+  devices: any = {
+    mobile: false,
+    tablet: false,
+    desktop: false
+  }
 
   constructor(
     private suppliesService: SuppliesService,
@@ -50,7 +72,7 @@ export class ProfessionalFormComponent implements OnInit {
 
   ngOnInit(): void {
     this.initProfessionalForm();
-    
+
     // On confirm delete prescription
     this._interactionService.deletePrescription$
       .subscribe(
@@ -96,15 +118,17 @@ export class ProfessionalFormComponent implements OnInit {
     // get prescriptions
     this.apiPrescriptions.getByUserId(this.authService.getLoggedUserId()).subscribe(
       res => {
-        this.myPrescriptions = res;
+        // this.myPrescriptions = res;
       },
     );
   }
 
   initProfessionalForm(){
     this.today = new Date((new Date()));
+    this.professionalData = this.authService.getLoggedUserId();
     this.professionalForm = this.fBuilder.group({
-      professional: [this.authService.getLoggedUserId()],
+      _id: [''],
+      professional: [this.professionalData],
       patient: this.fBuilder.group({
         dni: ['', [
           Validators.required,
@@ -124,6 +148,7 @@ export class ProfessionalFormComponent implements OnInit {
       date: [this.today, [
         Validators.required
       ]],
+      diagnostic: [''],
       observation: [''],
       supplies: this.fBuilder.array([
         this.fBuilder.group({
@@ -184,51 +209,60 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   // Create patient if doesn't exist and create prescription
-  onSubmitProfessionalForm(professionalForm: FormGroup, professionalNgForm: FormGroupDirective): void {
+  onSubmitProfessionalForm(professionalNgForm: FormGroupDirective): void {
 
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
-      this.showSubmit = !this.showSubmit;
-      this.apiPrescriptions.newPrescription(newPrescription).subscribe(
-        res => {
-          // get defualt value before reset
-          const professional = this.professional.value;
-          const date = this.today;
-          professionalNgForm.resetForm();
-          professionalForm.reset({
-            professional: professional,
-            date: date,
+      this.isSubmit = true;
+      if(!this.isEdit){
+        // create
+        this.apiPrescriptions.newPrescription(newPrescription).subscribe(
+          success => {
+            if(success) this.formReset(professionalNgForm);
+          },
+          err => {
+            this.handleSupplyError(err);
           });
 
-          this.showSubmit = !this.showSubmit;
-          this.openDialog("created");
-          this.dni.nativeElement.focus();
-          this.myPrescriptions = [...this.myPrescriptions, res];
-        },
-        err => {
-          if(err.error.length > 0){
-            err.error.map(err => {
-              // handle supplies error
-              this.suppliesForm.controls.map(control => {
-                if(control.get('supply').value == err.supply){
-                  control.get('supply').setErrors({ invalid: err.message});
-                }
-              });
-            });
-          }
-          this.showSubmit = !this.showSubmit;
-      });
+      } else {
+        // edit
+        this.apiPrescriptions.editPrescription(newPrescription).subscribe(
+          success => {
+            if(success) this.formReset(professionalNgForm);
+          },
+          err => {
+            this.handleSupplyError(err);
+        });
+      }
     }
   }
 
-  deletePrescription(prescription: Prescriptions){
-    console.log("Prescriptions: ", prescription);
-    this.apiPrescriptions.deletePrescription(prescription._id).subscribe(
-      res => {
-        this.myPrescriptions.forEach( (item, index) => {
-          if(item._id === res._id) this.myPrescriptions.splice(index,1);
+  private handleSupplyError(err){
+    if(err.error.length > 0){
+      err.error.map(err => {
+        // handle supplies error
+        this.suppliesForm.controls.map(control => {
+          if(control.get('supply').value == err.supply){
+            control.get('supply').setErrors({ invalid: err.message});
+          }
         });
-        this.myPrescriptions = [...this.myPrescriptions];
+      });
+    }
+    this.isSubmit = false;
+  }
+
+  private formReset(professionalNgForm: FormGroupDirective){
+
+    this.isEdit ? this.openDialog("updated") : this.openDialog("created");
+    this.clearForm(professionalNgForm);
+    this.isSubmit = false;
+    this.dni.nativeElement.focus();
+  }
+
+  deletePrescription(prescription: Prescriptions){
+    this.apiPrescriptions.deletePrescription(prescription._id).subscribe(
+      success => {
+        if(success) console.log('removed');
       },
       err => {
         this.openDialog("error-dispensed")
@@ -296,5 +330,49 @@ export class ProfessionalFormComponent implements OnInit {
 
   deleteSupply(i) {
     this.suppliesForm.removeAt(i);
+  }
+
+  // set form with prescriptions values and disabled npt editable fields
+  editPrescription(e){
+    this.professionalForm.reset({
+      _id: e._id,
+      date: e.date,
+      diagnostic: e.diagnostic,
+      observation: e.observation,
+      patient: {
+        dni: {value: e.patient.dni, disabled: true},
+        sex: {value: e.patient.sex, disabled: true},
+        lastName: {value: e.patient.lastName, disabled: true},
+        firstName: {value: e.patient.firstName, disabled: true}
+      },
+      supplies: e.supplies
+    });
+    this.isEdit = true;
+    this.isFormShown = true;
+  }
+
+  // reset the form as intial values
+  clearForm(professionalNgForm: FormGroupDirective){
+    professionalNgForm.resetForm();
+    this.professionalForm.reset({
+      _id: '',
+      professional: this.professionalData,
+      date: this.today,
+      patient: {
+        dni: {value: '', disabled: false},
+        sex: {value: '', disabled: false},
+        lastName: {value: '', disabled: false},
+        firstName: {value: '', disabled: false}
+      },
+    });
+    this.isEdit = false;
+  }
+
+  showForm(): void{
+    this.isFormShown = true;
+  }
+
+  showList(): void{
+    this.isFormShown = false;
   }
 }
