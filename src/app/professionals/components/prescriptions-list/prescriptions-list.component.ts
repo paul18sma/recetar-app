@@ -105,15 +105,15 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
     }
   }
 
-  canPrint(prescription: Prescriptions): Boolean{
-    return (prescription.professional.userId === this.authService.getLoggedUserId());
+  canPrint(prescription: Prescriptions): boolean{
+    return (prescription.professional.userId === this.authService.getLoggedUserId()) && prescription.status !== 'Vencida';
   }
 
-  canEdit(prescription: Prescriptions): Boolean{
+  canEdit(prescription: Prescriptions): boolean{
     return prescription.status === "Pendiente";
   }
 
-  canDelete(prescription: Prescriptions): Boolean{
+  canDelete(prescription: Prescriptions): boolean{
     return (prescription.professional.userId === this.authService.getLoggedUserId() && prescription.status === "Pendiente");
   }
 
@@ -123,6 +123,10 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
 
   editPrescription(prescription: Prescriptions){
     this.editPrescriptionEvent.emit(prescription);
+  }
+
+  isStatus(prescritpion: Prescriptions, status: string): boolean{
+    return prescritpion.status === status;
   }
 
   deleteDialogPrescription(prescription: Prescriptions){
