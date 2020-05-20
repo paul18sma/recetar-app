@@ -4,6 +4,7 @@ import { AuthService } from '@auth/services/auth.service';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '@root/environments/environment';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
@@ -40,11 +41,20 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   private addToken(request: HttpRequest<any>, token: string) {
-    return request.clone({
-      setHeaders: {
-        'Authorization': `Bearer ${token}`
-      }
-    });
+    if(request.url.includes(`${environment.ANDES_MPI_ENDPOINT}`)){
+      return request.clone({
+        setHeaders: {
+          'Authorization': `${environment.JWT_TOKEN}`
+        }
+      });
+    }else{
+
+      return request.clone({
+        setHeaders: {
+          'Authorization': `Bearer ${token}`
+        }
+      })
+    }
   }
 
   // expired token handler
