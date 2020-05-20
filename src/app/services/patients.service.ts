@@ -1,26 +1,30 @@
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { catchError, tap, map } from 'rxjs/operators';
 import { Observable, of, throwError } from 'rxjs';
-import { Patient } from "../interfaces/patients";
+import { Patient, PatientAdapter } from "../interfaces/patients";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PatientsService {
 
-  constructor(private http: HttpClient) { }
+  constructor(
+    private http: HttpClient,
+    private adapter: PatientAdapter,  
+    
+  ) { }
 
   getPatients(): Observable<any>{
     return this.http.get(`${environment.API_END_POINT}/patients`);
   }
 
-  getPatientByDni(dni: string): Observable<Patient> {
-    return this.http.get<Patient>(`${environment.API_END_POINT}/patients/get-by-dni/${dni}`).pipe(
-      tap(_ => console.log(`fetched patient dni=${dni}`)),
-      catchError(this.handleError<Patient>(`getPatientByDni dni=${dni}`))
-    );
+  getPatientByDni(dni: string): Observable<Patient[]> {
+      return this.http.get(`${environment.ANDES_MPI_ENDPOINT}?documento=${dni}`).pipe(
+        // Adapt each item in the raw data array
+        map((data: any[]) => data.map(item => this.adapter.adapt(item))),
+      );
   }
 
   getPatientById(id: string): Observable<Patient> {
