@@ -6,15 +6,12 @@ export class Patient {
     public lastName: string,
     public firstName: string,
     public sex: string,
-    public status: string,
+    public status?: string,
     public dni?: string,
-    public createdAt?: Date
+    public createdAt?: Date,
+    public _id?: string
     ) {}
-    public _id?: string;
 }
-
-
-
 
 @Injectable({
   providedIn: "root"

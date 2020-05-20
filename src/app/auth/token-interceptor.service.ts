@@ -41,20 +41,11 @@ export class TokenInterceptorService implements HttpInterceptor {
   }
 
   private addToken(request: HttpRequest<any>, token: string) {
-    if(request.url.includes(`${environment.ANDES_MPI_ENDPOINT}`)){
-      return request.clone({
-        setHeaders: {
-          'Authorization': `${environment.JWT_TOKEN}`
-        }
-      });
-    }else{
-
-      return request.clone({
-        setHeaders: {
-          'Authorization': `Bearer ${token}`
-        }
-      })
-    }
+    return request.clone({
+      setHeaders: {
+        'Authorization': `Bearer ${token}`
+      }
+    })
   }
 
   // expired token handler
