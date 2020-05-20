@@ -23,10 +23,11 @@
             <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalNgForm)">
               <div class="sub-container"
                 fxLayout="column"
-                  fxLayout.xs="column"
-                  fxLayoutAlign="center"
-                  fxLayoutGap="10px"
-                  fxLayoutGap.xs="0">
+                fxLayout.xs="column"
+                fxLayoutAlign="center"
+                fxLayoutGap="10px"
+                fxLayoutGap.xs="0">
+
                 <div class="first-block">
                 <!-- Fecha de receta -->
                   <mat-form-field appearance="fill">
@@ -58,12 +59,14 @@
                           <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
 
                         <mat-autocomplete #auto="matAutocomplete">
-                          <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch?._id" [value]="patientSearch.dni">
-                            {{patientSearch.lastName}} {{patientSearch.firstName}} DNI {{patientSearch.dni}}
+                          <mat-option *ngFor="let patient of patientSearch" (onSelectionChange)="completePatientInputs(patient)"  [value]="patient.dni">
+                            {{patient.lastName}} {{patient.firstName}} DNI {{patient.dni}}
                           </mat-option>
                         </mat-autocomplete>
 
                         <mat-hint align="end">{{dni.value.length}} / 8</mat-hint>
+                        
+                        <mat-hint *ngIf="">Nuevo paciente temporal</mat-hint>
 
                         <mat-error *ngIf="patientDni.errors?.required">
                           Debe ingresar el dni del paciente
