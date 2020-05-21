@@ -41,7 +41,7 @@ export class ProfessionalFormComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   options: string[] = [];
   storedSupplies: Supplies[] = [];
-  patientSearch: Patient;
+  patientSearch: Patient[];
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
   professionalData: any;
@@ -182,18 +182,19 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   getPatientByDni(dniValue: string | null):void{
-    if(dniValue !== null && dniValue.length == 8 && this.patientSearch?.dni != dniValue  ){
+    if(dniValue !== null && dniValue.length == 8){
       this.dniShowSpinner = true;
       this.apiPatients.getPatientByDni(dniValue).subscribe(
         res => {
           if(res !== null){
             this.patientSearch = res;
-          }else if(this.patientSearch?._id){
+            console.log("Patient search: ", res);
+          }else if(this.patientSearch[0]._id){
             // clean fields
-            this.patientSearch = { firstName: '', lastName: '', sex: ''};
-            this.patientLastName.setValue(this.patientSearch.lastName);
-            this.patientFirstName.setValue(this.patientSearch.firstName);
-            this.patientSex.setValue(this.patientSearch.sex);
+            // this.patientSearch = { firstName: '', lastName: '', sex: ''};
+            // this.patientLastName.setValue(this.patientSearch.lastName);
+            // this.patientFirstName.setValue(this.patientSearch.firstName);
+            // this.patientSex.setValue(this.patientSearch.sex);
           }
           this.dniShowSpinner = false;
       });
@@ -201,7 +202,6 @@ export class ProfessionalFormComponent implements OnInit {
       this.dniShowSpinner = false;
     }
   }
-
   completePatientInputs(patient: Patient): void {
     this.patientLastName.setValue(patient.lastName);
     this.patientFirstName.setValue(patient.firstName);

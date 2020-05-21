@@ -5,7 +5,7 @@
 export const environment = {
   production: false,
   API_END_POINT: 'http://localhost:4000/api',
-  ANDES_API: 'https://app.andes.gob.ar/api'
+  ANDES_API: 'https://app.andes.gob.ar/api',
 };
 /*
  * For easier debugging in development mode, you can import the following file
