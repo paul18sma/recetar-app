@@ -11,6 +11,7 @@
       "@utils/*": ["app/utils/*"],
       "@professionals/*": ["app/professionals/*"],
       "@pharmacists/*": ["app/pharmacists/*"],
+      "@animations/*": ["app/animations/*"],
       "@root/*": ["./*"],
     },
     "outDir": "./dist/out-tsc",
