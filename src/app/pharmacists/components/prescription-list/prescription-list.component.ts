@@ -86,6 +86,10 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
     this.prescriptionPrinter.print(prescription);
   }
 
+  isStatus(prescritpion: Prescriptions, status: string): boolean{
+    return prescritpion.status === status;
+  }
+
   // Update the row table with the prescription
   private updateDataTable (prescription: Prescriptions) {
     this.dsData = this.dataSource.data;

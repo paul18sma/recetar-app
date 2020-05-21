@@ -146,6 +146,7 @@
                           placeholder="Medicamento"
                           matInput
                           formControlName="supply"
+                          [required]="i == 0"
                           [matAutocomplete]="supplyref">
                           <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="supplySpinner[i].show"></mat-spinner>
                         <mat-autocomplete #supplyref="matAutocomplete" [displayWith]="displayFn">
@@ -163,7 +164,7 @@
 
                       <mat-form-field appearance="fill" fxFlex="20%">
                         <mat-label>Cantidad</mat-label>
-                        <input tabIndex="6" type="number" matInput formControlName="quantity">
+                        <input tabIndex="6" type="number" matInput formControlName="quantity" [required]="i == 0">
                         <mat-error *ngIf="control.get('quantity').hasError('required')">
                           Debe ingresar una cantidad
                         </mat-error>
