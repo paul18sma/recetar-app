@@ -186,15 +186,15 @@ export class ProfessionalFormComponent implements OnInit {
       this.dniShowSpinner = true;
       this.apiPatients.getPatientByDni(dniValue).subscribe(
         res => {
-          if(res !== null){
+          if(res.length){
+            // with the new change on the api, andes MPI return an a array of patient, where more than 1 patient could has the same DNI
             this.patientSearch = res;
-            console.log("Patient search: ", res);
-          }else if(this.patientSearch[0]._id){
+          }else{
             // clean fields
-            // this.patientSearch = { firstName: '', lastName: '', sex: ''};
-            // this.patientLastName.setValue(this.patientSearch.lastName);
-            // this.patientFirstName.setValue(this.patientSearch.firstName);
-            // this.patientSex.setValue(this.patientSearch.sex);
+            this.patientSearch = [];
+            this.patientLastName.setValue('');
+            this.patientFirstName.setValue('');
+            this.patientSex.setValue('');
           }
           this.dniShowSpinner = false;
       });
