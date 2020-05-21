@@ -60,8 +60,8 @@
                         <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
 
                         <mat-autocomplete #auto="matAutocomplete">
-                          <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch?._id" [value]="patientSearch.dni">
-                            {{patientSearch.lastName}} {{patientSearch.firstName}} DNI {{patientSearch.dni}}
+                          <mat-option *ngFor="let patient of patientSearch" (onSelectionChange)="completePatientInputs(patient)"  [value]="patient.dni">
+                            {{patient.lastName}} {{patient.firstName}} DNI {{patient.dni}}
                           </mat-option>
                         </mat-autocomplete>
 
