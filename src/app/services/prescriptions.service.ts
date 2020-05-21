@@ -71,7 +71,7 @@ export class PrescriptionsService {
 
 
   private addPrescription(prescription: Prescriptions){
-    this.prescriptionsArray.push(prescription);
+    this.prescriptionsArray.unshift(prescription);
     this.myPrescriptions.next(this.prescriptionsArray);
   }
 

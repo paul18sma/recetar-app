@@ -12,7 +12,7 @@ import { Prescriptions } from '@interfaces/prescriptions';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { InteractionService } from '@professionals/interaction.service';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+import { step, stepLink} from '@animations/animations.template';
 
 
 @Component({
@@ -20,17 +20,9 @@ import { trigger, state, style, transition, animate } from '@angular/animations'
   templateUrl: './professional-form.component.html',
   styleUrls: ['./professional-form.component.sass'],
   animations: [
-    trigger('step', [
-      state('left', style({ left: '0px' })),
-      state('right', style({ left: '-100vw' })),
-      transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-    trigger('stepLink', [
-      state('left', style({ left: '0px' })),
-      state('right', style({ left: '50%' })),
-      transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
+    step,
+    stepLink
+  ]
 })
 export class ProfessionalFormComponent implements OnInit {
   @ViewChild('dni', {static: true}) dni:any;
@@ -41,7 +33,7 @@ export class ProfessionalFormComponent implements OnInit {
   filteredOptions: Observable<string[]>;
   options: string[] = [];
   storedSupplies: Supplies[] = [];
-  patientSearch: Patient;
+  patientSearch: Patient[];
   sex_options: string[] = ["Femenino", "Masculino", "Otro"];
   today = new Date((new Date()));
   professionalData: any;
@@ -182,18 +174,19 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   getPatientByDni(dniValue: string | null):void{
-    if(dniValue !== null && dniValue.length == 8 && this.patientSearch?.dni != dniValue  ){
+    if(dniValue !== null && dniValue.length == 8){
       this.dniShowSpinner = true;
       this.apiPatients.getPatientByDni(dniValue).subscribe(
         res => {
-          if(res !== null){
+          if(res.length){
+            // with the new change on the api, andes MPI return an a array of patient, where more than 1 patient could has the same DNI
             this.patientSearch = res;
-          }else if(this.patientSearch?._id){
+          }else{
             // clean fields
-            this.patientSearch = { firstName: '', lastName: '', sex: ''};
-            this.patientLastName.setValue(this.patientSearch.lastName);
-            this.patientFirstName.setValue(this.patientSearch.firstName);
-            this.patientSex.setValue(this.patientSearch.sex);
+            this.patientSearch = [];
+            this.patientLastName.setValue('');
+            this.patientFirstName.setValue('');
+            this.patientSex.setValue('');
           }
           this.dniShowSpinner = false;
       });
@@ -201,7 +194,6 @@ export class ProfessionalFormComponent implements OnInit {
       this.dniShowSpinner = false;
     }
   }
-
   completePatientInputs(patient: Patient): void {
     this.patientLastName.setValue(patient.lastName);
     this.patientFirstName.setValue(patient.firstName);

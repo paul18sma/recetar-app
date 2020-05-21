@@ -23,10 +23,11 @@
             <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalNgForm)">
               <div class="sub-container"
                 fxLayout="column"
-                  fxLayout.xs="column"
-                  fxLayoutAlign="center"
-                  fxLayoutGap="10px"
-                  fxLayoutGap.xs="0">
+                fxLayout.xs="column"
+                fxLayoutAlign="center"
+                fxLayoutGap="10px"
+                fxLayoutGap.xs="0">
+
                 <div class="first-block">
                 <!-- Fecha de receta -->
                   <mat-form-field appearance="fill">
@@ -55,11 +56,12 @@
                           maxlength="8"
                           formControlName="dni"
                           [matAutocomplete]="auto">
-                          <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
+                        
+                        <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
 
                         <mat-autocomplete #auto="matAutocomplete">
-                          <mat-option (onSelectionChange)="completePatientInputs(patientSearch)" *ngIf="patientSearch?._id" [value]="patientSearch.dni">
-                            {{patientSearch.lastName}} {{patientSearch.firstName}} DNI {{patientSearch.dni}}
+                          <mat-option *ngFor="let patient of patientSearch" (onSelectionChange)="completePatientInputs(patient)"  [value]="patient.dni">
+                            {{patient.lastName}} {{patient.firstName}} DNI {{patient.dni}}
                           </mat-option>
                         </mat-autocomplete>
 
@@ -144,6 +146,7 @@
                           placeholder="Medicamento"
                           matInput
                           formControlName="supply"
+                          [required]="i == 0"
                           [matAutocomplete]="supplyref">
                           <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="supplySpinner[i].show"></mat-spinner>
                         <mat-autocomplete #supplyref="matAutocomplete" [displayWith]="displayFn">
@@ -161,7 +164,7 @@
 
                       <mat-form-field appearance="fill" fxFlex="20%">
                         <mat-label>Cantidad</mat-label>
-                        <input tabIndex="6" type="number" matInput formControlName="quantity">
+                        <input tabIndex="6" type="number" matInput formControlName="quantity" [required]="i == 0">
                         <mat-error *ngIf="control.get('quantity').hasError('required')">
                           Debe ingresar una cantidad
                         </mat-error>

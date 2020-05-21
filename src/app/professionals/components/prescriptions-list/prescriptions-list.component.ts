@@ -2,7 +2,6 @@ import { Component, OnInit, ViewChild, AfterContentInit, Output, EventEmitter} f
 import {MatTableDataSource} from '@angular/material/table';
 import {MatPaginator} from '@angular/material/paginator';
 import {MatSort} from '@angular/material/sort';
-import { trigger, state, style, transition, animate } from '@angular/animations';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { Prescriptions } from '@interfaces/prescriptions';
 import * as moment from 'moment';
@@ -10,24 +9,17 @@ import { AuthService } from '@auth/services/auth.service';
 import { PrescriptionPrinterComponent } from '@professionals/components/prescription-printer/prescription-printer.component';
 import { ProfessionalDialogComponent } from '@professionals/components/professional-dialog/professional-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { rowsAnimation, detailExpand, arrowDirection } from '@animations/animations.template';
+
 
 @Component({
   selector: 'app-prescriptions-list',
   templateUrl: './prescriptions-list.component.html',
   styleUrls: ['./prescriptions-list.component.sass'],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed, void', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-      transition('expanded <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ]),
-    trigger('arrowDirection', [
-      state('down', style({ transform: "rotate(0deg)" })),
-      state('up, void', style({ transform: "rotate(180deg)" })),
-      transition('down <=> up', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-      transition('down <=> void', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
-    ])
+    rowsAnimation,
+    detailExpand,
+    arrowDirection
   ],
   providers: [PrescriptionPrinterComponent]
 })
@@ -47,7 +39,6 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
     private authService: AuthService,
     private prescriptionPrinter: PrescriptionPrinterComponent,
     public dialog: MatDialog){}
-
 
 
   ngOnInit() {
@@ -105,15 +96,15 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
     }
   }
 
-  canPrint(prescription: Prescriptions): Boolean{
-    return (prescription.professional.userId === this.authService.getLoggedUserId());
+  canPrint(prescription: Prescriptions): boolean{
+    return (prescription.professional.userId === this.authService.getLoggedUserId()) && prescription.status !== 'Vencida';
   }
 
-  canEdit(prescription: Prescriptions): Boolean{
+  canEdit(prescription: Prescriptions): boolean{
     return prescription.status === "Pendiente";
   }
 
-  canDelete(prescription: Prescriptions): Boolean{
+  canDelete(prescription: Prescriptions): boolean{
     return (prescription.professional.userId === this.authService.getLoggedUserId() && prescription.status === "Pendiente");
   }
 
@@ -123,6 +114,10 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
 
   editPrescription(prescription: Prescriptions){
     this.editPrescriptionEvent.emit(prescription);
+  }
+
+  isStatus(prescritpion: Prescriptions, status: string): boolean{
+    return prescritpion.status === status;
   }
 
   deleteDialogPrescription(prescription: Prescriptions){

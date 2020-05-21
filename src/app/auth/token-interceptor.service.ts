@@ -4,6 +4,7 @@ import { AuthService } from '@auth/services/auth.service';
 import { Observable, throwError, BehaviorSubject } from 'rxjs';
 import { catchError, filter, take, switchMap } from 'rxjs/operators';
 import { Router } from '@angular/router';
+import { environment } from '@root/environments/environment';
 
 @Injectable()
 export class TokenInterceptorService implements HttpInterceptor {
@@ -44,7 +45,7 @@ export class TokenInterceptorService implements HttpInterceptor {
       setHeaders: {
         'Authorization': `Bearer ${token}`
       }
-    });
+    })
   }
 
   // expired token handler

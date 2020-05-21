@@ -24,7 +24,7 @@
         <!-- Status -->
         <ng-container matColumnDef="status">
           <mat-header-cell *matHeaderCellDef> Estado </mat-header-cell>
-          <mat-cell *matCellDef="let prescription"> {{prescription.status}} </mat-cell>
+          <mat-cell *matCellDef="let prescription" [style.color]="isStatus(prescription, 'Vencida') ? 'red': '#000000de'"> {{prescription.status}} </mat-cell>
         </ng-container>
 
         <!-- Supply count-->
