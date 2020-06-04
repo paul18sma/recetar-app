@@ -23,6 +23,7 @@ import { MatTableModule } from '@angular/material/table';
 import { MatChipsModule } from '@angular/material/chips';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatSortModule} from '@angular/material/sort';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 import { PrescriptionsListComponent } from './components/prescriptions-list/prescriptions-list.component';
 
@@ -52,7 +53,8 @@ import { PrescriptionsListComponent } from './components/prescriptions-list/pres
     MatTableModule,
     MatChipsModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatTooltipModule
   ]
 })
 export class ProfessionalsModule { }

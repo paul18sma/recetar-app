@@ -60,13 +60,13 @@
               </mat-menu>
 
               <div fxLayout="row" class="action-buttons">
-                <button mat-menu-item type="button" *ngIf="canPrint(element)" (click)="printPrescription(element)">
+                <button mat-menu-item type="button" *ngIf="canPrint(element)" (click)="printPrescription(element)" matTooltip="Imprimir" matTooltipPosition="above">
                   <mat-icon>print</mat-icon>
                 </button>
-                <button mat-menu-item type="button" *ngIf="canEdit(element)" (click)="editPrescription(element)">
+                <button mat-menu-item type="button" *ngIf="canEdit(element)" (click)="editPrescription(element)" matTooltip="Editar" matTooltipPosition="above">
                   <mat-icon>edit</mat-icon>
                 </button>
-                <button mat-menu-item type="button" *ngIf="canDelete(element)" (click)="deleteDialogPrescription(element)">
+                <button mat-menu-item type="button" *ngIf="canDelete(element)" (click)="deleteDialogPrescription(element)" matTooltip="Eliminar" matTooltipPosition="above">
                   <mat-icon>delete</mat-icon>
                 </button>
               </div>
