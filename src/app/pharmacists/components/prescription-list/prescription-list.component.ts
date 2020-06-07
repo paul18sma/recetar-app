@@ -80,7 +80,7 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
     this.dataSource.filterPredicate = (data: Prescriptions, filter: string)  => {
       const accumulator = (currentTerm, key) => {
         // enable filter by lastName / firstName / date
-        return currentTerm + data.patient.lastName + data.patient.firstName + moment(data.date, 'YYYY-MM-DD').format('DD/MM/YYY').toString()
+        return currentTerm + data.status + moment(data.date, 'YYYY-MM-DD').format('DD/MM/YYY').toString()
       };
 
       const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
