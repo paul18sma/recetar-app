@@ -28,11 +28,13 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PrescriptionListComponent } from './components/prescription-list/prescription-list.component';
+import { PrescriptionUndoComponent } from './components/prescription-undo/prescription-undo.component';
 
 @NgModule({
   declarations: [
     routingComponent,
     PrescriptionListComponent,
+    PrescriptionUndoComponent,
   ],
   imports: [
     BrowserModule,
