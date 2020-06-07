@@ -1,37 +1,38 @@
-import { Component, OnInit, OnChanges, Input, SimpleChanges } from '@angular/core';
-import { animate, state, style, transition, trigger } from '@angular/animations';
-import { DataSource } from '@angular/cdk/collections';
-import { of, Observable } from 'rxjs';
+import { Component, OnInit, Input, AfterContentInit, ViewChild } from '@angular/core';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { PrescriptionsService } from '@services/prescriptions.service';
 import { MatDialog } from '@angular/material/dialog';
+import {MatTableDataSource} from '@angular/material/table';
+import {MatPaginator} from '@angular/material/paginator';
+import {MatSort} from '@angular/material/sort';
+import * as moment from 'moment';
 import { DialogComponent } from '@pharmacists/components/dialog/dialog.component';
 import { AuthService } from '@auth/services/auth.service';
 import { PrescriptionPrinterComponent } from '@pharmacists/components/prescription-printer/prescription-printer.component';
+import { detailExpand, arrowDirection } from '@animations/animations.template';
 
 @Component({
   selector: 'app-prescription-list',
   templateUrl: './prescription-list.component.html',
   styleUrls: ['./prescription-list.component.sass'],
   animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0', visibility: 'hidden' })),
-      state('expanded', style({ height: '*', visibility: 'visible' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
+    detailExpand,
+    arrowDirection
   ],
   providers: [PrescriptionPrinterComponent]
 })
-export class PrescriptionListComponent implements OnChanges, OnInit {
+export class PrescriptionListComponent implements OnInit, AfterContentInit {
 
   @Input() prescriptions: Prescriptions[];
 
-  displayedColumns: string[] = ['user', 'date', 'status', 'supplies', 'action'];
-  dataSource: any = [];
-  private dsData: any;
+  displayedColumns: string[] = ['professional', 'date', 'status', 'supplies', 'action', 'arrow'];
+  dataSource = new MatTableDataSource<Prescriptions>([]);
+  expandedElement: Prescriptions | null;
+  loadingPrescriptions: boolean;
 
-  isExpansionDetailRow = (i: number, row: Object) => row.hasOwnProperty('detailRow');
-  expandedElement: any;
+
+  @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
+  @ViewChild(MatSort, {static: true}) sort: MatSort;
 
   constructor(
     private authService: AuthService,
@@ -39,27 +40,67 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
     private prescriptionPrinter: PrescriptionPrinterComponent,
     public dialog: MatDialog,) { }
 
-  ngOnChanges(changes: SimpleChanges){
-    this.dataSource = new ExampleDataSource(changes.prescriptions.currentValue);
+  ngOnInit(): void {
+    this.loadingPrescriptions = true;
+    this.prescriptionService.prescriptions.subscribe((prescriptions: Prescriptions[]) => {
+      this.dataSource = new MatTableDataSource<Prescriptions>(prescriptions);
+      // sort after populate dataSource
+      this.dataSource.sortingDataAccessor = (item, property) => {
+        switch(property) {
+          case 'patient': return item.patient.lastName + item.patient.firstName;
+          case 'prescription_date': return new Date(item.date).getTime();
+          default: return item[property];
+        }
+      };
+      this.dataSource.sort = this.sort;
+      this.dataSource.paginator = this.paginator;
+      this.loadingPrescriptions = false;
+    });
   }
 
-  ngOnInit(): void {
+  ngAfterContentInit(){
+    this.paginator._intl.itemsPerPageLabel = "Prescripciones por página";
+    this.paginator._intl.firstPageLabel = "Primer página";
+    this.paginator._intl.lastPageLabel = "Última página";
+    this.paginator._intl.nextPageLabel = "Siguiente";
+    this.paginator._intl.previousPageLabel = "Anterior";
+    this.paginator._intl.getRangeLabel = (page: number, pageSize: number, length: number): string => {
+      if (length == 0 || pageSize == 0)
+      {
+        return `0 de ${length}`;
+      }
+      length = Math.max(length, 0);
+      const startIndex = page * pageSize;
+      const endIndex = startIndex < length ? Math.min(startIndex + pageSize, length) : startIndex + pageSize;
+      return `${startIndex + 1} – ${endIndex} de ${length}`;
+    }
+  }
+
+  applyFilter(filterValue: string) {
+    this.dataSource.filterPredicate = (data: Prescriptions, filter: string)  => {
+      const accumulator = (currentTerm, key) => {
+        // enable filter by lastName / firstName / date
+        return currentTerm + data.patient.lastName + data.patient.firstName + moment(data.date, 'YYYY-MM-DD').format('DD/MM/YYY').toString()
+      };
+
+      const dataStr = Object.keys(data).reduce(accumulator, '').toLowerCase();
+      // Transform the filter by converting it to lowercase and removing whitespace.
+      const transformedFilter = filter.trim().toLowerCase();
+      return dataStr.indexOf(transformedFilter) !== -1;
+    };
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
+    }
   }
 
   // Dispense prescription, but if was, update table with the correct status.
   dispense(prescription: Prescriptions){
     this.prescriptionService.dispense(prescription._id).subscribe(
-      res => {
-        this.updateDataTable(res);
-        this.openDialog("dispensed", res, res.professional.businessName);
-      },
-      err => {
-        this.prescriptionService.getById(prescription._id).subscribe(
-          res => {
-            this.updateDataTable(res);
-            this.openDialog("", undefined, err.error);
-          }
-        );
+      success => {
+        if(success){
+          this.openDialog("dispensed", prescription, prescription.professional.businessName);
+        }
       }
     );
   }
@@ -78,8 +119,12 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
   }
 
   // Return true if was dispensed and is seeing who dispensed the prescription
-  canPrint(prescription: Prescriptions){
+  canPrint(prescription: Prescriptions): boolean{
     return (prescription.status === "Dispensada") && (prescription.dispensedBy?.userId === this.authService.getLoggedUserId());
+  }
+
+  canDispense(prescription: Prescriptions): boolean{
+    return prescription.status === "Pendiente";
   }
 
   printPrescription(prescription: Prescriptions){
@@ -90,32 +135,4 @@ export class PrescriptionListComponent implements OnChanges, OnInit {
     return prescritpion.status === status;
   }
 
-  // Update the row table with the prescription
-  private updateDataTable (prescription: Prescriptions) {
-    this.dsData = this.dataSource.data;
-    if (this.dsData.length > 0) {
-      for (let i = 0; i < this.dsData.length; i++ ) {
-        if (this.dsData[i]._id === prescription._id) {
-          this.dsData[i] = prescription; // Assign the new prescription
-          this.dataSource = new ExampleDataSource(this.dsData); // Create new dataSource
-        }
-      }
-    }
-  }
-
-}
-
-export class ExampleDataSource extends DataSource<any> {
-
-  constructor(private data: Prescriptions[]){
-    super();
-  }
-
-  connect(): Observable<Element[]> {
-    const rows: any = [];
-    this.data.forEach((element: Prescriptions) => rows.push(element, { detailRow: true, element }));
-    return of(rows);
-  }
-
-  disconnect() { }
 }
