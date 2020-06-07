@@ -58,17 +58,17 @@ table
           font-weight: bold
 
 
-
-
   .mat-row
     &:hover
       background-color: #e9f3ff
-  th.mat-column-supply_count, td.mat-column-supply_count, td.mat-column-arrow
+  td.mat-column-arrow
     text-align: center
   th.mat-column-action
     text-align: center
   th.mat-column-supplies, td.mat-column-supplies
     text-align: center
+    @media (min-width: $x-small-devices) and (max-width: $small-devices)
+      text-align: left
 
   td.mat-column-action
     .action-buttons
