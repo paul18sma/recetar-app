@@ -4,7 +4,12 @@
       <div class="search-panel">
         <mat-card fxLayout="column" fxLayoutAlign="space-between">
           <mat-card-title>
-            <h2><mat-icon >search</mat-icon> Buscar receta</h2>
+            <h2 fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
+              <mat-icon >search</mat-icon>
+              <span>
+                Buscar receta
+              </span>
+            </h2>
           </mat-card-title>
           <mat-card-content>
             <form [formGroup]="prescriptionForm" class="form-container">
@@ -55,10 +60,12 @@
       <div class="insurance-panel">
         <mat-card fxLayout="column" fxLayoutAlign="space-between">
           <mat-card-title>
-            <h1>
+            <h2 fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
               <mat-icon>policy</mat-icon>
-              Obras sociales
-            </h1>
+              <span>
+                Obras sociales
+              </span>
+            </h2>
           </mat-card-title>
           <mat-card-content>
             <div class="insurances-container mat-elevation-z8">

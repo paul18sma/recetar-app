@@ -1,8 +1,10 @@
 <mat-card fxLayout="column" fxLayoutAlign="space-between">
   <mat-card-title>
-    <h2>
+    <h2 fxLayout="row" fxLayoutAlign="start center" fxLayoutGap="10px">
       <mat-icon>gesture</mat-icon>
-      Recetas <span *ngIf="dataSource.data.length"> de {{dataSource.data[0].patient.lastName}}, {{dataSource.data[0].patient.firstName}} DNI {{dataSource.data[0].patient.dni}}</span>
+      <span>
+        Recetas <span *ngIf="dataSource.data.length"> de {{dataSource.data[0].patient.lastName}}, {{dataSource.data[0].patient.firstName}} DNI {{dataSource.data[0].patient.dni}}</span>
+      </span>
     </h2>
   </mat-card-title>
   <mat-card-content>
