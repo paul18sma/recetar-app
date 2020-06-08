@@ -29,12 +29,14 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { PrescriptionListComponent } from './components/prescription-list/prescription-list.component';
 import { PrescriptionUndoComponent } from './components/prescription-undo/prescription-undo.component';
+import { FormatTimePipe } from './pipes/format-time.pipe';
 
 @NgModule({
   declarations: [
     routingComponent,
     PrescriptionListComponent,
     PrescriptionUndoComponent,
+    FormatTimePipe,
   ],
   imports: [
     BrowserModule,
