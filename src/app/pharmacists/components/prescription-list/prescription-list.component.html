@@ -68,6 +68,8 @@
                 <button mat-menu-item type="button" *ngIf="canDispense(element)" (click)="dispense(element)" matTooltip="Dispensar" matTooltipPosition="above">
                   <mat-icon>done_outline</mat-icon>
                 </button>
+
+                <app-prescription-undo *ngIf="canCounter(element)" [dispensedAt]="element.dispensedAt" [lapseTime]="lapseTime"></app-prescription-undo>
               </div>
             </td>
           </ng-container>

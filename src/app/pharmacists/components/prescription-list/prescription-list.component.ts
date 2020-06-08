@@ -29,6 +29,7 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
   dataSource = new MatTableDataSource<Prescriptions>([]);
   expandedElement: Prescriptions | null;
   loadingPrescriptions: boolean;
+  lapseTime: number = 2; // lapse of time that a dispensed prescription can been undo action, and put it back as "pendiente"
 
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
@@ -135,4 +136,16 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
     return prescritpion.status === status;
   }
 
+  // Return boolean, accordding with dispensed time plus 2 hours is greater than now
+  canCounter(prescription: Prescriptions): boolean{
+    if(prescription.status === 'Dispensada' && typeof prescription.dispensedAt !== 'undefined'){
+        const dispensedAt = moment(prescription.dispensedAt);
+        const now = moment();
+        // dispensedAt.add(10, 'seconds');
+        dispensedAt.add(this.lapseTime, 'hours');
+        return dispensedAt.isAfter(now);
+
+    }
+    return false
+  }
 }
