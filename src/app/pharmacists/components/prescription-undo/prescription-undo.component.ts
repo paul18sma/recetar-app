@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, Injectable } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Injectable, ViewEncapsulation } from '@angular/core';
 import { timer, Subscription } from 'rxjs';
 import * as moment from 'moment';
 
@@ -19,16 +19,26 @@ export class PrescriptionUndoComponent implements OnInit, OnDestroy {
   @Input() dispensedAt: Date;
   @Input() lapseTime: number;
   subscriptions: Subscription = new Subscription();
-  counter = 7200;
-  tick = 1000;
+  tick: number = 1000;
+  maxCounter: number = 7200;
+  progress: number = 100;
+  typeTime: string;
+  counter: number;
 
   constructor(private counterDownService: CounterDownService) {}
 
   ngOnInit() {
     this.counter = this.getTimeeDiffInSeconds();
+
     this.subscriptions.add(this.counterDownService
       .getCounter(this.tick)
-      .subscribe(() => this.counter--));
+      .subscribe(() => {
+        this.progress = parseFloat((this.counter * 100 / this.maxCounter).toFixed(2));
+        this.counter--;
+        if(this.counter > 3600) this.typeTime = 'h';
+        if(this.counter < 3600) this.typeTime = 'm';
+        if(this.counter < 60) this.typeTime = 's';
+      }));
   }
 
   ngOnDestroy() {
