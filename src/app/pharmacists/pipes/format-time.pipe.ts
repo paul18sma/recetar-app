@@ -11,11 +11,11 @@ export class FormatTimePipe implements PipeTransform {
     const minutes: number = Math.floor((value % 3600) / 60);
     const seconds: number = Math.floor(value - minutes * 60);
     if(hours > 0){
-      return `<div>${('0' + hours).slice(-1)} </div>`;
+      return `${('0' + hours).slice(-1)} `;
     }else if(minutes > 0){
-      return `<div>${('00' + minutes).slice(-2)}</div>`;
+      return `${('00' + minutes).slice(-2)}`;
     }else if(seconds > 0){
-      return `<div>${('00' + seconds).slice(-2)}</div>`;
+      return `${('00' + seconds).slice(-2)}`;
     }
  }
 

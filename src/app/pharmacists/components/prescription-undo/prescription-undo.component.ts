@@ -1,6 +1,7 @@
-import { Component, OnInit, OnDestroy, Input, Injectable, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, Injectable, EventEmitter, Output } from '@angular/core';
 import { timer, Subscription } from 'rxjs';
 import * as moment from 'moment';
+import { Prescriptions } from '@interfaces/prescriptions';
 
 @Injectable()
 export class CounterDownService {
@@ -16,7 +17,9 @@ export class CounterDownService {
 })
 export class PrescriptionUndoComponent implements OnInit, OnDestroy {
 
+  @Output() cancelDispenseEvent = new EventEmitter();
   @Input() dispensedAt: Date;
+  @Input() prescriptionId: string;
   @Input() lapseTime: number;
   subscriptions: Subscription = new Subscription();
   tick: number = 1000;
@@ -43,6 +46,10 @@ export class PrescriptionUndoComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subscriptions.unsubscribe(); // on complete timer, destroy this component and it subscriptions
+  }
+
+  cancelDispense(prescriptionId: string){
+    this.cancelDispenseEvent.emit(prescriptionId);
   }
 
   getTimeeDiffInSeconds():number{
