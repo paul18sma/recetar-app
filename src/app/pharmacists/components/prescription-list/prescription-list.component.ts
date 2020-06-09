@@ -30,7 +30,7 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
   expandedElement: Prescriptions | null;
   loadingPrescriptions: boolean;
   lapseTime: number = 2; // lapse of time that a dispensed prescription can been undo action, and put it back as "pendiente"
-
+  pharmacistId: string;
 
   @ViewChild(MatPaginator, {static: true}) paginator: MatPaginator;
   @ViewChild(MatSort, {static: true}) sort: MatSort;
@@ -39,7 +39,7 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
     private authService: AuthService,
     private prescriptionService: PrescriptionsService,
     private prescriptionPrinter: PrescriptionPrinterComponent,
-    public dialog: MatDialog,) { }
+    public dialog: MatDialog ) { };
 
   ngOnInit(): void {
     this.loadingPrescriptions = true;
@@ -57,6 +57,7 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
       this.dataSource.paginator = this.paginator;
       this.loadingPrescriptions = false;
     });
+    this.pharmacistId = this.authService.getLoggedUserId();
   }
 
   ngAfterContentInit(){
@@ -97,10 +98,21 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
 
   // Dispense prescription, but if was, update table with the correct status.
   dispense(prescription: Prescriptions){
-    this.prescriptionService.dispense(prescription._id).subscribe(
+    this.prescriptionService.dispense(prescription._id, this.pharmacistId).subscribe(
       success => {
         if(success){
           this.openDialog("dispensed", prescription, prescription.professional.businessName);
+        }
+      }
+    );
+  }
+
+  // Dispense prescription, but if was, update table with the correct status.
+  cancelDispense(e){
+    this.prescriptionService.cancelDispense(e, this.pharmacistId).subscribe(
+      success => {
+        if(success){
+          this.openDialog("cancel-dispensed");
         }
       }
     );
@@ -138,7 +150,10 @@ export class PrescriptionListComponent implements OnInit, AfterContentInit {
 
   // Return boolean, accordding with dispensed time plus 2 hours is greater than now
   canCounter(prescription: Prescriptions): boolean{
-    if(prescription.status === 'Dispensada' && typeof prescription.dispensedAt !== 'undefined'){
+    if(prescription.status === 'Dispensada' &&
+    typeof prescription.dispensedAt !== 'undefined' &&
+    prescription.dispensedBy?.userId === this.pharmacistId){
+
         const dispensedAt = moment(prescription.dispensedAt);
         const now = moment();
         // dispensedAt.add(10, 'seconds');
