@@ -12,8 +12,8 @@ export class PatientsService {
 
   constructor(
     private http: HttpClient,
-    private adapter: PatientAdapter,  
-    
+    private adapter: PatientAdapter,
+
   ) { }
 
   getPatients(): Observable<any>{
@@ -39,7 +39,7 @@ export class PatientsService {
   }
 
   getPatientInsurance(dni: string){
-    return this.http.get(`https://app.andes.gob.ar/api/modules/obraSocial/puco/${dni}`);
+    return this.http.get(`https://app.andes.gob.ar/api/modules/obraSocial/puco/?dni=${dni}`);
   }
 
   private handleError<T> (operation = 'operation', result?: T) {
