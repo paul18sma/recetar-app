@@ -21,6 +21,16 @@
     </div>
   </div> <!-- End case dispensed -->
 
+  <div *ngSwitchCase="'cancel-dispensed'">
+    <h3 mat-dialog-title><mat-icon>check</mat-icon>  Dispensa cancelada</h3>
+    <div mat-dialog-content>
+      <p>La dispensación de la receta se ha cancelado correctamente!</p>
+    </div>
+    <div mat-dialog-actions align="end">
+      <button mat-button (click)="onNoClick()" cdkFocusInitial>Aceptar</button>
+    </div>
+  </div> <!-- End case cansel dispense -->
+
   <div *ngSwitchCase="'noPrescriptionsDate'">
     <h3 mat-dialog-title><mat-icon>error_outline</mat-icon>  Atención</h3>
     <div mat-dialog-content>
@@ -61,4 +71,3 @@
     </div>
   </div> <!-- End default switch -->
 </div>
-

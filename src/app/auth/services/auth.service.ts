@@ -7,6 +7,7 @@ import { catchError, mapTo, tap } from 'rxjs/operators';
 import decode from 'jwt-decode';
 // inteface
 import { Tokens } from '@auth/models/tokens';
+import { PrescriptionsService } from '@services/prescriptions.service';
 
 @Injectable({
   providedIn: 'root'
@@ -20,7 +21,11 @@ export class AuthService {
   private businessName: BehaviorSubject<string>;
 
 
-  constructor(private http: HttpClient, private router: Router) {
+  constructor(
+    private http: HttpClient,
+    private router: Router,
+    private prescriptionsService: PrescriptionsService) {
+
     this.loggedIn = new BehaviorSubject<boolean>(this.tokensExists());
     this.businessName = new BehaviorSubject<string>(this.getLoggedBusinessName());
   }
@@ -134,6 +139,7 @@ export class AuthService {
   }
 
   private doLogoutUser() {
+    this.prescriptionsService.cleanPrescriptions();
     this.removeTokens();
     this.loggedIn.next(this.tokensExists());
   }

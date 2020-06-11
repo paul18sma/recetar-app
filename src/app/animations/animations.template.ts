@@ -47,3 +47,17 @@ export const stepLink =
     state('right', style({ left: '50%' })),
     transition('left <=> right', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
   ]);
+
+export const showCancelDispense =
+  trigger('showcancel',[
+    state('hide', style({bottom: '15%', opacity: '0'})),
+    state('show' , style({ bottom: '50%', opacity: 1})),
+    transition('show <=> hide', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+  ]);
+
+export const hideTimer =
+  trigger('hidetimer',[
+    state('show', style({top: '50%', opacity: '1'})),
+    state('hide' , style({ top: '15%', opacity: 0})),
+    transition('hide <=> show', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)'))
+  ]);
