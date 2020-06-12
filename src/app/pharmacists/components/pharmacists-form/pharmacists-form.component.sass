@@ -10,6 +10,8 @@ $panels-height-xl: 325px
 
 .cards-container
     margin-top: 20px
+    @media (min-width: $small-devices) and (max-width: $medium-devices)
+        flex-direction: column!important
     @media (min-width: $x-small-devices) and (max-width: $small-devices)
         flex-direction: column!important
         .search-panel
@@ -19,24 +21,39 @@ $panels-height-xl: 325px
         .insurance-panel
             order: 3
 
-    .search-panel
-        width: 20%
+    .first-panel
+        width: 35%
+        display: flex
+        flex-direction: column
+        .search-panel
+            margin-bottom: 20px
+        .search-panel,.insurance-panel
+            width: 100%
+        @media (min-width: $small-devices) and (max-width: $medium-devices)
+            width: 100%
+            flex-direction: row
+            .search-panel
+                margin-right: 20px
+            .search-panel,.insurance-panel
+                width: 50%
+        @media (min-width: $x-small-devices) and (max-width: $small-devices)
+            width: 100%
+            flex-direction: column
+            .search-panel,.insurance-panel
+                width: 100%
+                margin-bottom: 20px
 
     .prescription-panel
-        width: 55%
+        width: 65%
+        @media (min-width: $x-small-devices) and (max-width: $medium-devices)
+            width: 100%
 
-    .insurance-panel
-        width: 25%
+
 
     .search-panel, .prescription-panel, .insurance-panel
         mat-card
             box-sizing: content-box!important
-            height: calc(#{$panels-height} - 100px)
-            @media (min-width: $larger-devices) and (max-width: $x-larger-devices)
-                height: calc(#{$panels-height-xl} - 32px)
-
-            @media (min-width: $x-small-devices) and (max-width: $larger-devices)
-                height: auto
+            height: auto
             mat-card-title, mat-card-content
                 margin: 0!important
 
@@ -49,14 +66,7 @@ $panels-height-xl: 325px
                         max-width: 100%!important
                         margin: 10px 0!important
 
-        @media (min-width: $medium-devices) and (max-width: $larger-devices)
-            width: 310px
-        @media (min-width: $small-devices) and (max-width: $medium-devices)
-            width: 310px
-        @media (min-width: $x-small-devices) and (max-width: $small-devices)
-            width: 480px
-            max-width: calc(100% - 10px)
-            margin: 10px auto!important
+
 
 
 .mat-table

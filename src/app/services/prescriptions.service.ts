@@ -3,8 +3,7 @@ import { environment } from '../../environments/environment';
 import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 import { Prescriptions } from "../interfaces/prescriptions";
-import { AuthService } from '@auth/services/auth.service';
-import { tap, mapTo } from 'rxjs/operators';
+import { tap, mapTo, map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -14,26 +13,35 @@ export class PrescriptionsService {
   private myPrescriptions: BehaviorSubject<Prescriptions[]>;
   private prescriptionsArray: Prescriptions[] = [];
 
-  constructor(private http: HttpClient, private authService: AuthService) {
+  constructor(private http: HttpClient) {
     this.myPrescriptions = new BehaviorSubject<Prescriptions[]>(this.prescriptionsArray);
    }
-
-
-  // getPrescriptions(): Observable<any>{
-  //   return this.http.get(`${environment.API_END_POINT}/prescriptions`);
-  // }
 
   getById(id: string): Observable<Prescriptions>{
     return this.http.get<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${id}`);
   }
 
-  dispense(prescriptionId: string): Observable<Prescriptions> {
-    var params = {'prescriptionId': prescriptionId, 'userId': this.authService.getLoggedUserId() };
-    return this.http.patch<Prescriptions>(`${environment.API_END_POINT}/prescriptions/dispense/${params.prescriptionId}&${params.userId}`, params);
+  dispense(prescriptionId: string, pharmacistId: string): Observable<boolean> {
+    var params = {'prescriptionId': prescriptionId, 'pharmacistId': pharmacistId };
+    return this.http.patch<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${params.prescriptionId}/dispense`, params).pipe(
+      tap((updatedPrescription: Prescriptions) => this.updatePrescription(updatedPrescription)),
+      mapTo(true)
+    );
   }
 
-  getFromDniAndDate(params: {patient_dni: string, dateFilter: string}): Observable<Prescriptions[]>{
-    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/find/${params.patient_dni}&${params.dateFilter}`);
+  cancelDispense(prescriptionId: string, pharmacistId: string): Observable<boolean> {
+    var params = {'prescriptionId': prescriptionId, 'pharmacistId': pharmacistId };
+    return this.http.patch<Prescriptions>(`${environment.API_END_POINT}/prescriptions/${params.prescriptionId}/cancel-dispense`, params).pipe(
+      tap((updatedPrescription: Prescriptions) => this.updatePrescription(updatedPrescription)),
+      mapTo(true)
+    );
+  }
+
+  getFromDniAndDate(params: {patient_dni: string, dateFilter: string}): Observable<boolean>{
+    return this.http.get<Prescriptions[]>(`${environment.API_END_POINT}/prescriptions/find/${params.patient_dni}&${params.dateFilter}`).pipe(
+      tap((prescriptions: Prescriptions[]) => this.setPrescriptions(prescriptions)),
+      map((prescriptions: Prescriptions[]) => prescriptions.length > 0)
+    );
   }
 
   getByUserId(userId: string): Observable<Boolean> {
@@ -64,8 +72,13 @@ export class PrescriptionsService {
     );
   }
 
+  cleanPrescriptions(): void{
+    this.prescriptionsArray = [];
+    this.myPrescriptions.next(this.prescriptionsArray);
+  }
+
   private setPrescriptions(prescriptions: Prescriptions[]){
-    this.prescriptionsArray.push(...prescriptions);
+    this.prescriptionsArray = prescriptions;
     this.myPrescriptions.next(prescriptions);
   }
 
@@ -84,7 +97,6 @@ export class PrescriptionsService {
 
   private updatePrescription(updatedPrescription: Prescriptions){
     const updateIndex = this.prescriptionsArray.findIndex((prescription: Prescriptions) => prescription._id === updatedPrescription._id);
-
     this.prescriptionsArray.splice(updateIndex, 1, updatedPrescription);
     this.myPrescriptions.next(this.prescriptionsArray);
   }

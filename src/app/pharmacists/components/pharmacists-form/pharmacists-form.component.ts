@@ -10,7 +10,6 @@ import { InsurancesService } from '@services/insurance.service';
 import { Patient } from '@interfaces/patients';
 import { Prescriptions } from '@interfaces/prescriptions';
 import { Insurances } from '@interfaces/insurances';
-import { Professionals } from '@root/app/interfaces/professionals';
 
 // Material
 import { MatDialog } from '@angular/material/dialog';
@@ -32,10 +31,7 @@ export class PharmacistsFormComponent implements OnInit {
   prescriptionForm: FormGroup;
   displayedInsColumns: string[] = ['codigoPuco', 'financiador'];
   options: string[] = [];
-  professional: Professionals;
   patient: Patient;
-  prescriptions: Prescriptions[] = [];
-  prescription: Prescriptions;
   insurances: Insurances;
   filteredOptions: Observable<string[]>;
   lastDniConsult: string;
@@ -65,14 +61,14 @@ export class PharmacistsFormComponent implements OnInit {
           this.dateShowSpinner = this.lastDate != digestDate;
 
           this.apiPrescriptions.getFromDniAndDate({patient_dni: values.patient_dni, dateFilter: digestDate}).subscribe(
-            res => {
+            success => {
               this.lastDni = values.patient_dni;
               this.lastDate = digestDate;
 
               this.dniShowSpinner = false;
               this.dateShowSpinner = false;
-              this.prescriptions = res;
-              if(!this.prescriptions.length){
+
+              if(!success){
                 this.openDialog("noPrescriptions");
               }
             }
