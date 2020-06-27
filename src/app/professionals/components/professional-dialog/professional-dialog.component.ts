@@ -2,14 +2,14 @@ import { Component, OnInit, Inject, } from '@angular/core';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { fadeInOnEnterAnimation, fadeOutOnLeaveAnimation } from 'angular-animations';
 import { Prescriptions } from '@interfaces/prescriptions';
-import { InteractionService } from "@professionals/interaction.service";
+import { PrescriptionsService } from "@services/prescriptions.service";
 
 @Component({
   selector: 'app-professional-dialog',
   templateUrl: './professional-dialog.component.html',
   styleUrls: ['./professional-dialog.component.sass'],
   animations: [
-    fadeInOnEnterAnimation(), 
+    fadeInOnEnterAnimation(),
     fadeOutOnLeaveAnimation()
   ],
 })
@@ -18,7 +18,7 @@ export class ProfessionalDialogComponent implements OnInit {
   constructor(
     public dialogRef: MatDialogRef<ProfessionalDialogComponent>,
     @Inject(MAT_DIALOG_DATA) public data: DialogData,
-    private _interactionService: InteractionService
+    private prescriptionsService: PrescriptionsService
   ) {}
 
   ngOnInit(): void {
@@ -29,8 +29,9 @@ export class ProfessionalDialogComponent implements OnInit {
   }
 
   deletePrescription(prescription: Prescriptions){
-    this._interactionService.deletePrescription(prescription);
-    this.dialogRef.close();
+    this.prescriptionsService.deletePrescription(prescription._id).subscribe( success => {
+      this.dialogRef.close(success);
+    });
   }
 }
 

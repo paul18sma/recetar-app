@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective } from '@angular/forms';
+import { FormBuilder, FormGroup, AbstractControl, Validators, FormArray, FormGroupDirective, NgModel, NgForm } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { SuppliesService } from '@services/supplies.service'
 import Supplies from '@interfaces/supplies';
@@ -25,6 +25,7 @@ import { step, stepLink} from '@animations/animations.template';
   ]
 })
 export class ProfessionalFormComponent implements OnInit {
+  @ViewChild('professionalNgForm', {static: true}) professionalNgForm: NgForm;
   @ViewChild('dni', {static: true}) dni:any;
 
   private supplyRequest: any = null;
@@ -201,7 +202,7 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   // Create patient if doesn't exist and create prescription
-  onSubmitProfessionalForm(professionalNgForm: FormGroupDirective): void {
+  onSubmitProfessionalForm(): void {
 
     if(this.professionalForm.valid){
       const newPrescription = this.professionalForm.value;
@@ -210,7 +211,7 @@ export class ProfessionalFormComponent implements OnInit {
         // create
         this.apiPrescriptions.newPrescription(newPrescription).subscribe(
           success => {
-            if(success) this.formReset(professionalNgForm);
+            if(success) this.formReset();
           },
           err => {
             this.handleSupplyError(err);
@@ -220,7 +221,7 @@ export class ProfessionalFormComponent implements OnInit {
         // edit
         this.apiPrescriptions.editPrescription(newPrescription).subscribe(
           success => {
-            if(success) this.formReset(professionalNgForm);
+            if(success) this.formReset();
           },
           err => {
             this.handleSupplyError(err);
@@ -243,10 +244,10 @@ export class ProfessionalFormComponent implements OnInit {
     this.isSubmit = false;
   }
 
-  private formReset(professionalNgForm: FormGroupDirective){
+  private formReset(){
 
     this.isEdit ? this.openDialog("updated") : this.openDialog("created");
-    this.clearForm(professionalNgForm);
+    this.clearForm();
     this.isSubmit = false;
     this.dni.nativeElement.focus();
   }
@@ -344,8 +345,8 @@ export class ProfessionalFormComponent implements OnInit {
   }
 
   // reset the form as intial values
-  clearForm(professionalNgForm: FormGroupDirective){
-    professionalNgForm.resetForm();
+  clearForm(){
+    this.professionalNgForm.resetForm();
     this.professionalForm.reset({
       _id: '',
       professional: this.professionalData,

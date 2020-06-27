@@ -20,7 +20,7 @@
           </mat-card-title>
 
           <mat-card-content>
-            <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm(professionalNgForm)">
+            <form [formGroup]="professionalForm" #professionalNgForm="ngForm" fxLayout="column" (ngSubmit)="onSubmitProfessionalForm()">
               <div class="sub-container"
                 fxLayout="column"
                 fxLayout.xs="column"
@@ -56,7 +56,7 @@
                           maxlength="8"
                           formControlName="dni"
                           [matAutocomplete]="auto">
-                        
+
                         <mat-spinner matSuffix [color]="spinnerColor" [diameter]="20" *ngIf="dniShowSpinner"></mat-spinner>
 
                         <mat-autocomplete #auto="matAutocomplete">
@@ -195,7 +195,7 @@
 
               <div fxLayout="row" fxLayoutAlign="center">
                 <div fxLayout="row" fxLayoutAlign="center" fxLayoutGap="20px" *ngIf="!isSubmit" fxFlex="100%">
-                  <button mat-raised-button type="button" *ngIf="isEdit" fxFlex="100%" (click)="clearForm(professionalNgForm)">
+                  <button mat-raised-button type="button" *ngIf="isEdit" fxFlex="100%" (click)="clearForm()">
                     Cancelar
                   </button>
 
@@ -213,7 +213,9 @@
     </div>
 
     <div class="my-prescriptions-panel">
-      <app-prescriptions-list (editPrescriptionEvent)="editPrescription($event)"></app-prescriptions-list>
+      <app-prescriptions-list
+      (editPrescriptionEvent)="editPrescription($event)"
+      (cancelPrescriptionEditEvent)="clearForm()"></app-prescriptions-list>
     </div>
 
   </div>

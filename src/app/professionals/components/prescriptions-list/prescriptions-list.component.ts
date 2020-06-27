@@ -25,6 +25,7 @@ import { rowsAnimation, detailExpand, arrowDirection } from '@animations/animati
 })
 export class PrescriptionsListComponent implements OnInit, AfterContentInit {
   @Output() editPrescriptionEvent = new EventEmitter();
+  @Output() cancelPrescriptionEditEvent = new EventEmitter();
 
   displayedColumns: string[] = ['patient', 'prescription_date', 'status', 'supply_count', 'action', 'arrow'];
   dataSource = new MatTableDataSource<Prescriptions>([]);
@@ -132,7 +133,11 @@ export class PrescriptionsListComponent implements OnInit, AfterContentInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      if(result){
+        this.cancelPrescriptionEditEvent.emit();
+      }else{
+        console.log('No se pudo eliminar la prescripción');
+      }
     });
   }
 }
