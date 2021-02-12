@@ -87,4 +87,8 @@ export class LoginComponent implements OnInit {
   get password(): AbstractControl{
     return this.loginForm.get('password');
   }
+
+  forgot() {
+    this.router.navigate(['/auth/forgot-password']);
+  }
 }
