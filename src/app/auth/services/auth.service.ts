@@ -70,6 +70,10 @@ export class AuthService {
     return this.http.post<any>(`${this.apiEndPoint}/auth/reset-password`, passwords);
   }
 
+  recoverPassword(data){
+    return this.http.post<any>(`${this.apiEndPoint}/auth/recovery-password`, data);
+  }
+
   get isLoggedIn() {
     return this.loggedIn.asObservable();
   }
@@ -121,6 +125,11 @@ export class AuthService {
   getLoggedRole(): string[]{
     const payLoadJwt: any = this.getDecodeJwt();
     return payLoadJwt.rl;
+  }
+  
+  // Metodo que invoca a la api para realizar el recovering de la password
+  setValidationTokenAndNotify(usuario: Number): Observable<any> {
+    return this.http.post<any>(`${this.apiEndPoint}/auth/setValidationTokenAndNotify`, usuario );
   }
 
   private getDecodeJwt(){

@@ -6,6 +6,8 @@ import { LoginComponent } from '@auth/components/login/login.component';
 import { ResetPasswordComponent } from '@auth/components/reset-password/reset-password.component';
 import { IsSignedInGuard } from '@auth/guards/is-signed-in.guard';
 import { DialogComponent } from '@auth/components/dialog/dialog.component';
+import { ForgotComponent } from '@auth/components/forgot/forgot.component';
+import { RecoveryComponent } from '@auth/components/recovery-password/recovery-password.component';
 
 
 const routes: Routes = [
@@ -15,12 +17,20 @@ const routes: Routes = [
     children: [
       {
         path: 'login',
-        component: LoginComponent ,
-        canActivate: [ IsSignedInGuard ]
+        component: LoginComponent,
+        canActivate: [IsSignedInGuard]
       },
       {
         path: 'reset-password',
         component: ResetPasswordComponent,
+      },
+      {
+        path: 'forgot-password',
+        component: ForgotComponent,
+      },
+      {
+        path: 'recovery-password/:token',
+        component: RecoveryComponent
       }
     ]
   }
@@ -36,7 +46,9 @@ export const routingComponents = [
   AuthComponent,
   LoginComponent,
   ResetPasswordComponent,
-  DialogComponent
+  DialogComponent,
+  ForgotComponent,
+  RecoveryComponent
 ];
 
 

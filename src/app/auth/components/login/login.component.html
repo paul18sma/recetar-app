@@ -54,11 +54,15 @@
                 <button type="button" mat-icon-button matSuffix (click)="hide = !hide" [attr.aria-label]="'Hide password'" [attr.aria-pressed]="hide">
                   <mat-icon>{{hide ? 'visibility_off' : 'visibility'}}</mat-icon>
                 </button>
-
                 <mat-error *ngIf="password.errors?.required">
                   Contraseña es requerida
                 </mat-error>
               </mat-form-field>
+              <div>
+                <a class="hover" justify="end" (click)="forgot()">
+                    (olvidé mi contraseña)
+                </a>
+              </div>
             </div>
             <mat-error *ngIf="error" class="text-center login-error">
               {{ error }}
