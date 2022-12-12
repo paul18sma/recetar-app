@@ -25,7 +25,7 @@
     "@angular/platform-browser-dynamic": "~9.0.7",
     "@angular/router": "~9.0.7",
     "angular-animations": "0.0.10",
-    "express": "^4.17.1",
+    "express": "^4.17.3",
     "jwt-decode": "^2.2.0",
     "moment": "^2.25.3",
     "pdfmake": "^0.1.65",
